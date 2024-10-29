@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'admin';
+  src: url('/fonts/a신디나루B.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'user-m';
+  src: url('/fonts/a영고딕M.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'user-b';
+  src: url('/fonts/a영고딕B.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
