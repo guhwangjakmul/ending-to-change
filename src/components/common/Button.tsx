@@ -22,27 +22,22 @@ export default function Button(props: ButtonProps) {
   const fontClass = isMediumFont ? 'font-sindinaru-m' : 'font-sindinaru-b'
 
   // 최종 클래스 문자열 생성
-  const tailwindStyle = `font-admin ${color} ${backgroundColor} ${shadowClass} ${fontClass}`
+  const tailwindStyle = `rounded-[15px] flex items-center justify-center cursor-pointer ${color} ${backgroundColor} ${shadowClass} ${fontClass}`
 
-  const defaultStyle = {
+  const customStyle = {
     width: `${width}px`,
     height: `${height}px`,
     fontSize: `${fontSize}px`,
-    borderRadius: '15px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
   }
 
   return isLink && href ? (
     <Link href={href} onClick={onClick}>
-      <button style={defaultStyle} className={tailwindStyle}>
+      <button style={customStyle} className={tailwindStyle}>
         {children}
       </button>
     </Link>
   ) : (
-    <button onClick={onClick} style={defaultStyle} className={tailwindStyle}>
+    <button onClick={onClick} style={customStyle} className={tailwindStyle}>
       {children}
     </button>
   )
