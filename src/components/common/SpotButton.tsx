@@ -14,7 +14,7 @@ export default function SpotButton(props: SpotButtonProps) {
   }
 
   return (
-    <button type="button" onClick={onClickButton} className="bg-rose-500">
+    <button type="button" onClick={onClickButton}>
       <Image src={`/image/button/${category}_${newStatus}.svg`} alt="" width="46" height="65" />
     </button>
   )
