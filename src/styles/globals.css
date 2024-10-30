@@ -3,21 +3,28 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'admin';
+  font-family: 'sindinaru-m';
+  src: url('/fonts/a신디나루M.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'sindinaru-b';
   src: url('/fonts/a신디나루B.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'user-m';
+  font-family: 'gothic-m';
   src: url('/fonts/a영고딕M.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'user-b';
+  font-family: 'gothic-b';
   src: url('/fonts/a영고딕B.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
