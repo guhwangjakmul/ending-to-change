@@ -9,9 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        admin: ['admin', 'sans-serif'], // a신디나루B
-        'user-m': ['user-m', 'sans-serif'], // a영고딕M
-        'user-b': ['user-b', 'sans-serif'], // a영고딕B
+        'sindinaru-m': ['sindinaru-m', 'sans-serif'], // a신디나루M
+        'sindinaru-b': ['sindinaru-b', 'sans-serif'], // a신디나루B
+        'gothic-m': ['gothic-m', 'sans-serif'], // a영고딕M
+        'gothic-b': ['gothic-b', 'sans-serif'], // a영고딕B
       },
       colors: {
         white: 'rgba(255, 255, 251, 1)',
@@ -31,7 +32,9 @@ const config: Config = {
         gray: 'rgba(206, 198, 186, 1)',
         'light-gray': 'rgba(146, 142, 131, 1)',
         'light-mint': 'rgba(238, 250, 249, 1)',
-        'button-shadow': '0px 1px 2px rgba(0, 0, 0, 0.25)',
+      },
+      boxShadow: {
+        button: '0px 1px 2px rgba(0, 0, 0, 0.25)',
       },
     },
   },
