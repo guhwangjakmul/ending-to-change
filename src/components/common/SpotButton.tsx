@@ -1,21 +1,21 @@
-'use client'
-import { SpotButtonProps } from '@/types/SpotButton'
-import { useState } from 'react'
+import { SpotButtonProps } from '@/types/CategoryField'
 import Image from 'next/image'
 
+const classList = {
+  air: 'bottom-[60px] right-[1px]',
+  energy: 'top-[23px] right-[21px]',
+  recycle: 'top-[2px] left-[2px]',
+  soil: 'top-[77px] left-[61px]',
+  warming: '-top-[38px] left-[84px]',
+  water: 'bottom-[37px] left-[19px]',
+}
+
 export default function SpotButton(props: SpotButtonProps) {
-  const { category, status, isClickable = true } = props
-  const [newStatus, setNewStatus] = useState(status)
-
-  const onClickButton = () => {
-    if (!isClickable || newStatus === 'completed') return
-
-    setNewStatus(prevStatus => (prevStatus === 'default' ? 'selected' : 'default'))
-  }
+  const { name, status, onClick } = props
 
   return (
-    <button type="button" onClick={onClickButton}>
-      <Image src={`/image/button/${category}_${newStatus}.svg`} alt="" width="46" height="65" />
+    <button type="button" onClick={onClick} className={`absolute ${classList[name]}`}>
+      <Image src={`/image/button/${name}_${status}.svg`} alt={name} width="46" height="65" />
     </button>
   )
 }
