@@ -8,7 +8,6 @@ export interface Category {
 }
 
 export interface SpotButtonProps extends Category {
-  isClickable?: isClickable
   onClick: () => void
 }
 

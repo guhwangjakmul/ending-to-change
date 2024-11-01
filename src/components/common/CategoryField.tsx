@@ -45,7 +45,6 @@ export default function CategoryField(props: CategoryFieldProps) {
           key={category.name}
           name={category.name}
           status={category.status}
-          isClickable={isClickable}
           onClick={() => onClickButton(category.name)}
         />
       ))}

@@ -27,11 +27,18 @@ const buttonInfo = {
     alt: '수질 오염',
   },
 }
+
 export default function SpotButton(props: SpotButtonProps) {
   const { name, status, onClick } = props
 
   return (
-    <button type="button" onClick={onClick} className={`absolute ${buttonInfo[name].classList}`}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`absolute ${buttonInfo[name].classList} ${
+        status === 'completed' ? 'cursor-default' : 'cursor-pointer'
+      }`}
+    >
       <Image
         src={`/image/button/${name}_${status}.svg`}
         alt={buttonInfo[name].alt}
