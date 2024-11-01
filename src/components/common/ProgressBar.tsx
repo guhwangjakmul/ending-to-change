@@ -42,11 +42,11 @@ export default function ProgressBar({
 }
 
 // 최대값을 계산하는 함수: 'Lv' 타입일 경우 레벨에 따라, 'Km' 타입일 경우 목표 거리 사용
-function getMaxValue(labelType?: 'Lv' | 'Km', level?: number, targetDistance?: number) {
+function getMaxValue(labelType?: 'Lv' | 'Km', level?: number, maxKm?: number) {
   if (labelType === 'Lv') {
     return getLevelMaxValue(level)
   }
-  return targetDistance || 3 // Km 타입의 기본값
+  return maxKm || 3 // Km 타입의 기본값
 }
 
 // 레벨별 최대값을 반환하는 함수

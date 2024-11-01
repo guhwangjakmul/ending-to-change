@@ -1,4 +1,4 @@
-export default function Page() {
+export default function page() {
   return (
     <>
       <div className="font-admin">Admin 폰트로 설정된 텍스트</div>
