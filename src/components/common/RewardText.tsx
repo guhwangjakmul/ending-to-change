@@ -1,4 +1,3 @@
-import React from 'react'
 import Image from 'next/image'
 
 export default function RewardText(props) {
@@ -7,7 +6,7 @@ export default function RewardText(props) {
   return (
     <div className="animate-scale-in-center flex flex-col items-center">
       <div className="w-[330px] h-[100px] bg-beige flex items-center justify-center rounded-[40px]">
-        <p className="text-[16px] font-sindinaru-b text-brown text-center leading-5 tracking-[-0.24px]">
+        <p className="cursor-default text-[16px] font-sindinaru-b text-brown text-center leading-5 tracking-[-0.24px]">
           {yaho}
           <br />
           {children}
