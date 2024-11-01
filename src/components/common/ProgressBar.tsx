@@ -7,7 +7,7 @@ interface ProgressBarProps {
 }
 
 export default function ProgressBar({
-  labelType,
+  labelType = 'Lv',
   value,
   level,
   showLabel = true,
@@ -29,7 +29,7 @@ export default function ProgressBar({
         {shouldShowIcon(labelType, showLabel) && (
           <div
             className="absolute h-[30px] w-[30px] bg-yellow rounded-full flex items-center justify-center"
-            style={{ left: `calc(${progressPercentage}% - 15px)` }}
+            style={{ left: `calc(${progressPercentage}% - 30px)` }}
           >
             <img src="/image/shoes.svg" alt="Icon" className="w-[20px]" />
           </div>
@@ -49,11 +49,13 @@ function getMaxValue(labelType?: 'Lv' | 'Km', level?: number, km?: number) {
 function renderLabel(labelType?: 'Lv' | 'Km', value?: number, max?: number, level?: number) {
   const fontSize = labelType === 'Lv' ? 'text-[12px]' : 'text-[14px]'
   const fontStyle = labelType === 'Lv' ? 'font-sindinaru-b' : 'font-gothic-b'
+
   return (
     <div className={`text-brown flex items-center justify-between ${fontSize} ${fontStyle}`}>
       {labelType === 'Lv' ? <span>Lv.{level}</span> : <span>오늘 걸은 거리</span>}
       <span>
-        {value}/{max} {labelType === 'Km' ? 'km' : ''}
+        {labelType === 'Km' ? `${value} / ${max}` : `${value}/${max}`}{' '}
+        {labelType === 'Km' ? 'km' : ''}
       </span>
     </div>
   )
