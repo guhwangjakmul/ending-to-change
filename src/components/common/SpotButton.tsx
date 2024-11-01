@@ -29,14 +29,14 @@ const buttonInfo = {
 }
 
 export default function SpotButton(props: SpotButtonProps) {
-  const { name, status, onClick } = props
+  const { name, status, onClick, isClickable = true } = props
 
   return (
     <button
       type="button"
       onClick={onClick}
       className={`absolute ${buttonInfo[name].classList} ${
-        status === 'completed' ? 'cursor-default' : 'cursor-pointer'
+        status === 'completed' || !isClickable ? 'cursor-default' : 'cursor-pointer'
       }`}
     >
       <Image
