@@ -1,12 +1,10 @@
+import Image from 'next/image'
+
 import { ProgressBarProps, LabelType, ProgressColor, BackgroundColor } from '@/types/ProgressBar'
 
-export default function ProgressBar({
-  labelType = 'Lv',
-  currentProgress,
-  level,
-  showLabel = true,
-  maxKm,
-}: ProgressBarProps) {
+export default function ProgressBar(props: ProgressBarProps) {
+  const { labelType = 'Lv', currentProgress, level, showLabel = true, maxKm } = props
+
   // 최대값을 계산하는 함수 호출
   const max = getMaxValue(labelType, level, maxKm)
   // 진행 퍼센티지를 계산
@@ -27,7 +25,7 @@ export default function ProgressBar({
             className="absolute h-[30px] w-[30px] bg-yellow rounded-full flex items-center justify-center"
             style={{ left: `calc(${progressPercentage}% - 30px)` }}
           >
-            <img src="/image/shoes.svg" alt="Icon" width="20" />
+            <Image src="/image/shoes.svg" alt="" width="20" height="20" />
           </div>
         )}
       </div>
@@ -36,7 +34,7 @@ export default function ProgressBar({
 }
 
 // 최대값을 계산하는 함수: 'Lv' 타입일 경우 레벨에 따라, 'Km' 타입일 경우 목표 거리 사용
-function getMaxValue(labelType?: LabelType, level?: number, maxKm?: number): number {
+const getMaxValue = (labelType?: LabelType, level?: number, maxKm?: number): number => {
   if (labelType === 'Lv') {
     return getLevelMaxValue(level)
   }
@@ -44,7 +42,7 @@ function getMaxValue(labelType?: LabelType, level?: number, maxKm?: number): num
 }
 
 // 레벨별 최대값을 반환하는 함수
-function getLevelMaxValue(level?: number) {
+const getLevelMaxValue = (level?: number): number => {
   switch (level) {
     case 1:
       return 100
@@ -58,12 +56,12 @@ function getLevelMaxValue(level?: number) {
 }
 
 // ProgressBar 라벨을 렌더링하는 함수
-function renderLabel(
+const renderLabel = (
   labelType?: 'Lv' | 'Km',
   currentProgress?: number,
   max?: number,
   level?: number,
-) {
+) => {
   const fontSize = labelType === 'Lv' ? 'text-[12px]' : 'text-[14px]'
   const fontStyle = labelType === 'Lv' ? 'font-sindinaru-b' : 'font-gothic-b'
 
@@ -81,16 +79,16 @@ function renderLabel(
 }
 
 // 배경색을 반환하는 함수
-function getBackgroundColor(labelType?: LabelType): BackgroundColor {
+const getBackgroundColor = (labelType?: LabelType): BackgroundColor => {
   return labelType === 'Km' ? 'bg-white' : 'bg-[#d9d9d9]'
 }
 
 // 진행 색상을 반환하는 함수
-function getProgressColor(
+const getProgressColor = (
   labelType?: LabelType,
   currentProgress?: number,
   max?: number,
-): ProgressColor {
+): ProgressColor => {
   if (labelType === 'Lv') {
     return currentProgress === max ? 'bg-mint-green' : 'bg-lime-green'
   }
@@ -98,6 +96,6 @@ function getProgressColor(
 }
 
 // 아이콘을 표시할지 여부를 반환하는 함수
-function shouldShowIcon(labelType?: LabelType, showLabel?: boolean): boolean {
+const shouldShowIcon = (labelType?: LabelType, showLabel?: boolean): boolean => {
   return labelType === 'Km' && !showLabel
 }
