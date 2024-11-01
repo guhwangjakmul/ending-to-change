@@ -1,10 +1,4 @@
-interface ProgressBarProps {
-  labelType?: 'Lv' | 'Km'
-  currentProgress: number
-  level?: number
-  showLabel?: boolean
-  maxKm?: number
-}
+import { ProgressBarProps, LabelType, ProgressColor, BackgroundColor } from '@/types/ProgressBar'
 
 export default function ProgressBar({
   labelType = 'Lv',
@@ -33,7 +27,7 @@ export default function ProgressBar({
             className="absolute h-[30px] w-[30px] bg-yellow rounded-full flex items-center justify-center"
             style={{ left: `calc(${progressPercentage}% - 30px)` }}
           >
-            <img src="/image/shoes.svg" alt="Icon" className="w-[20px]" />
+            <img src="/image/shoes.svg" alt="Icon" width="20" />
           </div>
         )}
       </div>
@@ -42,7 +36,7 @@ export default function ProgressBar({
 }
 
 // 최대값을 계산하는 함수: 'Lv' 타입일 경우 레벨에 따라, 'Km' 타입일 경우 목표 거리 사용
-function getMaxValue(labelType?: 'Lv' | 'Km', level?: number, maxKm?: number) {
+function getMaxValue(labelType?: LabelType, level?: number, maxKm?: number): number {
   if (labelType === 'Lv') {
     return getLevelMaxValue(level)
   }
@@ -87,12 +81,16 @@ function renderLabel(
 }
 
 // 배경색을 반환하는 함수
-function getBackgroundColor(labelType?: 'Lv' | 'Km') {
+function getBackgroundColor(labelType?: LabelType): BackgroundColor {
   return labelType === 'Km' ? 'bg-white' : 'bg-[#d9d9d9]'
 }
 
 // 진행 색상을 반환하는 함수
-function getProgressColor(labelType?: 'Lv' | 'Km', currentProgress?: number, max?: number) {
+function getProgressColor(
+  labelType?: LabelType,
+  currentProgress?: number,
+  max?: number,
+): ProgressColor {
   if (labelType === 'Lv') {
     return currentProgress === max ? 'bg-mint-green' : 'bg-lime-green'
   }
@@ -100,6 +98,6 @@ function getProgressColor(labelType?: 'Lv' | 'Km', currentProgress?: number, max
 }
 
 // 아이콘을 표시할지 여부를 반환하는 함수
-function shouldShowIcon(labelType?: 'Lv' | 'Km', showLabel?: boolean) {
+function shouldShowIcon(labelType?: LabelType, showLabel?: boolean): boolean {
   return labelType === 'Km' && !showLabel
 }
