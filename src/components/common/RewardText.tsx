@@ -1,6 +1,7 @@
 import Image from 'next/image'
+import { Text } from '@/types/TextField'
 
-export default function RewardText(props) {
+export default function RewardText(props: Text) {
   const { yaho = '야호~!', children } = props
 
   return (
@@ -14,7 +15,7 @@ export default function RewardText(props) {
       </div>
       <Image
         src="/image/yellow_triangle.svg"
-        alt="Yellow Triangle"
+        alt=""
         width={15}
         height={7}
         className="mt-[-5px] animate-slide-top"
