@@ -36,6 +36,21 @@ const config: Config = {
       boxShadow: {
         button: '0px 1px 2px rgba(0, 0, 0, 0.25)',
       },
+      keyframes: {
+        'slide-top': {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(-4px)' },
+        },
+        'scale-in-center': {
+          '0%': { transform: 'scale(0)' },
+          '100%': { transform: 'scale(1)' },
+        },
+      },
+      animation: {
+        'slide-top':
+          'slide-top 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both',
+        'scale-in-center': 'scale-in-center 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+      },
     },
   },
   plugins: [],
