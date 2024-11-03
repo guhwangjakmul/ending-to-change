@@ -46,10 +46,6 @@ const config: Config = {
           '99%': { width: '130px' },
           '100%': { width: '0' },
         },
-      },
-      animation: {
-        'bounce-y': 'bounce-y 2s infinite',
-        'loading-bar': 'loading-bar 2s infinite',
         'slide-top': {
           '0%': { transform: 'translateY(0)' },
           '100%': { transform: 'translateY(-4px)' },
@@ -60,6 +56,8 @@ const config: Config = {
         },
       },
       animation: {
+        'bounce-y': 'bounce-y 2s infinite',
+        'loading-bar': 'loading-bar 2s infinite',
         'slide-top':
           'slide-top 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both',
         'scale-in-center': 'scale-in-center 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
