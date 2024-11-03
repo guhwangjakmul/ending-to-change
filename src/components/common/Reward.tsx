@@ -24,7 +24,7 @@ export default function Reward(props: RewardProps) {
     if (isFadingOut) {
       setIsShowReward(false)
       router.push('/')
-      onClose()
+      onClose?.()
     }
   }
 
