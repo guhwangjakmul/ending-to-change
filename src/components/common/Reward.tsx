@@ -1,11 +1,23 @@
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 
 import RewardText from './RewardText'
 
 import { RewardProps } from '@/types/Reward'
 
 export default function Reward(props: RewardProps) {
-  const { yaho, rewardContent } = props
+  const { yaho, rewardContent, onClose } = props
+  const [showReward, setShowReward] = useState(true)
+
+  useEffect(() => {
+    const timer: NodeJS.Timeout = setTimeout(() => {
+      setShowReward(true)
+      onClose()
+    }, 3000)
+    return () => clearTimeout(timer)
+  }, [onClose])
+
+  if (!showReward) return null
 
   return (
     <div className="relative w-screen h-screen">
