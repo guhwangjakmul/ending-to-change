@@ -13,7 +13,7 @@ export default function ProgressBar(props: ProgressBarProps) {
   return (
     <div className="flex flex-col w-full space-y-2">
       {showLabel && renderLabel(labelType, currentProgress, max, level)}
-      <div className="relative w-full h-4 flex items-center space-x-2">
+      <div className="relative w-full h-3 flex items-center space-x-2">
         <div className={`w-full h-4 ${getBackgroundColor(labelType)} rounded-full overflow-hidden`}>
           <div
             className={`h-full rounded-full ${getProgressColor(labelType, currentProgress, max)}`}
