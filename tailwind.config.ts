@@ -37,6 +37,19 @@ const config: Config = {
         button: '0px 1px 2px rgba(0, 0, 0, 0.25)',
       },
       keyframes: {
+        'bounce-y': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        'loading-bar': {
+          '0%': { width: '0' },
+          '99%': { width: '130px' },
+          '100%': { width: '0' },
+        },
+      },
+      animation: {
+        'bounce-y': 'bounce-y 2s infinite',
+        'loading-bar': 'loading-bar 2s infinite',
         'slide-top': {
           '0%': { transform: 'translateY(0)' },
           '100%': { transform: 'translateY(-4px)' },
