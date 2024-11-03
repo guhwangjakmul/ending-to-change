@@ -50,6 +50,19 @@ const config: Config = {
       animation: {
         'bounce-y': 'bounce-y 2s infinite',
         'loading-bar': 'loading-bar 2s infinite',
+        'slide-top': {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(-4px)' },
+        },
+        'scale-in-center': {
+          '0%': { transform: 'scale(0)' },
+          '100%': { transform: 'scale(1)' },
+        },
+      },
+      animation: {
+        'slide-top':
+          'slide-top 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both',
+        'scale-in-center': 'scale-in-center 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
       },
     },
   },
