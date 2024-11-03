@@ -3,28 +3,40 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import RewardText from './RewardText'
-
 import { RewardProps } from '@/types/Reward'
 
 export default function Reward(props: RewardProps) {
   const router = useRouter()
-  const [showReward, setShowReward] = useState(true)
+  const [isShowReward, setIsShowReward] = useState(true)
+  const [isFadingOut, setIsFadingOut] = useState(false)
 
   const { yaho, rewardContent, onClose } = props
 
   useEffect(() => {
     const timer: NodeJS.Timeout = setTimeout(() => {
-      setShowReward(true)
-      onClose()
-      router.push('/')
+      setIsFadingOut(true)
     }, 3000)
-    return () => clearTimeout(timer)
-  }, [onClose])
 
-  if (!showReward) return null
+    return () => clearTimeout(timer)
+  }, [onClose, router])
+
+  const handleAnimationEnd = () => {
+    if (isFadingOut) {
+      setIsShowReward(false)
+      router.push('/')
+      onClose()
+    }
+  }
+
+  if (!isShowReward) return null
 
   return (
-    <div className="relative w-screen h-screen">
+    <div
+      className={`relative w-screen h-screen ${
+        isFadingOut ? 'animate-fade-out' : 'animate-fade-in'
+      }`}
+      onAnimationEnd={handleAnimationEnd}
+    >
       <Image src="/image/reward_background.svg" alt="" fill />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <Image src="/image/reward.svg" alt="" width={110} height={110} className="mb-[25px]" />
