@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function Loading() {
   return (
-    <main className="w-full h-screen bg-light-beige flex justify-center items-center flex-col gap-[17px]">
+    <main className="w-full h-screen bg-light-beige flex justify-center items-center flex-col gap-[15px]">
       <Image
         src="/image/system/loading.svg"
         alt=""
@@ -10,9 +10,7 @@ export default function Loading() {
         height="121"
         className="animate-bounce-y"
       />
-      <div className="w-[130px] h-[5px] relative rounded-full overflow-hidden">
-        <div className="w-0 h-full absolute left-0 bg-mint-green animate-loading-bar rounded-full"></div>
-      </div>
+      <h1 className="text-gray text-center font-gothic-b">로딩중...</h1>
     </main>
   )
 }
