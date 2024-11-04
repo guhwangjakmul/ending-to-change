@@ -3,7 +3,13 @@ import Button from '../Button'
 import { useEffect, useRef, useState } from 'react'
 import Dropdown from './Dropdown'
 
-export default function RightButton({ type }: { type: 'kebabMenuBtn' | 'reportBtn' }) {
+interface RightButtonProps {
+  type: 'kebabMenuBtn' | 'reportBtn'
+}
+
+export default function RightButton(props: RightButtonProps) {
+  const { type } = props
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
