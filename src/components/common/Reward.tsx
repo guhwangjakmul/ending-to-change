@@ -15,7 +15,7 @@ export default function Reward(props: RewardProps) {
   useEffect(() => {
     const timer: NodeJS.Timeout = setTimeout(() => {
       setIsFadingOut(true)
-    }, 3000)
+    }, 2000)
 
     return () => clearTimeout(timer)
   }, [onClose, router])
@@ -33,7 +33,7 @@ export default function Reward(props: RewardProps) {
   return (
     <div
       className={`relative w-screen h-screen ${
-        isFadingOut ? 'animate-fade-out' : 'animate-fade-in'
+        isFadingOut ? 'animate-scale-out-center-slow' : 'animate-scale-in-center-slow'
       }`}
       onAnimationEnd={handleAnimationEnd}
     >

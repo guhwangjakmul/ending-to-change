@@ -54,13 +54,9 @@ const config: Config = {
           '0%': { transform: 'scale(0)' },
           '100%': { transform: 'scale(1)' },
         },
-        'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        'fade-out': {
-          '0%': { opacity: '1' },
-          '100%': { opacity: '0' },
+        'scale-out-center': {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(0)' },
         },
       },
       animation: {
@@ -69,8 +65,11 @@ const config: Config = {
         'slide-top':
           'slide-top 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both',
         'scale-in-center': 'scale-in-center 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
-        'fade-in': 'fade-in 1s ease-in-out both',
-        'fade-out': 'fade-out 1s ease-in-out both',
+        'scale-out-center': 'scale-out-center 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+        'scale-in-center-slow':
+          'scale-in-center 1.0s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+        'scale-out-center-slow':
+          'scale-out-center 1.0s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
       },
     },
   },
