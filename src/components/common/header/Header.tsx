@@ -19,7 +19,7 @@ export default function Header(props: HeaderProps) {
       <button className="w-1/5" onClick={backOnClick}>
         <Image
           src="/image/back-button.svg"
-          alt="backBtn"
+          alt="뒤로가기"
           width="9"
           height="15"
           style={{ width: 9, height: 15 }}

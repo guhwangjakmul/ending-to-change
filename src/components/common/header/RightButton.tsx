@@ -42,7 +42,7 @@ export default function RightButton(props: RightButtonProps) {
           <button className="relative" onClick={kebabMenuIconClickHandler}>
             <Image
               src="/image/kebab-menu-icon.svg"
-              alt="kebabMenuBtn"
+              alt="메뉴"
               width="5"
               height="20"
               style={{ width: 5, height: 20 }}
@@ -58,7 +58,7 @@ export default function RightButton(props: RightButtonProps) {
         <Button width={64} height={28} isMediumFont isLink href="/report" fontSize={14}>
           <Image
             src="/image/report-button-icon.svg"
-            alt="reportBtn"
+            alt=""
             width="18"
             height="18"
             className="mr-[4px]"

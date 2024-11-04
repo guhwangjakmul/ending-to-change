@@ -4,7 +4,7 @@ import HeaderLayout from '@/components/layout/HeaderLayout'
 
 export const metadata: Metadata = {
   title: '구해줘요 동물의숲',
-  description: '환경을 살려 위험에 처한 주민들을 구해주세요! ',
+  description: '환경을 살려 위험에 처한 주민들을 구해주세요!',
 }
 
 export default function RootLayout({

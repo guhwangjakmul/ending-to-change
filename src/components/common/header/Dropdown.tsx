@@ -24,7 +24,7 @@ export default function Dropdown() {
   ]
 
   return (
-    <ul className="w-[123px] h-[118px] py-[10px] bg-light-yellow rounded-[20px] text-[14px] text-medium-brown font-sindinaru-b text-left flex flex-col justify-around ">
+    <ul className="w-[123px] h-[118px] py-[10px] bg-light-yellow rounded-[20px] text-[14px] text-medium-brown font-sindinaru-b text-left flex flex-col justify-around">
       {listData.map((el, index) => (
         <li
           key={el.text}
