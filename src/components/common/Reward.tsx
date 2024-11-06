@@ -32,7 +32,7 @@ export default function Reward(props: RewardProps) {
 
   return (
     <div
-      className={`relative w-screen h-screen ${
+      className={`relative h-screen ${
         isFadingOut ? 'animate-scale-out-center-slow' : 'animate-scale-in-center-slow'
       }`}
       onAnimationEnd={handleAnimationEnd}
