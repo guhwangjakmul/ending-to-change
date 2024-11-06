@@ -32,7 +32,7 @@ export default function Reward(props: RewardProps) {
       } `}
       onAnimationEnd={handleAnimationEnd}
     >
-      <Image src="/image/reward_background.svg" alt="" width={390} height={500} />
+      <Image src="/image/reward_background.svg" alt="" layout="fill" objectFit="cover" />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <Image src="/image/reward.svg" alt="" width={110} height={110} className="mb-[25px]" />
         <RewardText yaho={yaho} onScaleOutStart={handleRewardTextScaleOutStart}>
