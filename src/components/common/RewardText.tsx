@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { Text } from '@/types/TextField'
+import { RewardTextProps } from '@/types/TextField'
 
-export default function RewardText(props: Text & { onScaleOutStart?: () => void }) {
+export default function RewardText(props: RewardTextProps) {
   const [isRewardTextScaleOut, setIsRewardTextScaleOut] = useState(false)
 
   const { yaho = '야호~!', children, onScaleOutStart } = props
