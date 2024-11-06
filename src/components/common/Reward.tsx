@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import RewardText from './RewardText'
@@ -7,40 +7,37 @@ import { RewardProps } from '@/types/Reward'
 
 export default function Reward(props: RewardProps) {
   const router = useRouter()
-  const [isShowReward, setIsShowReward] = useState(true)
-  const [isFadingOut, setIsFadingOut] = useState(false)
+  const [isRewardScaleOut, setIsRewardScaleOut] = useState(false) // Reward가 사라지는 상태
 
   const { yaho, rewardContent, onClose } = props
 
-  useEffect(() => {
-    const timer: NodeJS.Timeout = setTimeout(() => {
-      setIsFadingOut(true)
-    }, 2000)
-
-    return () => clearTimeout(timer)
-  }, [onClose, router])
+  // RewardText가 사라지기 시작하면 일정 시간 후 Reward도 사라지도록
+  const handleRewardTextScaleOutStart = () => {
+    setTimeout(() => {
+      setIsRewardScaleOut(true)
+    }, 100)
+  }
 
   const handleAnimationEnd = () => {
-    if (isFadingOut) {
-      setIsShowReward(false)
+    if (isRewardScaleOut) {
       router.push('/')
       onClose?.()
     }
   }
 
-  if (!isShowReward) return null
-
   return (
     <div
       className={`relative h-screen ${
-        isFadingOut ? 'animate-scale-out-center-slow' : 'animate-scale-in-center-slow'
-      }`}
+        isRewardScaleOut ? 'animate-scale-out-center-slow' : 'animate-scale-in-center-slow'
+      } `}
       onAnimationEnd={handleAnimationEnd}
     >
-      <Image src="/image/reward_background.svg" alt="" width={390} height={110} />
+      <Image src="/image/reward_background.svg" alt="" width={390} height={500} />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <Image src="/image/reward.svg" alt="" width={110} height={110} className="mb-[25px]" />
-        <RewardText yaho={yaho}>{rewardContent}</RewardText>
+        <RewardText yaho={yaho} onScaleOutStart={handleRewardTextScaleOutStart}>
+          {rewardContent}
+        </RewardText>
       </div>
     </div>
   )
