@@ -1,0 +1,55 @@
+.react-calendar {
+}
+
+.react-calendar__navigation {
+  display: none;
+}
+
+/* 요일  */
+.react-calendar__month-view__weekdays abbr {
+  display: none;
+}
+
+/* 일 날짜 간격 */
+.react-calendar__tile {
+  height: 30px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* 모든 날짜 숫자 스타일 */
+.react-calendar__tile abbr {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+}
+
+/* 오늘 날짜 */
+.react-calendar__tile--now abbr {
+  @apply bg-orange text-white;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.highlight-circle {
+  position: relative;
+}
+
+.highlight-circle::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  background-color: rgba(26, 200, 185, 1);
+  border-radius: 50%;
+}
