@@ -1,5 +1,19 @@
 import Wrapper from './ReportWrapper'
 
-export default function WeeklyEcoChart() {
-  return <Wrapper height={280}>일주일 걸음 통계</Wrapper>
+interface WeeklyEcoChartProps {
+  weekRange: { start: string; end: string } | null
+}
+
+export default function WeeklyEcoChart(props: WeeklyEcoChartProps) {
+  const { weekRange } = props
+
+  return (
+    <Wrapper height={280}>
+      {weekRange && (
+        <div>
+          <div>{`일주일 범위: ${weekRange.start} ~ ${weekRange.end}`}</div>
+        </div>
+      )}
+    </Wrapper>
+  )
 }
