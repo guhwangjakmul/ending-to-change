@@ -5,6 +5,7 @@ import moment from 'moment'
 
 import '@/styles/calendar.css'
 import Image from 'next/image'
+import CustomNavigation from './CustomNavigation'
 
 interface CustomCalendarProps {
   selectedDate: Date
@@ -15,7 +16,6 @@ export default function CustomCalendar(props: CustomCalendarProps) {
   const today = new Date()
   // 현재 월을 관리하는 상태 추가
   const [currentMonth, setCurrentMonth] = useState<Date>(today)
-
   const { selectedDate, onDateChange } = props
 
   // 이전 및 다음 달로 이동하는 함수
@@ -36,18 +36,11 @@ export default function CustomCalendar(props: CustomCalendarProps) {
 
   return (
     <div className="mt-[32px] py-5 px-[45px]">
-      {/* 커스터마이즈된 내비게이션 */}
-      <div className="flex items-center justify-between mb-[20px] text-[15px]">
-        <span>{moment(currentMonth).format('YYYY년 MM월')}</span>
-        <div className="flex gap-3">
-          <button onClick={handlePreviousMonth}>
-            <Image src="/image/prev-arrow.svg" alt="" width={20} height={20} />
-          </button>
-          <button onClick={handleNextMonth}>
-            <Image src="/image/next-arrow.svg" alt="" width={20} height={20} />
-          </button>
-        </div>
-      </div>
+      <CustomNavigation
+        currentMonth={currentMonth}
+        onPreviousMonth={handlePreviousMonth}
+        onNextMonth={handleNextMonth}
+      />
 
       <Calendar
         locale="ko"
