@@ -1,7 +1,7 @@
 'use client'
 import Button from '@/components/common/Button'
 import CategoryField from '@/components/common/CategoryField'
-import UserProfile from '@/components/UserContainer/UserProfile'
+import UserProfile from '@/components/user/UserProfile'
 import Image from 'next/image'
 
 export default function AllClear() {

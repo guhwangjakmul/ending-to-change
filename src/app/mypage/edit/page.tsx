@@ -1,6 +1,6 @@
 'use client'
-import UserProfile from '@/components/UserContainer/UserProfile'
-import UserEditButton from '@/components/UserContainer/UserEditButton'
+import UserProfile from '@/components/user/UserProfile'
+import UserEditButton from '@/components/user/UserEditButton'
 import Button from '@/components/common/Button'
 import { useState } from 'react'
 
@@ -34,7 +34,7 @@ export default function MyPageEdit() {
           maxLength={10}
           className="w-[calc(100% - 25px)] placeholder:text-gray bg-inherit"
         />
-        {!isEditMode && <UserEditButton type="pencil" onClick={() => onClickPencil()} />}
+        {isEditMode || <UserEditButton type="pencil" onClick={() => onClickPencil()} />}
       </form>
       {isEditMode && (
         <Button width={87} height={40} fontSize={16} onClick={() => alert('저장하기')}>

@@ -1,12 +1,11 @@
-import Image from 'next/image'
 import CategoryField from '@/components/common/CategoryField'
-import UserProfile from '@/components/UserContainer/UserProfile'
+import UserProfile from '@/components/user/UserProfile'
 
 export default function MyPage() {
   const userInfo = {
     nickName: '가오리영감탱구리임다',
     categoryCount: 1,
-    profile: '' || '/image/default_profile.svg',
+    profile: '/image/default_profile.svg',
   }
   return (
     <main className="w-full h-screen flex items-center flex-col p-[35px]">

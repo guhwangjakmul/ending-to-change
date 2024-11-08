@@ -1,7 +1,7 @@
 'use client'
 
-import SocialButton from '@/components/UserContainer/SocialButton'
 import Image from 'next/image'
+import SocialButtonList from '@/components/user/SocialButtonList'
 
 export default function LoginPage() {
   return (
@@ -19,11 +19,7 @@ export default function LoginPage() {
         <span className="font-gothic-m text-brown text-[13px]">간편 로그인</span>
         <hr className="w-[74px] text-brown" />
       </div>
-      <div className="w-[258px] flex justify-between">
-        <SocialButton type="google" onClick={() => alert('google')} />
-        <SocialButton type="kakao" onClick={() => alert('kakao')} />
-        <SocialButton type="naver" onClick={() => alert('naver')} />
-      </div>
+      <SocialButtonList />
     </main>
   )
 }
