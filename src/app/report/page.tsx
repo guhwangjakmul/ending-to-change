@@ -4,6 +4,7 @@ import Image from 'next/image'
 import moment from 'moment'
 
 import Header from '@/components/common/header/Header'
+import DistanceSetting from '@/components/report/DistanceSetting'
 import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
 import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'
@@ -43,7 +44,8 @@ export default function page() {
       <div className="absolute w-full">
         <Header backOnClick={() => alert('onClick!')} title="탄소 기록함" />
         <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />
-        <div className="flex flex-col gap-[35px] w-100% h-100% py-12 px-5 bg-[#D3EDE8]">
+        <div className=" w-100% h-100% py-[18px] px-5 bg-[#D3EDE8]">
+          <DistanceSetting />
           <TodayEcoStats selectedDate={selectedDate} />
           <WeeklyEcoChart weekRange={weekRange} />
         </div>

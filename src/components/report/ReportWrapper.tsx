@@ -7,7 +7,7 @@ export default function ReportWrapper(props: ReportWrapperProps) {
   const { children, height = 142 } = props
 
   return (
-    <div className={`w-full bg-beige rounded-[15px]`} style={{ height: `${height}px` }}>
+    <div className={`w-full mb-[39px] bg-beige rounded-[15px]`} style={{ height: `${height}px` }}>
       {children}
     </div>
   )
