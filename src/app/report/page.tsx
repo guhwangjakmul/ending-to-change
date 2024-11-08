@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import moment from 'moment'
 
@@ -22,6 +22,14 @@ export default function page() {
       end: endOfWeek.format('YYYY년 MM월 DD일'),
     }
   }
+
+  // 페이지 초기 로드 시 오늘 기준으로 일주일 설정
+  // 오늘 날짜만 보여주는 경우에는 useState로 초기값을 현재 날짜로 설정하기 때문에 별도의 초기화 코드 필요 x -> 상태 초기화 할 때 자동으로 오늘 날짜 설정
+  // 일주일 범위를 보여주는 경우는 오늘 날짜를 기준으로 한 주간 범위를 계산해야 하므로, useEffect를 사용해 한 번만 실행되는 초기화 코드로 설정
+  useEffect(() => {
+    const initialWeekRange = getWeekRange(new Date())
+    setWeekRange(initialWeekRange)
+  }, [])
 
   // 날짜 변경 핸들러
   const handleDateChange = (date: Date) => {
