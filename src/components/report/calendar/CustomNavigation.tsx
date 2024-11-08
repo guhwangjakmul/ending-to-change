@@ -14,10 +14,10 @@ export default function CustomNavigation(props: CalendarNavigationProps) {
       <span>{moment(currentMonth).format('YYYY년 MM월')}</span>
       <div className="flex gap-3">
         <button onClick={onPreviousMonth}>
-          <Image src="/image/prev-arrow.svg" alt="" width={20} height={20} />
+          <Image src="/image/prev-arrow.svg" alt="이전달" width={20} height={20} />
         </button>
         <button onClick={onNextMonth}>
-          <Image src="/image/next-arrow.svg" alt="" width={20} height={20} />
+          <Image src="/image/next-arrow.svg" alt="다음달" width={20} height={20} />
         </button>
       </div>
     </div>
