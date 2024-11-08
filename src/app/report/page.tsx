@@ -40,7 +40,13 @@ export default function page() {
 
   return (
     <div className="relative h-screen font-gothic-b text-brown ">
-      <Image src="/image/record_background.svg" alt="" fill objectFit="cover" />
+      <Image
+        src="/image/record_background.svg"
+        alt=""
+        fill
+        style={{ objectFit: 'cover' }}
+        priority
+      />
       <div className="absolute w-full">
         <Header backOnClick={() => alert('onClick!')} title="탄소 기록함" />
         <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />
