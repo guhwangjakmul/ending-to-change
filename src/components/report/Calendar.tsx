@@ -9,13 +9,9 @@ import Image from 'next/image'
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]
 
-export default function CalendarCC() {
+export default function CustomCalendar() {
   const today = new Date()
   const [date, setDate] = useState<Value>(today)
-
-  const handleDateChange = (newDate: Value) => {
-    setDate(newDate)
-  }
 
   // 이전 및 다음 달로 이동하는 함수
   const handlePreviousMonth = () => {
