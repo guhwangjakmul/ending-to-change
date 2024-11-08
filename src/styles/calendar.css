@@ -1,6 +1,3 @@
-.react-calendar {
-}
-
 .react-calendar__navigation {
   display: none;
 }
@@ -38,6 +35,7 @@
   justify-content: center;
 }
 
+/* 걸은 거리가 있을 때 표시 */
 .highlight-circle {
   position: relative;
 }

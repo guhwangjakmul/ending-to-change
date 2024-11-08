@@ -6,24 +6,29 @@ import moment from 'moment'
 import '@/styles/calendar.css'
 import Image from 'next/image'
 
-type ValuePiece = Date | null
-type Value = ValuePiece | [ValuePiece, ValuePiece]
+interface CustomCalendarProps {
+  selectedDate: Date
+  onDateChange: (date: Date) => void
+}
 
-export default function CustomCalendar() {
+export default function CustomCalendar(props: CustomCalendarProps) {
   const today = new Date()
-  const [date, setDate] = useState<Value>(today)
+  // 현재 월을 관리하는 상태 추가
+  const [currentMonth, setCurrentMonth] = useState<Date>(today)
+
+  const { selectedDate, onDateChange } = props
 
   // 이전 및 다음 달로 이동하는 함수
   const handlePreviousMonth = () => {
-    const newDate = new Date(date as Date)
-    newDate.setMonth(newDate.getMonth() - 1)
-    setDate(newDate)
+    const newMonth = new Date(currentMonth)
+    newMonth.setMonth(newMonth.getMonth() - 1)
+    setCurrentMonth(newMonth)
   }
 
   const handleNextMonth = () => {
-    const newDate = new Date(date as Date)
-    newDate.setMonth(newDate.getMonth() + 1)
-    setDate(newDate)
+    const newMonth = new Date(currentMonth)
+    newMonth.setMonth(newMonth.getMonth() + 1)
+    setCurrentMonth(newMonth)
   }
 
   // 특정 날짜를 정의 (예: 15일)
@@ -33,7 +38,7 @@ export default function CustomCalendar() {
     <div className="mt-[32px] py-5 px-[45px]">
       {/* 커스터마이즈된 내비게이션 */}
       <div className="flex items-center justify-between mb-[20px] text-[15px]">
-        <span>{date ? moment(date as Date).format('YYYY년 MM월') : '날짜를 선택하세요'}</span>
+        <span>{moment(currentMonth).format('YYYY년 MM월')}</span>
         <div className="flex gap-3">
           <button onClick={handlePreviousMonth}>
             <Image src="/image/prev-arrow.svg" alt="" width={20} height={20} />
@@ -46,7 +51,11 @@ export default function CustomCalendar() {
 
       <Calendar
         locale="ko"
-        value={date}
+        value={selectedDate}
+        activeStartDate={currentMonth}
+        onClickDay={(date: Date) => {
+          onDateChange(date)
+        }}
         formatDay={(locale, date) => moment(date).format('D')}
         calendarType="gregory"
         showNeighboringMonth={false}
