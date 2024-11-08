@@ -45,6 +45,7 @@ export default function CustomCalendar() {
       </div>
 
       <Calendar
+        locale="ko"
         value={date}
         formatDay={(locale, date) => moment(date).format('D')}
         calendarType="gregory"
