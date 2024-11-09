@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body suppressHydrationWarning={true} className="flex items-center justify-center">
-        <div className="max-w-[390px] w-screen h-screen bg-light-beige relative">
+        <div className="max-w-[390px] w-screen h-screen bg-light-beige relative  flex flex-col">
           <HeaderLayout />
           {children}
           <div id="portal"></div>
