@@ -55,3 +55,7 @@
   height: 5px;
   border-radius: 50%;
 }
+
+.clicked-date.highlight-circle::after {
+  @apply bg-mint-green;
+}
