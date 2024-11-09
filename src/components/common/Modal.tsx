@@ -12,7 +12,7 @@ export default function Modal(props: ModalProps) {
   return (
     <>
       <div
-        className="fixed w-[390px] h-screen bg-black opacity-25 z-50 top-0 left-1/2 transform -translate-x-1/2"
+        className="fixed w-[390px] h-screen bg-black opacity-25 z-100 top-0 left-1/2 transform -translate-x-1/2"
         onClick={onClick}
       ></div>
 
