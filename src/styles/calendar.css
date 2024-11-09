@@ -45,6 +45,7 @@
 }
 
 .highlight-circle::after {
+  @apply bg-mint-green;
   content: '';
   position: absolute;
   bottom: 2px;
@@ -52,6 +53,5 @@
   transform: translateX(-50%);
   width: 5px;
   height: 5px;
-  background-color: #1ac8b9; /* 민트색 */
   border-radius: 50%;
 }
