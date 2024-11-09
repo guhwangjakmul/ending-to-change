@@ -1,0 +1,57 @@
+/* 내비게이션 숨기기 */
+.react-calendar__navigation {
+  @apply hidden;
+}
+
+/* 요일 숨기기 */
+.react-calendar__month-view__weekdays abbr {
+  @apply hidden;
+}
+
+/* 일 날짜 간격 */
+.react-calendar__tile {
+  @apply h-[30px] mb-[20px] relative;
+}
+
+/* 모든 날짜 숫자 스타일 */
+.react-calendar__tile abbr {
+  @apply absolute top-[35%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-[12px];
+}
+
+/* 공통 스타일 클래스 (날짜 클릭시) */
+.common-tile-style {
+  @apply w-[20px] h-[20px] text-white rounded-[4px] flex items-center justify-center;
+}
+
+/* 오늘 날짜 - 기본 스타일 */
+.react-calendar__tile--now abbr {
+  @apply bg-orange common-tile-style;
+}
+
+/* 오늘 날짜 - 다른 날짜를 클릭했을때 */
+.react-calendar__tile.today abbr {
+  @apply text-orange;
+  background: none;
+}
+
+/* 클릭한 날짜 - 오늘 날짜가 아닐때 */
+.clicked-date abbr {
+  @apply bg-brown common-tile-style;
+}
+
+/* 걸은 거리가 있을 때 */
+.highlight-circle {
+  @apply relative;
+}
+
+.highlight-circle::after {
+  @apply bg-mint-green;
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
