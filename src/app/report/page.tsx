@@ -4,7 +4,7 @@ import Image from 'next/image'
 import moment from 'moment'
 
 import Header from '@/components/common/header/Header'
-import DistanceSetting from '@/components/report/DistanceSetting'
+import DistanceSetting from '@/components/report/distanceSetting/DistanceSetting'
 import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
 import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'

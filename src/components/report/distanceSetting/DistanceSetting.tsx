@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
-import Modal from '../common/Modal'
-import Button from '../common/Button'
+import Modal from '@/components/common/Modal'
 import RangeSlider from './RangeSlider'
+import Button from '@/components/common/Button'
 
 import useModal from '@/app/hook/useModal'
 
