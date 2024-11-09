@@ -14,7 +14,7 @@ export default function BackgroundWrapper(props: BackgroundWrapperProps) {
 
   return (
     <div
-      className={`max-w-[390px] w-screen h-screen ${
+      className={`max-w-[390px] w-screen h-screen relative ${
         whiteBackground.includes(pathname) ? '' : 'bg-light-beige'
       }`}
     >
