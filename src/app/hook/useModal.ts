@@ -24,7 +24,7 @@ const allowScroll = (prevScrollY: number) => {
 const useModal = (): UseModalReturn => {
   const [isOpen, setIsOpen] = useState(false)
   const [portalElement, setPortalElement] = useState<Element | null>(null)
-  const [scrollPosition, setScrollPosition] = useState<number>(0) //
+  const [scrollPosition, setScrollPosition] = useState<number>(0)
 
   const openModal = useCallback(() => {
     const scrollY = preventScroll() // 스크롤 위치 저장
