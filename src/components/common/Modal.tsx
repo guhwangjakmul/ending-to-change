@@ -12,13 +12,26 @@ export default function Modal(props: ModalProps) {
   return (
     <>
       <div
-        className="w-[390px] h-screen bg-black opacity-25 z-100000 absolute top-0 left-0 flex justify-center items-center"
+        className="fixed w-[390px] h-screen bg-black opacity-25 z-50 top-0 left-1/2 transform -translate-x-1/2"
         onClick={onClick}
       ></div>
 
       <div
         style={{ height: `${height}px` }}
-        className="w-[313px] rounded-[30px] bg-light-beige flex justify-center items-center flex-col z-1000001 absolute top-[50%] translate-y-[-50%]"
+        className="fixed w-[313px] 
+        rounded-[30px] 
+        bg-light-beige 
+        flex 
+        justify-center 
+        items-center 
+        flex-col 
+        z-50 
+        top-1/2 
+        left-1/2 
+        transform 
+        -translate-x-1/2 
+        -translate-y-1/2  
+"
       >
         {children}
       </div>
