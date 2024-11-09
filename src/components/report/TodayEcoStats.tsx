@@ -1,6 +1,5 @@
-import ProgressBar from '../common/ProgressBar'
-
 import Wrapper from './ReportWrapper'
+import ProgressBar from '../common/ProgressBar'
 
 interface TodayEcoStatsProps {
   selectedDate: Date

@@ -15,7 +15,7 @@ export default function page() {
   const [weekRange, setWeekRange] = useState<{ start: string; end: string } | null>(null)
   // 목표 거리 설정 default 3km
   const [goalKm, setGoalKm] = useState<number>(3)
-  // 오늘 걸은 거리
+  // 오늘 걸은 거리 -> 테스트용입니당
   const todaysDistance = 2.4
 
   // 일주일 계산 함수
