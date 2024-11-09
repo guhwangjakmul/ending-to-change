@@ -4,8 +4,11 @@ import Image from 'next/image'
 import Question from '@/components/quiz/Question'
 import Answer from '@/components/quiz/Answer'
 
+import { Quiz } from '@/types/quiz'
+
 export default function Page() {
-  const quiz = {
+  // 임시로 넣어뒀습니다.
+  const quiz: Quiz = {
     id: 1,
     categoryId: 1,
     question: '대파, 쪽파 등 뿌리 채소에 흙이 묻어있는 경우 일반쓰레기로 버린다.',
