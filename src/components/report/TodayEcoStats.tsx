@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import ProgressBar from '../common/ProgressBar'
+=======
+>>>>>>> develop
 import Wrapper from './ReportWrapper'
 
 interface TodayEcoStatsProps {
@@ -6,6 +9,7 @@ interface TodayEcoStatsProps {
 }
 
 export default function TodayEcoStats(props: TodayEcoStatsProps) {
+<<<<<<< HEAD
   const goalKm = 5
   const { selectedDate } = props
 
@@ -17,4 +21,8 @@ export default function TodayEcoStats(props: TodayEcoStatsProps) {
       </span>
     </Wrapper>
   )
+=======
+  const { selectedDate } = props
+  return <Wrapper> {selectedDate.toLocaleDateString('ko-KR')}</Wrapper>
+>>>>>>> develop
 }

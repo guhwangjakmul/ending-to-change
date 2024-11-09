@@ -35,6 +35,7 @@ const config: Config = {
       },
       boxShadow: {
         button: '0px 1px 2px rgba(0, 0, 0, 0.25)',
+        earth: '0px 10px 20px rgba(2, 177, 206, 0.25)',
       },
       keyframes: {
         'bounce-y': {

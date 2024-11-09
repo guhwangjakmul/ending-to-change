@@ -39,7 +39,7 @@ export default function CategoryField(props: CategoryFieldProps) {
   }
 
   return (
-    <div className="w-[232px] h-[232px] relative">
+    <div className="w-[232px] h-[232px] relative m-auto">
       {categoryList.map(category => (
         <SpotButton
           key={category.name}
