@@ -45,5 +45,13 @@
 }
 
 .highlight-circle::after {
-  @apply absolute bottom-[2px] left-1/2 transform -translate-x-1/2 w-[5px] h-[5px] bg-[#1ac8b9] rounded-full;
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  background-color: #1ac8b9; /* 민트색 */
+  border-radius: 50%;
 }
