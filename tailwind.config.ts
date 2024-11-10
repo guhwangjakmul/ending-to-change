@@ -35,6 +35,7 @@ const config: Config = {
       },
       boxShadow: {
         button: '0px 1px 2px rgba(0, 0, 0, 0.25)',
+        earth: '0px 10px 20px rgba(2, 177, 206, 0.25)',
       },
       keyframes: {
         'bounce-y': {
@@ -46,10 +47,6 @@ const config: Config = {
           '99%': { width: '130px' },
           '100%': { width: '0' },
         },
-      },
-      animation: {
-        'bounce-y': 'bounce-y 2s infinite',
-        'loading-bar': 'loading-bar 2s infinite',
         'slide-top': {
           '0%': { transform: 'translateY(0)' },
           '100%': { transform: 'translateY(-4px)' },
@@ -58,11 +55,22 @@ const config: Config = {
           '0%': { transform: 'scale(0)' },
           '100%': { transform: 'scale(1)' },
         },
+        'scale-out-center': {
+          '0%': { transform: 'scale(1)' },
+          '100%': { transform: 'scale(0)' },
+        },
       },
       animation: {
+        'bounce-y': 'bounce-y 2s infinite',
+        'loading-bar': 'loading-bar 2s infinite',
         'slide-top':
           'slide-top 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) infinite alternate both',
         'scale-in-center': 'scale-in-center 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+        'scale-out-center': 'scale-out-center 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+        'scale-in-center-slow':
+          'scale-in-center 1.0s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+        'scale-out-center-slow':
+          'scale-out-center 1.0s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
       },
     },
   },

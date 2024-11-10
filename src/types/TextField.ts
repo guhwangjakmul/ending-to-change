@@ -8,4 +8,3 @@ export interface CharacterText {
   content: string
   charTextColor: string
   charBackgroundColor: string
-}
