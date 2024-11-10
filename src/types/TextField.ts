@@ -3,6 +3,10 @@ export interface Text {
   children: React.ReactNode
 }
 
+export type RewardTextProps = Text & {
+  onScaleOutStart?: () => void
+}
+
 export interface CharacterText {
   charName: string
   content: string
