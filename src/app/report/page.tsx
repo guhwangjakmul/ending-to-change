@@ -4,7 +4,7 @@ import Image from 'next/image'
 import moment from 'moment'
 
 import Header from '@/components/common/header/Header'
-import DistanceSetting from '@/components/report/DistanceSetting'
+import DistanceSetting from '@/components/report/distanceSetting/DistanceSetting'
 import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
 import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'
@@ -13,6 +13,10 @@ export default function page() {
   // 선택한 날짜와 일주일을 상태로 관리
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [weekRange, setWeekRange] = useState<{ start: string; end: string } | null>(null)
+  // 목표 거리 설정 default 3km
+  const [goalKm, setGoalKm] = useState<number>(3)
+  // 오늘 걸은 거리 -> 테스트용입니당
+  const todaysDistance = 2.4
 
   // 일주일 계산 함수
   const getWeekRange = (date: Date) => {
@@ -51,8 +55,12 @@ export default function page() {
         <Header backOnClick={() => alert('onClick!')} title="탄소 기록함" />
         <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />
         <div className=" w-100% h-100% py-[18px] px-5 bg-[#D3EDE8]">
-          <DistanceSetting />
-          <TodayEcoStats selectedDate={selectedDate} />
+          <DistanceSetting goalKm={goalKm} setGoalKm={setGoalKm} />
+          <TodayEcoStats
+            selectedDate={selectedDate}
+            goalKm={goalKm}
+            todaysDistance={todaysDistance}
+          />
           <WeeklyEcoChart weekRange={weekRange} />
         </div>
       </div>

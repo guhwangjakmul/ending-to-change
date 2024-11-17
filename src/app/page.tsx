@@ -1,3 +1,6 @@
+import CharacterText from '@/components/common/CharacterText'
+import RewardText from '@/components/common/RewardText'
+
 export default function page() {
   return (
     <>
