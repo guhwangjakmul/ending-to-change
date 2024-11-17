@@ -13,20 +13,21 @@ import Wrapper from './ReportWrapper'
 
 interface WeeklyEcoChartProps {
   weekRange: { start: string; end: string } | null
+  filteredWeeklyData: { date: string; distance: number; carbon: number }[]
 }
 
 // Chart.js에 필요한 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export default function WeeklyEcoChart(props: WeeklyEcoChartProps) {
-  const { weekRange } = props
+  const { weekRange, filteredWeeklyData } = props
 
   const formatWeekRange = (range: { start: string; end: string }) => {
-    const startDate = range.start.split(' ')
-    const endDate = range.end.split(' ')
+    const startDate = range.start.split('-')
+    const endDate = range.end.split('-')
 
-    const startedFormatted = `${startDate[1]} ${startDate[2].slice(0, -1)}`
-    const endFormatted = endDate[2]
+    const startedFormatted = `${startDate[1]}월 ${startDate[2]}`
+    const endFormatted = `${endDate[2]}일`
 
     return `${startedFormatted} - ${endFormatted}`
   }
@@ -37,7 +38,7 @@ export default function WeeklyEcoChart(props: WeeklyEcoChartProps) {
     datasets: [
       {
         label: '',
-        data: [2.3, 1.8, 3.2, 2.7, 3.5, 2.9, 4.1],
+        data: filteredWeeklyData.map(record => record.distance),
         backgroundColor: 'rgba(255, 206, 0, 1)',
         borderColor: 'rgba(255, 206, 0, 1)',
         borderRadius: Number.MAX_VALUE,
@@ -95,6 +96,9 @@ export default function WeeklyEcoChart(props: WeeklyEcoChartProps) {
     },
   }
 
+  // carbon 합계 계산
+  const totalCarbon = filteredWeeklyData.reduce((acc, record) => acc + record.carbon, 0).toFixed(1)
+
   return (
     <Wrapper height={280} paddingX={70}>
       <div className="text-[15px] mb-[15px]">
@@ -102,7 +106,7 @@ export default function WeeklyEcoChart(props: WeeklyEcoChartProps) {
       </div>
       <Chart type="bar" data={data} options={options} />
       <span className="text-[15px] mt-[15px]">
-        총 <span className="text-mint-green">7.2kg CO₂e</span> 절약했어요
+        총 <span className="text-mint-green">{totalCarbon}kg CO₂e</span> 절약했어요
       </span>
     </Wrapper>
   )

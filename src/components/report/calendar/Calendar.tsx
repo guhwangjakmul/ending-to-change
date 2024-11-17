@@ -4,11 +4,11 @@ import Calendar from 'react-calendar'
 import moment from 'moment'
 
 import '@/styles/calendar.css'
-import Image from 'next/image'
 import CustomNavigation from './CustomNavigation'
+import { DateRecord } from '@/types/Date'
 
 interface CustomCalendarProps {
-  selectedDate: Date
+  selectedDate: DateRecord | null
   onDateChange: (date: Date) => void
 }
 
@@ -44,18 +44,17 @@ export default function CustomCalendar(props: CustomCalendarProps) {
 
       <Calendar
         locale="ko"
-        value={selectedDate}
+        value={selectedDate ? new Date(selectedDate.date) : today}
         activeStartDate={currentMonth}
         onClickDay={(date: Date) => {
           onDateChange(date)
         }}
         formatDay={(locale, date) => moment(date).format('D')}
-        calendarType="gregory"
         showNeighboringMonth={false}
         minDetail="year"
         tileClassName={({ date }) => {
           const isToday = moment(date).isSame(today, 'day')
-          const isSelected = moment(date).isSame(selectedDate, 'day')
+          const isSelected = moment(date).isSame(selectedDate?.date, 'day')
           const isSpecialDate = date.getTime() === specialDate.getTime()
 
           if (isToday && isSelected) {
