@@ -54,16 +54,20 @@ export default function CustomCalendar(props: CustomCalendarProps) {
         showNeighboringMonth={false}
         minDetail="year"
         tileClassName={({ date }) => {
-          if (moment(date).isSame(today, 'day') && moment(date).isSame(selectedDate, 'day')) {
+          const isToday = moment(date).isSame(today, 'day')
+          const isSelected = moment(date).isSame(selectedDate, 'day')
+          const isSpecialDate = date.getTime() === specialDate.getTime()
+
+          if (isToday && isSelected) {
             return 'today-selected' // 오늘 날짜가 선택된 경우 주황색 배경 유지
           }
-          if (moment(date).isSame(today, 'day') && !moment(date).isSame(selectedDate, 'day')) {
+          if (isToday && !isSelected) {
             return 'today' // 오늘 날짜가 선택되지 않은 경우 주황색 폰트
           }
-          if (selectedDate && moment(date).isSame(selectedDate, 'day')) {
-            return 'clicked-date' // 선택된 날짜가 오늘이 아닌 경우 브라운 박스
+          if (isSelected && !isToday) {
+            return isSpecialDate ? 'clicked-date highlight-circle' : 'clicked-date' // 선택된 날짜가 오늘이 아닌 경우 브라운 박스
           }
-          if (date.getTime() === specialDate.getTime()) {
+          if (isSpecialDate) {
             return 'highlight-circle' // 특정 날짜(걸은 날이 있을 때)에 민트색 동그라미 추가
           }
           return ''

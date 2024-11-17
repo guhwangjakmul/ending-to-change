@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import { ProgressBarProps, LabelType, ProgressColor, BackgroundColor } from '@/types/ProgressBar'
 
 export default function ProgressBar(props: ProgressBarProps) {
@@ -14,20 +12,12 @@ export default function ProgressBar(props: ProgressBarProps) {
     <div className="flex flex-col w-full space-y-2">
       {showLabel && renderLabel(labelType, currentProgress, max, level)}
       <div className="relative w-full h-3 flex items-center space-x-2">
-        <div className={`w-full h-4 ${getBackgroundColor(labelType)} rounded-full overflow-hidden`}>
+        <div className={`w-full h-3 ${getBackgroundColor(labelType)} rounded-full overflow-hidden`}>
           <div
             className={`h-full rounded-full ${getProgressColor(labelType, currentProgress, max)}`}
             style={{ width: `${progressPercentage}%` }}
           ></div>
         </div>
-        {shouldShowIcon(labelType, showLabel) && (
-          <div
-            className="absolute h-[30px] w-[30px] bg-yellow rounded-full flex items-center justify-center"
-            style={{ left: `calc(${progressPercentage}% - 30px)` }}
-          >
-            <Image src="/image/shoes.svg" alt="" width="20" height="20" />
-          </div>
-        )}
       </div>
     </div>
   )
@@ -93,9 +83,4 @@ const getProgressColor = (
     return currentProgress === max ? 'bg-mint-green' : 'bg-lime-green'
   }
   return 'bg-yellow'
-}
-
-// 아이콘을 표시할지 여부를 반환하는 함수
-const shouldShowIcon = (labelType?: LabelType, showLabel?: boolean): boolean => {
-  return labelType === 'Km' && !showLabel
 }
