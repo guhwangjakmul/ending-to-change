@@ -87,7 +87,11 @@ export default function page() {
       />
       <div className="absolute w-full">
         <Header backOnClick={() => alert('onClick!')} title="탄소 기록함" />
-        <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />
+        <Calendar
+          weeklyData={weeklyData}
+          selectedDate={selectedDate}
+          onDateChange={handleDateChange}
+        />
         <div className=" w-100% h-100% py-[18px] px-5 bg-[#D3EDE8]">
           <DistanceSetting goalKm={goalKm} setGoalKm={setGoalKm} />
           <TodayEcoStats selectedDate={selectedDate} goalKm={goalKm} />
