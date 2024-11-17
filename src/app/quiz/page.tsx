@@ -18,12 +18,21 @@ export default function Page() {
   }
 
   return (
-    <div className="relative h-full">
-      <div className="absolute bottom-0">
-        <Image src="/image/quiz-background.svg" alt="" width={390} height={217} />
+    <div className="relative h-[calc(100vh-75px)]">
+      <div className="relative z-10">
+        <Question question={quiz.question} />
+        <Answer isAnswer={quiz.isAnswer} description={quiz.description} />
       </div>
-      <Question question={quiz.question} />
-      <Answer isAnswer={quiz.isAnswer} description={quiz.description} />
+
+      <div className="absolute bottom-0 left-0 w-full z-0">
+        <Image
+          src="/image/quiz-background.svg"
+          alt=""
+          width={390}
+          height={217}
+          layout="responsive"
+        />
+      </div>
     </div>
   )
 }
