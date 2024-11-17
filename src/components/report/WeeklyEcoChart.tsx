@@ -8,6 +8,7 @@ import {
   Legend,
 } from 'chart.js'
 import { Chart } from 'react-chartjs-2'
+
 import Wrapper from './ReportWrapper'
 
 interface WeeklyEcoChartProps {
@@ -41,6 +42,7 @@ export default function WeeklyEcoChart(props: WeeklyEcoChartProps) {
         borderColor: 'rgba(255, 206, 0, 1)',
         borderRadius: Number.MAX_VALUE,
         borderSkipped: false,
+        barPercentage: 0.9,
       },
     ],
   }
@@ -52,21 +54,25 @@ export default function WeeklyEcoChart(props: WeeklyEcoChartProps) {
       legend: {
         display: false,
       },
+      tooltip: {
+        enabled: true,
+        displayColors: false,
+        backgroundColor: 'rgba(206, 198, 186, 1)',
+        bodyFont: { size: 12 },
+        fontFamily: '"gothic-b", sans-serif',
+        padding: 10,
+        cornerRadius: 10,
+        callbacks: {
+          title: () => '',
+          label: function (context: any) {
+            return `${context.raw}km`
+          },
+        },
+      },
     },
-    // tooltip: {
-    //   enabled: true,
-    //   callbacks: {
-    //     label: function (context: any) {
-    //       return `${context.raw} km`
-    //     },
-    //   },
-    //   displayColors: false,
-    //   backgroundColor: '#E0E0E0', // 툴팁 배경색 설정
-    //   titleFont: { size: 12 },
-    //   bodyFont: { size: 12 },
-    //   cornerRadius: 8, // 툴팁 모서리 둥글게
-    //   padding: 10,
-    // },
+    hover: {
+      mode: undefined,
+    },
     scales: {
       x: {
         grid: {
