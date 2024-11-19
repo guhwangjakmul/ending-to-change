@@ -16,7 +16,7 @@ export default function page() {
 
   //캐릭터 인덱스
   const [index, setIndex] = useState(0)
-  const selectedCharacter = 'water'
+  const selectedCharacter = 'air'
 
   const [message, setMessage] = useState('')
   const [isShowLevelup, setIsShowLevelup] = useState(false)
@@ -97,8 +97,8 @@ export default function page() {
               color="text-medium-brown"
               backgroundColor="bg-yellow"
               isLink
-              href="/mypage"
-              children="마이홈으로"
+              href="/category"
+              children="다른 주민 구하기"
             />
           </div>
         </div>

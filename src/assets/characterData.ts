@@ -31,11 +31,21 @@ const characterGroup = {
       '/image/character/warming_2.svg',
       '/image/character/warming_3.svg',
     ],
+    background: [
+      '/image/background/warming_1.svg',
+      '/image/background/warming_2.svg',
+      '/image/background/warming_3.svg',
+    ],
     dialogues: [
       '아이고야… 날이 너무 따뜻해져서 내 몸이 줄줄 녹아내리는구먼. 이러다간 눈사람 구실도 못 하겠어…',
       '어라? 요 며칠 좀 서늘해진 것 같구먼! 덕분에 내 몸도 조금 단단해진 기분이라, 이거 희망이 보이는디!',
       '오호라~ 이제는 꽤 추워져서 몸이 다시 제 모양새를 찾았네! 다시 눈밭 위에 서 있을 수 있게 되었구먼!',
       '참말로 고맙구먼! 자네 덕에 내가 이렇게 다시 살아났어. 덕분에 이번 겨울도 무사히 버틸 수 있을 것 같소!',
+    ],
+    levelupText: [
+      '바닷속 쓰레기가 점점 줄고있어~!',
+      '물고기가 돌아오고 있어~!',
+      '바다가 깨끗해졌어~!',
     ],
     koreanName: '눈사람',
     nameBg: '#F3FEFF',
@@ -53,6 +63,11 @@ const characterGroup = {
       '도시 불빛이 꽤나 줄어들었군요! 덕분에 저 하늘을 수놓은 별들을 제대로 관찰할 수 있게 되었어요',
       '이 아름다운 밤하늘을 되찾아 주다니, 참으로 감사드려요. 덕분에 제 연구도, 마음도 한결 편안해졌답니다',
     ],
+    levelupText: [
+      '바닷속 쓰레기가 점점 줄고있어~!',
+      '물고기가 돌아오고 있어~!',
+      '바다가 깨끗해졌어~!',
+    ],
     koreanName: '부엉',
     nameBg: '#7C5534',
     nameColor: '#F8F1C6',
@@ -62,6 +77,16 @@ const characterGroup = {
       '/image/character/air_1.svg',
       '/image/character/air_2.svg',
       '/image/character/air_3.svg',
+    ],
+    background: [
+      '/image/background/air_1.svg',
+      '/image/background/air_2.svg',
+      '/image/background/air_3.svg',
+    ],
+    levelupText: [
+      '바닷속 쓰레기가 점점 줄고있어~!',
+      '물고기가 돌아오고 있어~!',
+      '바다가 깨끗해졌어~!',
     ],
     dialogues: [
       '요새 공기가 너무 탁해져서 숨 쉬기 힘들어구리… 나갈 때는 마스크가 필요해',
@@ -79,6 +104,11 @@ const characterGroup = {
       '/image/character/soil_2.svg',
       '/image/character/soil_3.svg',
     ],
+    levelupText: [
+      '바닷속 쓰레기가 점점 줄고있어~!',
+      '물고기가 돌아오고 있어~!',
+      '바다가 깨끗해졌어~!',
+    ],
     dialogues: [
       '아이고… 땅이 엉망이 됐네. 흙이 이렇게 나빠져서는 무가 자랄 틈이 없구만…',
       '에구, 이번엔 무가 썩었네... 흙이 아직 완전히 회복되지 않은가 보네. 제대로 된 무를 언제쯤 볼 수 있으려나…',
@@ -94,6 +124,11 @@ const characterGroup = {
       '/image/character/recycle_1.svg',
       '/image/character/recycle_2.svg',
       '/image/character/recycle_3.svg',
+    ],
+    levelupText: [
+      '바닷속 쓰레기가 점점 줄고있어~!',
+      '물고기가 돌아오고 있어~!',
+      '바다가 깨끗해졌어~!',
     ],
     dialogues: [
       '쓰레기들이 아무렇게나 널브러져 있으이, 여가 시장통인지 쓰레기장인지 헷갈린다니까예…',
