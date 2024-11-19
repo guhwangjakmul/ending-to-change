@@ -85,14 +85,16 @@ export default function page() {
         style={{ objectFit: 'cover' }}
         priority
       />
-      <div className="absolute w-full">
+      <div className="absolute w-full h-full flex flex-col justify-between">
         <Header backOnClick={() => alert('onClick!')} title="탄소 기록함" />
-        <Calendar
-          weeklyData={weeklyData}
-          selectedDate={selectedDate}
-          onDateChange={handleDateChange}
-        />
-        <div className=" w-100% h-100% py-[18px] px-5 bg-[#D3EDE8]">
+        <div>
+          <Calendar
+            weeklyData={weeklyData}
+            selectedDate={selectedDate}
+            onDateChange={handleDateChange}
+          />
+        </div>
+        <div className="flex flex-col justify-center px-5 bg-[#D3EDE8] xl:h-[70%]">
           <DistanceSetting goalKm={goalKm} setGoalKm={setGoalKm} />
           <TodayEcoStats selectedDate={selectedDate} goalKm={goalKm} />
           <WeeklyEcoChart weekRange={weekRange} filteredWeeklyData={filteredWeeklyData} />
