@@ -9,7 +9,7 @@ export default function ReportWrapper(props: ReportWrapperProps) {
 
   return (
     <div
-      className={`w-full mb-[39px] py-[30px]  bg-beige rounded-[15px] flex flex-col items-center`}
+      className={`w-full mb-[39px] py-[30px]  bg-beige rounded-[15px] flex flex-col items-center justify-center`}
       style={{ height: `${height}px`, padding: `${paddingX}px` }}
     >
       {children}
