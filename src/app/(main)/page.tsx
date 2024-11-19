@@ -9,18 +9,18 @@ import ProgressBar from '@/components/common/ProgressBar'
 import Button from '@/components/common/Button'
 
 export default function page() {
-  //임의 물약 & 경험치
+  //임의 물약 & 경험치 (데이터로 처리해야하는 것들)
   const [potion, setPotion] = useState(90)
   const [currentProgress, setCurrentProgress] = useState(0)
   const [level, setLevel] = useState(1)
+  const [isEnd, setIsEnd] = useState(false)
+  const selectedCharacter = 'air'
 
   //캐릭터 인덱스
   const [index, setIndex] = useState(0)
-  const selectedCharacter = 'air'
 
   const [message, setMessage] = useState('')
   const [isShowLevelup, setIsShowLevelup] = useState(false)
-  const [isEnd, setIsEnd] = useState(false)
 
   const handleCloseLevelup = () => {
     setIsShowLevelup(false)
