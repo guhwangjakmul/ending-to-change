@@ -1,9 +1,8 @@
+import { onClickGoogle, onClickKakao } from '@/utils/user/auth'
 import Image from 'next/image'
 
 export default function SocialButtonList() {
-  const onClickGoogle = () => alert('구글 로그인')
-  const onClickKakao = () => alert('카카오 로그인')
-  const onClickNaver = () => alert('네이버 로그인')
+  const onClickNaver = () => alert('네이버 로그인 추후 예정')
 
   return (
     <ul className="w-[258px] flex justify-between">
