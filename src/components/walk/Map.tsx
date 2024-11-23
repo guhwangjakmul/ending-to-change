@@ -18,12 +18,9 @@ interface WalkMapProps {
   setWalkType: React.Dispatch<React.SetStateAction<WalkType>>
 }
 
-// type WalkType = 'initial' | 'walking' | 'stop'
-
 export default function WalkMap(props: WalkMapProps) {
   const { setIsLoading, walkType, setWalkType } = props
 
-  // const [walkType, setWalkType] = useState<WalkType>('initial')
   const [location, setLocation] = useState<Location | null>(null)
   const [isShowReward, setIsShowReward] = useState(false)
 
