@@ -34,7 +34,6 @@ export default function Page() {
   }, [])
 
   const currentQuiz = quizList[currentQuizIndex]
-  console.log(quizList)
 
   return (
     <div className="relative h-[calc(100vh-75px)]">
@@ -42,7 +41,7 @@ export default function Page() {
         <>
           <div className="relative z-10">
             <Question question={currentQuiz.question} />
-            <Answer isAnswer={currentQuiz.is_answer} description={currentQuiz.description} />
+            <Answer currentQuiz={currentQuiz} />
           </div>
           <div className="absolute bottom-0 left-0 w-full z-0">
             <Image

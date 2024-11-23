@@ -1,6 +1,7 @@
 "use client";
 
 import { createSupabaseBrowserClient } from "@/utils/client/supabase";
+import { getUserInfo, updateUser } from "@/utils/user/user";
 
 /**
  * [GET] 특정 사용자가 풀지 않은 퀴즈 가져오기
@@ -41,3 +42,46 @@ export const getUnsolvedQuizzes = async (userId: string, categoryId: number) => 
 
   return unSolvedQuizzes;
 };
+
+
+/**
+ * [POST] 퀴즈 정답 판별 + 포인트 날리기
+ * @param 
+ * @param 
+ * @returns {Promise<any[]>} 
+ */
+export const updateUserPoint = async (id: string, points: number) => {
+  try {
+    const userInfo = await getUserInfo(id);
+
+    if (!userInfo || userInfo.length === 0) {
+      console.error("User not found.");
+      return;
+    }
+
+    const currentPoints = userInfo[0].point ?? 0; 
+    const newPoints = currentPoints + points;
+
+    if (isNaN(newPoints)) {
+      throw new Error("New points cannot be NaN. Check input values.");
+    }
+
+    const isUpdated = await updateUser(id, "point", newPoints);
+
+    if (!isUpdated) {
+      console.error("Failed to update user points.");
+      return;
+    }
+
+  } catch (error) {
+    console.error("Error in updateUserPoint:", error);
+  }
+}
+
+
+/**
+ * [POST] 퀴즈 로그 저장
+ * @param 
+ * @param 
+ * @returns {Promise<any[]>} 
+ */

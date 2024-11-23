@@ -7,19 +7,23 @@ import AnswerButton from './AnswerButton'
 
 import useModal from '@/app/hook/useModal'
 import Reward from '../common/Reward'
+import { Database } from '@/types/supabase'
+import { postUserPoints } from '@/apis/quiz'
+
+type QuizDto = Database['public']['Tables']['quiz']['Row']
 
 interface AnswerProps {
-  isAnswer: boolean
-  description: string
+  currentQuiz: QuizDto
 }
 
 export default function Answer(props: AnswerProps) {
-  const { isAnswer, description } = props
+  const { currentQuiz } = props
   const [isOpen, openModal, closeModal, portalElement] = useModal()
   const [modalMessage, setModalMessage] = useState<string>('')
   const [isShowReward, setIsShowReward] = useState(false)
   const [rewardContent, setRewardContent] = useState<React.ReactNode>(null)
   const [yaho, setYaho] = useState<string>()
+  const userId = '47dd1195-11d0-4227-b42e-e7e6ad96045b'
 
   const handleCloseReward = () => {
     setIsShowReward(false)
@@ -33,8 +37,13 @@ export default function Answer(props: AnswerProps) {
     }, 1500)
   }
 
-  const handleAnswerClick = (value: boolean) => {
-    if (value === isAnswer) {
+  const handleAnswerClick = async (value: boolean) => {
+    const isCorrect = value === currentQuiz.is_answer
+    const points = isCorrect ? 2 : 1
+
+    await postUserPoints(userId, points)
+
+    if (isCorrect) {
       setModalMessage('정답이에요!')
       setRewardContent(
         <span>
@@ -61,7 +70,7 @@ export default function Answer(props: AnswerProps) {
         <Modal height={338} onClick={closeModal}>
           <div className="flex flex-col gap-[30px] items-center py-[30px] px-[38px] font-gothic-m">
             <span className=" text-mint-green">{modalMessage}</span>
-            <span className="min-h-[168px] text-brown">{description}</span>
+            <span className="min-h-[168px] text-brown">{currentQuiz.description}</span>
             <Button width={60} height={30} fontSize={14} onClick={handleModalClick}>
               확인
             </Button>
