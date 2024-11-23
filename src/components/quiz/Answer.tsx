@@ -9,6 +9,7 @@ import useModal from '@/app/hook/useModal'
 import Reward from '../common/Reward'
 import { Database } from '@/types/supabase'
 import { postQuizLog, updateUserPoint } from '@/apis/quiz'
+import { updateProgress } from '@/apis/category'
 
 type QuizDto = Database['public']['Tables']['quiz']['Row']
 
@@ -43,6 +44,7 @@ export default function Answer(props: AnswerProps) {
 
     await updateUserPoint(userId, points)
     await postQuizLog(currentQuiz.id, userId)
+    await updateProgress(userId, points)
 
     if (isCorrect) {
       setModalMessage('정답이에요!')
