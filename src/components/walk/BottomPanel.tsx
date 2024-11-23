@@ -19,7 +19,7 @@ export default function BottomPanel(props: BottomPanelProps) {
             className="rounded-full bg-mint-green w-[60px] h-[60px] flex justify-center items-center shadow-walk-button"
             onClick={() => setWalkType('walking')}
           >
-            <Image src={'/image/button/walk_start.svg'} alt="" width="18" height="24" />
+            <Image src={'/image/button/walk_start.svg'} alt="시작하기" width="18" height="24" />
           </button>
           <span className="font-gothic-b text-[15px] text-beige ml-[10px]">
             걷기를 측정하려면 버튼을 눌러주세요
@@ -33,7 +33,7 @@ export default function BottomPanel(props: BottomPanelProps) {
             className="rounded-full w-[60px] h-[60px] border-2 border-beige flex justify-center items-center"
             onClick={() => setWalkType('stop')}
           >
-            <Image src={'/image/button/walk_stop.svg'} alt="" width="18" height="18" />
+            <Image src={'/image/button/walk_stop.svg'} alt="멈추기" width="18" height="18" />
           </button>
           <span className="font-gothic-b text-[15px] text-beige ml-[62px]">
             현재 2.3km 걷는 중&hellip;
@@ -47,7 +47,7 @@ export default function BottomPanel(props: BottomPanelProps) {
             className="rounded-full w-[60px] h-[60px] bg-light-yellow flex justify-center items-center"
             onClick={() => setIsShowReward(true)}
           >
-            <Image src={'/image/button/reward.svg'} alt="" width="40" height="40" />
+            <Image src={'/image/button/reward.svg'} alt="보상 받기" width="40" height="40" />
           </button>
           <span className="font-gothic-b text-[15px] text-beige ml-[62px]">총 2.3km 걸었어요!</span>
         </div>
