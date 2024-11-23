@@ -21,7 +21,6 @@
     "react-calendar": "^5.1.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
-    "supabase": "^1.223.10",
     "zustand": "^5.0.0"
   },
   "devDependencies": {
