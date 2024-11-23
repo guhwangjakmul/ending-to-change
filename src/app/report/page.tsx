@@ -9,23 +9,63 @@ import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
 import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'
 
+import { DateRecord } from '@/types/Date'
+
 export default function page() {
   // 선택한 날짜와 일주일을 상태로 관리
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date())
+  const [selectedDate, setSelectedDate] = useState<DateRecord | null>(null)
   const [weekRange, setWeekRange] = useState<{ start: string; end: string } | null>(null)
+  const [filteredWeeklyData, setFilteredWeeklyData] = useState<DateRecord[]>([])
   // 목표 거리 설정 default 3km
   const [goalKm, setGoalKm] = useState<number>(3)
-  // 오늘 걸은 거리 -> 테스트용입니당
-  const todaysDistance = 2.4
 
-  // 일주일 계산 함수
-  const getWeekRange = (date: Date) => {
-    const startOfWeek = moment(date).startOf('week') // 일요일 시작
-    const endOfWeek = moment(date).endOf('week') // 토요일 끝
-    return {
-      start: startOfWeek.format('YYYY년 MM월 DD일'),
-      end: endOfWeek.format('YYYY년 MM월 DD일'),
+  // 일주일치 임시 데이터
+  const weeklyData: DateRecord[] = [
+    { id: 1, date: '2024-11-11', distance: 2.3, carbon: 0.5 },
+    { id: 2, date: '2024-11-12', distance: 3.1, carbon: 0.7 },
+    { id: 3, date: '2024-11-13', distance: 4.0, carbon: 0.9 },
+    { id: 4, date: '2024-11-14', distance: 2.8, carbon: 0.6 },
+    { id: 5, date: '2024-11-15', distance: 3.5, carbon: 0.8 },
+    { id: 6, date: '2024-11-16', distance: 2.0, carbon: 0.4 },
+    { id: 7, date: '2024-11-17', distance: 3.2, carbon: 0.7 },
+  ]
+
+  const handleDateChange = (date: Date) => {
+    const formattedDate = moment(date).format('YYYY-MM-DD')
+    const record = weeklyData.find(item => item.date === formattedDate)
+
+    if (record) {
+      setSelectedDate(record)
+    } else {
+      setSelectedDate({
+        id: 0,
+        date: formattedDate,
+        distance: 0,
+        carbon: 0,
+      })
     }
+
+    const range = getWeekRange(date)
+    setWeekRange(range)
+    filterWeeklyData(range)
+  }
+
+  // 주간 범위를 계산하는 함수
+  const getWeekRange = (date: Date) => {
+    const startOfWeek = moment(date).startOf('isoWeek')
+    const endOfWeek = moment(date).endOf('isoWeek')
+    return {
+      start: startOfWeek.format('YYYY-MM-DD'),
+      end: endOfWeek.format('YYYY-MM-DD'),
+    }
+  }
+
+  // 주간 범위에 맞는 데이터를 필터링하는 함수
+  const filterWeeklyData = (range: { start: string; end: string }) => {
+    const filteredData = weeklyData.filter(
+      item => item.date >= range.start && item.date <= range.end,
+    )
+    setFilteredWeeklyData(filteredData)
   }
 
   // 페이지 초기 로드 시 오늘 기준으로 일주일 설정
@@ -36,12 +76,6 @@ export default function page() {
     setWeekRange(initialWeekRange)
   }, [])
 
-  // 날짜 변경 핸들러
-  const handleDateChange = (date: Date) => {
-    setSelectedDate(date)
-    setWeekRange(getWeekRange(date))
-  }
-
   return (
     <div className="relative h-screen font-gothic-b text-brown ">
       <Image
@@ -51,17 +85,19 @@ export default function page() {
         style={{ objectFit: 'cover' }}
         priority
       />
-      <div className="absolute w-full">
+      <div className="absolute w-full h-full flex flex-col justify-between">
         <Header backOnClick={() => alert('onClick!')} title="탄소 기록함" />
-        <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />
-        <div className=" w-100% h-100% py-[18px] px-5 bg-[#D3EDE8]">
-          <DistanceSetting goalKm={goalKm} setGoalKm={setGoalKm} />
-          <TodayEcoStats
+        <div>
+          <Calendar
+            weeklyData={weeklyData}
             selectedDate={selectedDate}
-            goalKm={goalKm}
-            todaysDistance={todaysDistance}
+            onDateChange={handleDateChange}
           />
-          <WeeklyEcoChart weekRange={weekRange} />
+        </div>
+        <div className="flex flex-col justify-center px-5 bg-[#D3EDE8] xl:h-[70%]">
+          <DistanceSetting goalKm={goalKm} setGoalKm={setGoalKm} />
+          <TodayEcoStats selectedDate={selectedDate} goalKm={goalKm} />
+          <WeeklyEcoChart weekRange={weekRange} filteredWeeklyData={filteredWeeklyData} />
         </div>
       </div>
     </div>

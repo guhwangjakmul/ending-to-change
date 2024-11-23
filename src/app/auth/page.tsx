@@ -1,9 +1,14 @@
 'use client'
-
 import Image from 'next/image'
-import SocialButtonList from '@/components/user/SocialButtonList'
+import { useEffect } from 'react'
+import { onClickGoogle } from '@/utils/user/auth'
+import { getUserFromAuth } from '@/utils/user/authUser'
 
 export default function LoginPage() {
+  useEffect(() => {
+    getUserFromAuth()
+  }, [])
+
   return (
     <main className="w-full h-screen flex justify-center items-center flex-col gap-[40px]">
       <Image src="/image/logo.svg" alt="구해줘요 동물의 숲" width="358" height="201" />
@@ -19,7 +24,9 @@ export default function LoginPage() {
         <span className="font-gothic-m text-brown text-[13px]">간편 로그인</span>
         <hr className="w-[74px] text-brown" />
       </div>
-      <SocialButtonList />
+      <button type="button" onClick={onClickGoogle}>
+        <Image src="/image/button/google_box.svg" alt="" width="267" height="61" />
+      </button>
     </main>
   )
 }

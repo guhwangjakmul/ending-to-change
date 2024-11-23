@@ -14,7 +14,7 @@ export default function CharacterBubble(props: CharacterText) {
       <div className="flex flex-col items-center">
         <div className="absolute w-[330px] h-[80px] bg-beige rounded-full"></div>
         <div className="absolute top-14 w-[300px] h-[50px] bg-beige rounded-full"></div>
-        <p className="absolute w-[330px] px-[35px] py-[20px] text-brown cursor-default break-keep font-gothic-b text-[16px] whitespace-pre-line">
+        <p className="absolute w-[330px] px-[35px] py-[17px] text-brown cursor-default break-keep font-gothic-b text-[16px] whitespace-pre-line">
           {content}
         </p>
         <Image
@@ -29,7 +29,7 @@ export default function CharacterBubble(props: CharacterText) {
       {/* 주민 이름표 */}
       <div
         style={customStyle}
-        className="flex items-center justify-center rounded-[20px] text-[11px] px-[15px] w-fit h-[22px] font-sindinaru-m absolute top-[-10px] left-[15px] -rotate-6"
+        className="flex items-center justify-center rounded-[20px] text-[11px] px-[15px] w-fit h-[22px] font-sindinaru-m absolute top-[-13px] left-[15px] -rotate-6"
       >
         {charName}
       </div>

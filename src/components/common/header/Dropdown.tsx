@@ -1,5 +1,6 @@
 'use client'
 
+import { onClickLogout } from '@/utils/user/auth'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -19,7 +20,10 @@ export default function Dropdown() {
     },
     {
       text: '로그아웃',
-      onClick: () => alert('로그아웃!'),
+      onClick: () => {
+        console.log('로그아웃!')
+        onClickLogout()
+      },
     },
   ]
 

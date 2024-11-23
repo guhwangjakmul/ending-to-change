@@ -28,7 +28,7 @@ export default function DistanceSetting(props: DistanceSettingProps) {
   }
 
   return (
-    <div className="flex justify-end mb-[10px] pr-2">
+    <div className="flex justify-end mt-[18px] mb-[10px] pr-2">
       <span
         onClick={openModal}
         className="font-gosindinaru-m text-xs text-light-gray border-b border-light-gray cursor-pointer"

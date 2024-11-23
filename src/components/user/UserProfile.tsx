@@ -8,10 +8,16 @@ interface UserProfileProps {
 }
 
 export default function UserProfile(props: UserProfileProps) {
-  const { size, isEditable = false, imgSrc = '/image/default_profile.svg' } = props
+  const { size, isEditable = false, imgSrc } = props
   return (
     <>
-      <Image src={imgSrc} alt="" width={size} height={size} />
+      <Image
+        src={imgSrc || '/image/default_profile.svg'}
+        alt=""
+        width={size}
+        height={size}
+        className="rounded-full"
+      />
       {isEditable && <UserEditButton type="camera" onClick={() => alert('camera')} />}
     </>
   )

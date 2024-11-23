@@ -61,6 +61,25 @@ const config: Config = {
           '0%': { transform: 'scale(1)' },
           '100%': { transform: 'scale(0)' },
         },
+        fadein: {
+          '0%': {
+            opacity: '0.5',
+            transform: 'translateY(-10px)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        fadeout: {
+          '0%': {
+            opacity: '1',
+          },
+          '100%': {
+            opacity: '0',
+            transform: 'translateY(-10px)',
+          },
+        },
       },
       animation: {
         'bounce-y': 'bounce-y 2s infinite',
@@ -73,6 +92,8 @@ const config: Config = {
           'scale-in-center 1.0s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
         'scale-out-center-slow':
           'scale-out-center 1.0s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+        fadein: 'fadein 0.5s',
+        fadeout: 'fadeout 1s',
       },
     },
   },
