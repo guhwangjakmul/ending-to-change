@@ -1,5 +1,5 @@
-// Supabase 클라이언트를 생성하여 인증 및 데이터베이스 작업에 이용
 import { createSupabaseBrowserClient } from '../client/supabase'
+import { getUserFromAuth } from './authUser'
 
 /**
  * 현재 로그인한 사용자의 id를 가져오는 함수
@@ -19,12 +19,14 @@ export const getUserId = async () => {
  */
 export const onClickSocialLogin = async (target: 'google' | 'kakao') => {
   const supabase = createSupabaseBrowserClient()
-  await supabase.auth.signInWithOAuth({
+  const { error } = await supabase.auth.signInWithOAuth({
     provider: `${target}`,
     options: {
       redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO,
     },
   })
+
+  if (error) return console.error(`${target} login failed:`, error.message)
 }
 
 /**
