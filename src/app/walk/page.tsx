@@ -8,13 +8,20 @@ import Modal from '@/components/common/Modal'
 import useModal from '../hook/useModal'
 import Image from 'next/image'
 import Reward from '@/components/common/Reward'
+import BottomPanel from '@/components/walk/BottomPanel'
 
 export type WalkType = 'initial' | 'walking' | 'stop'
+
+export interface Coordinates {
+  latitude: number
+  longitude: number
+}
 
 export default function Page() {
   const [isOpen, openModal, closeModal, portalElement] = useModal()
 
   const [isLoading, setIsLoading] = useState(true)
+  const [location, setLocation] = useState<Coordinates | null>(null)
   const [walkType, setWalkType] = useState<WalkType>('initial')
   const [isShowReward, setIsShowReward] = useState(false)
 
@@ -28,7 +35,14 @@ export default function Page() {
       {isLoading || (walkType === 'initial' && <Header useReportBtn />) || (
         <Header backOnClick={openModal} />
       )}
-      <WalkMap setIsLoading={setIsLoading} walkType={walkType} setWalkType={setWalkType} />
+      <WalkMap setIsLoading={setIsLoading} location={location} setLocation={setLocation} />
+      {isLoading || (
+        <BottomPanel
+          walkType={walkType}
+          setWalkType={setWalkType}
+          setIsShowReward={setIsShowReward}
+        />
+      )}
       {/* 걷기 도중 헤더 < 버튼 눌렀을 때 */}
       {portalElement && isOpen && walkType === 'walking' && (
         <Modal height={238} onClick={openModal}>
