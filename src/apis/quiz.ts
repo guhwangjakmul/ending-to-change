@@ -85,3 +85,10 @@ export const updateUserPoint = async (id: string, points: number) => {
  * @param 
  * @returns {Promise<any[]>} 
  */
+export const postQuizLog = async (quiz_id: number, user_id: string) => {
+  const supabase = createSupabaseBrowserClient();
+
+  await supabase
+    .from("quiz_log")
+    .insert({quiz_id, user_id})
+}
