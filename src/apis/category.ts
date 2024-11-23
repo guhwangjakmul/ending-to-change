@@ -5,6 +5,7 @@ import { Database } from "@/types/supabase";
 
 type CategoryInfo = Database['public']['Tables']['category_progress']['Row']
 
+// category_progress 가져오기
 export const getCategoryProgress = async (user_id: string): Promise<CategoryInfo | null>  => {
   const supabase = createSupabaseBrowserClient();
 
@@ -14,10 +15,11 @@ export const getCategoryProgress = async (user_id: string): Promise<CategoryInfo
     .eq("user_id", user_id)
     .limit(1)
     .single()
-
+    
   return data
 }
 
+// category_progress의 progress 업데이트
 export const updateProgress  = async (user_id: string, points: number) => {
   const supabase = createSupabaseBrowserClient();
 
