@@ -37,7 +37,7 @@ export default function Page() {
 
   return (
     <div className="relative h-[calc(100vh-75px)]">
-      {currentQuiz ? ( // 현재 퀴즈가 있을 경우 렌더링
+      {currentQuiz && (
         <>
           <div className="relative z-10">
             <Question question={currentQuiz.question} />
@@ -53,10 +53,6 @@ export default function Page() {
             />
           </div>
         </>
-      ) : (
-        <div className="relative z-10">
-          <p>모든 퀴즈를 풀었습니다!</p>
-        </div>
       )}
     </div>
   )
