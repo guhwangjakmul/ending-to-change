@@ -11,8 +11,6 @@ interface TodayEcoStatsProps {
 export default function TodayEcoStats(props: TodayEcoStatsProps) {
   const { selectedDate, goalKm } = props
 
-  console.log('selectedDate', selectedDate)
-
   return (
     <Wrapper>
       <ProgressBar labelType="Km" currentProgress={selectedDate?.distance} maxKm={goalKm} />
