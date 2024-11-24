@@ -1,4 +1,7 @@
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
+import { Database } from '@/types/supabase'
+
+type CategoryInfo = Database['public']['Tables']['category_progress']['Row']
 
 const supabase = createSupabaseBrowserClient()
 
@@ -55,15 +58,7 @@ export const getCompletedCategoryList = async (id: string) => {
   const categoryList = await getCategoryList(completedCategoryIdList)
 
   return categoryList
-=======
-'use client'
-
-import { createSupabaseBrowserClient } from '@/utils/client/supabase'
-import { Database } from '@/types/supabase'
-
-type CategoryInfo = Database['public']['Tables']['category_progress']['Row']
-
-const supabase = createSupabaseBrowserClient()
+}
 
 // category_progress 가져오기
 export const getCategoryProgressUjin = async (user_id: string): Promise<CategoryInfo | null> => {
