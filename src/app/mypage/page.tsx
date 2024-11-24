@@ -4,7 +4,7 @@ import UserProfile from '@/components/user/UserProfile'
 import { getUserId } from '@/utils/user/auth'
 import { getUserInfo } from '@/utils/user/user'
 import { useEffect, useState } from 'react'
-import { getCompletedCategoryList } from '@/api/category'
+import { getCompletedCategoryList } from '@/apis/category'
 import { Category, CategoryName } from '@/types/CategoryField'
 
 export default function MyPage() {
