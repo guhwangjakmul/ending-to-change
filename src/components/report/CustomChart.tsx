@@ -26,7 +26,6 @@ export default function CustomChart(props: ChartProps) {
   // 요일별 거리 데이터를 초기화
   const distancesByDay = labels.map(label => {
     const dayIndex = labels.indexOf(label) + 1
-    console.log(dayIndex)
     const record = filteredWeeklyData.find(
       item => moment(item.created_at).isoWeekday() === dayIndex,
     )
