@@ -7,9 +7,7 @@ import Answer from '@/components/quiz/Answer'
 import { useEffect, useState } from 'react'
 import { getUnsolvedQuizzes } from '@/apis/quiz'
 
-import { Database } from '@/types/supabase'
-
-type QuizDto = Database['public']['Tables']['quiz']['Row']
+import { QuizDto } from '@/types/Quiz'
 
 export default function Page() {
   const [quizList, setQuizList] = useState<QuizDto[]>([])

@@ -4,14 +4,13 @@ import { useState } from 'react'
 import Modal from '../common/Modal'
 import Button from '../common/Button'
 import AnswerButton from './AnswerButton'
+import Reward from '../common/Reward'
 
 import useModal from '@/app/hook/useModal'
-import Reward from '../common/Reward'
-import { Database } from '@/types/supabase'
+
+import { QuizDto } from '@/types/Quiz'
 import { updateUserPoint, insertQuizLog } from '@/apis/quiz'
 import { updateProgress } from '@/apis/category'
-
-type QuizDto = Database['public']['Tables']['quiz']['Row']
 
 interface AnswerProps {
   currentQuiz: QuizDto
