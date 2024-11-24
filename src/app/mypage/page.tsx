@@ -4,10 +4,12 @@ import UserProfile from '@/components/user/UserProfile'
 import { getUserId } from '@/utils/user/auth'
 import { getUserInfo } from '@/utils/user/user'
 import { useEffect, useState } from 'react'
+import { getCompletedCategoryList } from '@/apis/category'
+import { Category, CategoryName } from '@/types/CategoryField'
 
 export default function MyPage() {
   const [user, setUser] = useState({ user_id: '', nickname: '', avatar_url: '' })
-  const categoryCount = 3
+  const [categoryList, setCategoryList] = useState<Category[]>([])
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -21,6 +23,14 @@ export default function MyPage() {
           nickname: userInfo[0].nickname,
           avatar_url: userInfo[0].avatar_url,
         })
+
+        const completedCategoryList = await getCompletedCategoryList(userId)
+        setCategoryList(
+          completedCategoryList.map(data => ({
+            name: data.name as CategoryName,
+            status: 'completed',
+          })),
+        )
       }
     }
     fetchUserInfo()
@@ -31,11 +41,12 @@ export default function MyPage() {
       <div className="w-full flex items-center gap-[15px]">
         <UserProfile size={50} isEditable={false} imgSrc={user.avatar_url} />
         <span className="font-gothic-m text-brown text-[12px] whitespace-nowrap">
-          {user.nickname || '구해줘요 동물의 숲'}님<br /> 현재 뱃지 {categoryCount}개를 획득했어요
+          {user.nickname || '구해줘요 동물의 숲'}님<br /> 현재 뱃지 {categoryList.length}개를
+          획득했어요
         </span>
       </div>
       <div className="w-full h-screen flex justify-center">
-        <CategoryField isClickable={false} />
+        <CategoryField categoryList={categoryList} />
       </div>
     </main>
   )
