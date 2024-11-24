@@ -1,22 +1,49 @@
 import { createServerSideClient } from '@/utils/supabase'
 import { NextResponse } from 'next/server'
+import { createUser } from '@/utils/user/user'
 
-/**
- * 로그인 후 리디렉션을 처리하는 API 핸들러
- * 소셜 로그인 인증 코드(code)를 처리하고, 인증 코드가 있으면 세션 교환 후 리디렉션 수행
- * @param {Request} request - 클라이언트로부터 전달된 HTTP dycjd rorcp
- * @returns {NextResponse} - 리디렉션 응답 객체
- */
 export async function GET(request: Request) {
   const overrideOrigin = process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME
-  const { searchParams, origin } = new URL(request.url)
+  const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   const next = searchParams.get('next')
-  if (code) {
-    const supabase = await createServerSideClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (error) return NextResponse.redirect(`${overrideOrigin}${next}`)
-    return NextResponse.redirect(`${overrideOrigin}`)
+  if (!code) return NextResponse.redirect(`${overrideOrigin}${next}`)
+  const supabase = await createServerSideClient()
+
+  // 인증 코드로 세션 교환
+  const { error: sessionError } = await supabase.auth.exchangeCodeForSession(code)
+  if (sessionError) {
+    console.error('Session exchange failed:', sessionError)
+    return NextResponse.redirect(`${overrideOrigin}${next}`)
   }
-  return NextResponse.redirect(`${overrideOrigin}${next}`)
+  // 현재 인증된 유저 정보 가져오기
+  try {
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser()
+    if (userError || !user) throw userError
+
+    // user 테이블에서 유저 정보 확인
+    const { data: existingUser, error: checkError } = await supabase
+      .from('user')
+      .select('*')
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    if (checkError) throw checkError
+
+    // 유저 정보가 없는 경우 새로 생성
+    if (!existingUser) {
+      await createUser({
+        id: user.id,
+        email: user.email!,
+        avatar_url: user.user_metadata?.avatar_url,
+      })
+    }
+  } catch (err) {
+    console.error('Failed to handle user data:', err)
+  }
+
+  return NextResponse.redirect(`${overrideOrigin}`)
 }

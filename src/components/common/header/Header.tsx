@@ -15,7 +15,11 @@ export default function Header(props: HeaderProps) {
   const useRightBtn = useKebabMenuBtn || useReportBtn
 
   return (
-    <div className="w-full flex items-center px-[30px] pt-[20px]">
+    <div
+      className={`w-full flex items-center px-[30px] ${
+        useReportBtn ? 'pt-[13px]' : 'pt-[20px]'
+      } z-10 absolute`}
+    >
       <button className="w-1/5" onClick={backOnClick}>
         <Image
           src="/image/back-button.svg"
