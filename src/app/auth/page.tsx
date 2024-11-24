@@ -1,14 +1,9 @@
+// src/app/auth/page.tsx
 'use client'
 import Image from 'next/image'
-import { useEffect } from 'react'
 import { onClickGoogle } from '@/utils/user/auth'
-import { getUserFromAuth } from '@/utils/user/authUser'
 
 export default function LoginPage() {
-  useEffect(() => {
-    getUserFromAuth()
-  }, [])
-
   return (
     <main className="w-full h-screen flex justify-center items-center flex-col gap-[40px]">
       <Image src="/image/logo.svg" alt="구해줘요 동물의 숲" width="358" height="201" />
