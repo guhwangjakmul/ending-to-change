@@ -18,6 +18,7 @@ export default function page() {
   const [filteredWeeklyData, setFilteredWeeklyData] = useState<DateRecord[]>([])
   // 목표 거리 설정 default 3km
   const [goalKm, setGoalKm] = useState<number>(3)
+  const userId = '47dd1195-11d0-4227-b42e-e7e6ad96045b' // 테스트용 사용자 ID
 
   // 일주일치 임시 데이터
   const weeklyData: DateRecord[] = [
