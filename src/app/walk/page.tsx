@@ -2,7 +2,7 @@
 
 import Header from '@/components/common/header/Header'
 import WalkMap from '@/components/walk/Map'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '@/components/common/Button'
 import Modal from '@/components/common/Modal'
 import useModal from '../hook/useModal'
@@ -28,6 +28,20 @@ export default function Page() {
   const [walkType, setWalkType] = useState<WalkType>('initial')
   const [isShowReward, setIsShowReward] = useState(false)
 
+  const [distance, setDistance] = useState<number>(0)
+
+  const formatDistance = (distanceInMeters: number): string => {
+    if (distanceInMeters >= 1000) {
+      // 1000m 이상인 경우, km로 변환하여 소수점 첫째 자리까지 표시
+      const distanceInKm = (distanceInMeters / 1000).toFixed(1)
+      return `${distanceInKm} km`
+    } else {
+      // 1000m 미만인 경우, 소수점 버리고 m로 표시
+      const flooredMeters = Math.floor(distanceInMeters)
+      return `${flooredMeters} m`
+    }
+  }
+
   const getReward = () => {
     setIsShowReward(false)
     closeModal()
@@ -38,12 +52,19 @@ export default function Page() {
       {isLoading || (walkType === 'initial' && <Header useReportBtn />) || (
         <Header backOnClick={openModal} />
       )}
-      <WalkMap setIsLoading={setIsLoading} location={location} setLocation={setLocation} />
+      <WalkMap
+        setIsLoading={setIsLoading}
+        location={location}
+        setLocation={setLocation}
+        walkType={walkType}
+        setDistance={setDistance}
+      />
       {isLoading || (
         <BottomPanel
           walkType={walkType}
           setWalkType={setWalkType}
           setIsShowReward={setIsShowReward}
+          distance={formatDistance(distance)}
         />
       )}
       {/* 걷기 도중 헤더 < 버튼 눌렀을 때 */}
