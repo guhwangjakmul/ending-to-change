@@ -9,6 +9,7 @@ import useModal from '../hook/useModal'
 import Image from 'next/image'
 import Reward from '@/components/common/Reward'
 import BottomPanel from '@/components/walk/BottomPanel'
+import { useRouter } from 'next/navigation'
 
 export type WalkType = 'initial' | 'walking' | 'stop'
 
@@ -18,6 +19,8 @@ export interface Coordinates {
 }
 
 export default function Page() {
+  const router = useRouter()
+
   const [isOpen, openModal, closeModal, portalElement] = useModal()
 
   const [isLoading, setIsLoading] = useState(true)
@@ -62,7 +65,7 @@ export default function Page() {
                 width={100}
                 height={40}
                 fontSize={12}
-                onClick={() => setIsShowReward(true)}
+                onClick={() => router.push('/')}
                 backgroundColor="bg-orange"
               >
                 걷기 종료
