@@ -14,7 +14,9 @@ interface CharacterSectionProps {
   index: number
 }
 
-const CharacterSection: React.FC<CharacterSectionProps> = ({ selectedCharacter, index }) => {
+function CharacterSection(props: CharacterSectionProps) {
+  const { selectedCharacter, index } = props
+
   const character = characterGroup[selectedCharacter] as CharacterData
 
   return (
