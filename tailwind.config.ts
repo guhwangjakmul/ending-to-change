@@ -32,10 +32,12 @@ const config: Config = {
         gray: 'rgba(206, 198, 186, 1)',
         'light-gray': 'rgba(146, 142, 131, 1)',
         'light-mint': 'rgba(238, 250, 249, 1)',
+        'walk-bottom': 'rgba(91, 79, 65, 0.5)',
       },
       boxShadow: {
         button: '0px 1px 2px rgba(0, 0, 0, 0.25)',
         earth: '0px 10px 20px rgba(2, 177, 206, 0.25)',
+        'walk-button': '0px 1px 4px rgba(0, 0, 0, 0.25)',
       },
       keyframes: {
         'bounce-y': {
