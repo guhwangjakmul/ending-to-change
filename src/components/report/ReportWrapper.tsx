@@ -10,7 +10,7 @@ export default function ReportWrapper(props: ReportWrapperProps) {
 
   return (
     <div
-      className={`relative w-full mb-[39px] py-[30px] bg-beige rounded-[15px] flex flex-col items-center justify-center`}
+      className={`relative w-full mb-[39px] py-[30px]  bg-beige rounded-[15px] flex flex-col items-center justify-center`}
       style={{ height: `${height}px`, padding: `${paddingX}px` }}
     >
       {isNoDistance && (
@@ -18,8 +18,7 @@ export default function ReportWrapper(props: ReportWrapperProps) {
           <span className="text-white text-center">아직 걷기 기록이 없어요!</span>
         </div>
       )}
-
-      <div className={`${isNoDistance ? 'opacity-30' : ''} w-full h-full`}>{children}</div>
+      {children}
     </div>
   )
 }
