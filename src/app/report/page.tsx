@@ -113,7 +113,7 @@ export default function page() {
         priority
       />
       <div className="absolute w-full h-full flex flex-col justify-between">
-        <Header backOnClick={() => alert('onClick!')} title="탄소 기록함" />
+        <Header title="탄소 기록함" />
         <div>
           <Calendar
             dateInfo={dateInfo}
