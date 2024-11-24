@@ -1,15 +1,13 @@
 'use client'
 
-import { onClickLogout } from '@/utils/user/auth'
+import { getUserId, onClickLogout } from '@/utils/user/auth'
+import { getUserIsAllClear } from '@/utils/user/user'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Dropdown() {
-  const router = useRouter()
-  const [mouseEnter, setMouseEnter] = useState<number | null>(null)
-
-  const listData = [
+  const [listData, setListData] = useState([
     {
       text: '랭킹',
       onClick: () => router.push('/ranking'),
@@ -25,10 +23,35 @@ export default function Dropdown() {
         onClickLogout()
       },
     },
-  ]
+  ])
 
+  const router = useRouter()
+  const [mouseEnter, setMouseEnter] = useState<number | null>(null)
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const id = (await getUserId()) as string
+      const isAllClear = (await getUserIsAllClear(id)) as boolean
+      if (isAllClear) {
+        setListData(prevList => [
+          {
+            text: '공유하기',
+            onClick: () => {
+              console.log('공유하기!')
+            },
+          },
+          ...prevList,
+        ])
+      }
+    }
+    fetchUserInfo()
+  }, [])
   return (
-    <ul className="w-[123px] h-[118px] py-[10px] bg-light-yellow rounded-[20px] text-[14px] text-medium-brown font-sindinaru-b text-left flex flex-col justify-around">
+    <ul
+      className={`w-[123px] h-[${
+        listData.length === 3 ? '118' : '149'
+      }px] py-[10px] bg-light-yellow rounded-[20px] text-[14px] text-medium-brown font-sindinaru-b text-left flex flex-col justify-around`}
+    >
       {listData.map((el, index) => (
         <li
           key={el.text}
