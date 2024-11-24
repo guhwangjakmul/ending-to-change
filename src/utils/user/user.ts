@@ -33,8 +33,7 @@ export const createUser = async (authUserInfo: AuthUserInfo) => {
     goal: 3,
     point: 0,
   })
-
-  if (error) return console.error('Failed to create user', error.message)
+  if (error) return console.error('Failed to create user:', error.message)
   console.log('Succeeded create user')
 }
 
