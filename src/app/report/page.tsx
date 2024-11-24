@@ -9,7 +9,7 @@ import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
 import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'
 
-import { getDateInfo } from '@/apis/date'
+import { getDateInfo, updateCarbon } from '@/apis/date'
 import { DateInfo } from '@/types/Date'
 
 export default function page() {
@@ -24,15 +24,10 @@ export default function page() {
   useEffect(() => {
     const fetchDateInfo = async () => {
       try {
-        const { data, error } = await getDateInfo(userId)
+        const data = await getDateInfo(userId)
 
-        if (error) {
-          console.log(error)
-          return
-        }
-
-        if (data) {
-          setDateInfo(data || [])
+        if (data.length > 0) {
+          setDateInfo(data)
         }
 
         // 오늘 날짜의 데이터를 초기값으로 설정
@@ -51,7 +46,7 @@ export default function page() {
           },
         )
       } catch (error) {
-        console.log(error)
+        console.error('fetchDateInfo 실행 중 에러 발생', error)
       }
     }
 
