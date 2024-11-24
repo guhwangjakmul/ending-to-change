@@ -1,39 +1,14 @@
+// src/app/mypage/page.tsx
 'use client'
 import CategoryField from '@/components/common/CategoryField'
 import UserProfile from '@/components/user/UserProfile'
-import { useEffect, useState } from 'react'
-import { getCompletedCategoryList } from '@/apis/category'
-import { Category, CategoryName } from '@/types/CategoryField'
-import { getUserId, getUserInfo } from '@/apis/user'
+import { useFetchUserInfo } from '../hook/useFetchUserInfo'
+import Loading from '../loading'
 
 export default function MyPage() {
-  const [user, setUser] = useState({ user_id: '', nickname: '', avatar_url: '' })
-  const [categoryList, setCategoryList] = useState<Category[]>([])
+  const { user, categoryList, isLoading } = useFetchUserInfo()
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const userId = await getUserId()
-      if (!userId) return console.error('User ID not found')
-
-      const userInfo = await getUserInfo(userId)
-      if (userInfo) {
-        setUser({
-          user_id: userId,
-          nickname: userInfo[0].nickname,
-          avatar_url: userInfo[0].avatar_url,
-        })
-
-        const completedCategoryList = await getCompletedCategoryList(userId)
-        setCategoryList(
-          completedCategoryList.map(data => ({
-            name: data.name as CategoryName,
-            status: 'completed',
-          })),
-        )
-      }
-    }
-    fetchUserInfo()
-  }, [])
+  if (isLoading) return <Loading />
 
   return (
     <main className="w-full h-[calc(100%-44px)] flex items-center flex-col p-[35px] overflow-hidden">

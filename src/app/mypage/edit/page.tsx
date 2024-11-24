@@ -2,46 +2,43 @@
 import UserProfile from '@/components/user/UserProfile'
 import UserEditButton from '@/components/user/UserEditButton'
 import Button from '@/components/common/Button'
-import { useEffect, useState } from 'react'
-import { getUserId, getUserInfo, updateUser } from '@/apis/user'
+import { useFetchUserInfo } from '@/app/hook/useFetchUserInfo'
+import { useState } from 'react'
+import { updateUser } from '@/apis/user'
+import Loading from '@/app/loading'
 
 export default function MyPageEdit() {
-  const [user, setUser] = useState({ user_id: '', nickname: '', avatar_url: '' })
+  const { user, isLoading } = useFetchUserInfo()
   const [isEditMode, setIsEditMode] = useState(false)
-  const [editedNickname, setEditedNickname] = useState('')
+  const [editedNickname, setEditedNickname] = useState(user.nickname)
+  if (isLoading) return <Loading />
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      const userId = await getUserId()
-      if (!userId) return console.error('User ID not found')
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setEditedNickname(e.target.value)
 
-      const userInfo = await getUserInfo(userId)
-      if (userInfo) {
-        setUser({
-          user_id: userId,
-          nickname: userInfo[0].nickname,
-          avatar_url: userInfo[0].avatar_url,
-        })
-      }
+  const onKeyDownInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      onClickSubmitButton()
     }
-    fetchUserInfo()
-  }, [])
-
-  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    if (value.length <= 10) setEditedNickname(value)
-    else alert('닉네임은 최대 10글자까지 가능합니다.')
   }
 
   const onClickPencil = () => {
-    setIsEditMode(!isEditMode)
+    setIsEditMode(true)
     setEditedNickname(user.nickname)
   }
 
-  const onClickSubmitButton = () => {
-    updateUser(user.user_id, 'nickname', editedNickname)
-    setUser(prev => ({ ...prev, nickname: editedNickname }))
-    setIsEditMode(!isEditMode)
+  const onClickSubmitButton = async () => {
+    if (editedNickname.trim() === '') return alert('닉네임을 입력해주세요.')
+
+    try {
+      await updateUser(user.user_id, 'nickname', editedNickname)
+      user.nickname = editedNickname
+      setIsEditMode(false)
+    } catch (error) {
+      console.error('닉네임 업데이트 실패:', error)
+      alert('닉네임 업데이트 중 문제가 발생했습니다.')
+    }
   }
 
   return (
@@ -62,12 +59,13 @@ export default function MyPageEdit() {
           id="nickname"
           value={isEditMode ? editedNickname : user.nickname}
           onChange={onChangeInput}
+          onKeyDown={onKeyDownInput}
           placeholder="이름을 입력해주세요"
           maxLength={10}
           disabled={!isEditMode}
           className="w-[calc(100% - 25px)] placeholder:text-gray bg-inherit"
         />
-        {isEditMode || <UserEditButton type="pencil" onClick={() => onClickPencil()} />}
+        {isEditMode || <UserEditButton type="pencil" onClick={onClickPencil} />}
       </form>
       {isEditMode && (
         <Button width={87} height={40} fontSize={16} onClick={onClickSubmitButton}>
