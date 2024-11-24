@@ -27,14 +27,16 @@ export default function MyPage() {
   }, [])
 
   return (
-    <main className="w-full h-screen flex items-center flex-col p-[35px]">
+    <main className="w-full h-[calc(100%-44px)] flex items-center flex-col p-[35px] overflow-hidden">
       <div className="w-full flex items-center gap-[15px]">
         <UserProfile size={50} isEditable={false} imgSrc={user.avatar_url} />
         <span className="font-gothic-m text-brown text-[12px] whitespace-nowrap">
           {user.nickname || '구해줘요 동물의 숲'}님<br /> 현재 뱃지 {categoryCount}개를 획득했어요
         </span>
       </div>
-      <CategoryField isClickable={false} />
+      <div className="w-full h-screen flex justify-center">
+        <CategoryField isClickable={false} />
+      </div>
     </main>
   )
 }
