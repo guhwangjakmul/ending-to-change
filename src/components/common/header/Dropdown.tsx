@@ -1,17 +1,13 @@
 'use client'
 
-import { getUserId, onClickLogout } from '@/utils/user/auth'
-import { getUserIsAllClear } from '@/utils/user/user'
+import { onClickLogout } from '@/apis/auth'
+import { getUserId, getUserIsAllClear } from '@/apis/user'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function Dropdown() {
   const [listData, setListData] = useState([
-    {
-      text: '랭킹',
-      onClick: () => router.push('/ranking'),
-    },
     {
       text: '회원정보 수정',
       onClick: () => router.push('/mypage/edit'),
@@ -43,14 +39,14 @@ export default function Dropdown() {
           ...prevList,
         ])
       }
+      console.log('listData.length', listData.length)
     }
     fetchUserInfo()
   }, [])
   return (
     <ul
-      className={`w-[123px] h-[${
-        listData.length === 3 ? '118' : '149'
-      }px] py-[10px] bg-light-yellow rounded-[20px] text-[14px] text-medium-brown font-sindinaru-b text-left flex flex-col justify-around`}
+      className={`w-[123px] py-[10px] bg-light-yellow rounded-[20px] text-[14px] text-medium-brown font-sindinaru-b text-left flex flex-col justify-around`}
+      style={{ height: listData.length === 2 ? '87px' : '118px' }}
     >
       {listData.map((el, index) => (
         <li

@@ -1,7 +1,6 @@
-// src/app/auth/page.tsx
 'use client'
 import Image from 'next/image'
-import { onClickGoogle } from '@/utils/user/auth'
+import { onClickGoogle } from '@/apis/auth'
 
 export default function LoginPage() {
   return (

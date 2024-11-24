@@ -3,8 +3,7 @@ import UserProfile from '@/components/user/UserProfile'
 import UserEditButton from '@/components/user/UserEditButton'
 import Button from '@/components/common/Button'
 import { useEffect, useState } from 'react'
-import { getUserId } from '@/utils/user/auth'
-import { getUserInfo, updateUser } from '@/utils/user/user'
+import { getUserId, getUserInfo, updateUser } from '@/apis/user'
 
 export default function MyPageEdit() {
   const [user, setUser] = useState({ user_id: '', nickname: '', avatar_url: '' })
@@ -48,7 +47,7 @@ export default function MyPageEdit() {
   return (
     <main className="w-full h-[calc(100% - 44px)] flex items-center flex-col pt-[90px]">
       <div className="w-[100px] h-[100px] relative">
-        <UserProfile isEditable={true} size={100} imgSrc={user.avatar_url} />
+        <UserProfile size={100} imgSrc={user.avatar_url} />
       </div>
       <form
         action=""
