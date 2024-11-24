@@ -3,7 +3,7 @@ import CustomChart from './CustomChart'
 
 interface WeeklyEcoChartProps {
   weekRange: { start: string; end: string } | null
-  filteredWeeklyData: { date: string; distance: number; carbon: number }[]
+  filteredWeeklyData: { created_at: string; distance: number; carbon: number }[]
 }
 
 export default function WeeklyEcoChart(props: WeeklyEcoChartProps) {

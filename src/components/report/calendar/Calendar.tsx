@@ -6,10 +6,13 @@ import moment from 'moment'
 import '@/styles/calendar.css'
 import CustomNavigation from './CustomNavigation'
 import { DateRecord } from '@/types/Date'
+import { Database } from '@/types/supabase'
+
+type DateInfo = Database['public']['Tables']['date']['Row']
 
 interface CustomCalendarProps {
-  weeklyData: DateRecord[]
-  selectedDate: DateRecord | null
+  dateInfo: DateInfo[]
+  selectedDate: DateInfo | null
   onDateChange: (date: Date) => void
 }
 
@@ -17,7 +20,7 @@ export default function CustomCalendar(props: CustomCalendarProps) {
   const today = new Date()
   // 현재 월을 관리하는 상태 추가
   const [currentMonth, setCurrentMonth] = useState<Date>(today)
-  const { weeklyData, selectedDate, onDateChange } = props
+  const { dateInfo, selectedDate, onDateChange } = props
 
   // 이전 및 다음 달로 이동하는 함수
   const handlePreviousMonth = () => {
@@ -33,9 +36,11 @@ export default function CustomCalendar(props: CustomCalendarProps) {
   }
 
   const isWalkDate = (date: Date) => {
-    return weeklyData.some(
-      record => record.date === moment(date).format('YYYY-MM-DD') && record.distance > 0,
-    )
+    const formattedDate = moment(date).format('YYYY-MM-DD')
+    return dateInfo.some(record => {
+      const recordDate = moment(record.created_at).format('YYYY-MM-DD')
+      return recordDate === formattedDate && record.distance > 0
+    })
   }
 
   return (
@@ -48,7 +53,7 @@ export default function CustomCalendar(props: CustomCalendarProps) {
 
       <Calendar
         locale="ko"
-        value={selectedDate ? new Date(selectedDate.date) : today}
+        value={selectedDate ? new Date(selectedDate.created_at) : today}
         activeStartDate={currentMonth}
         onClickDay={(date: Date) => {
           onDateChange(date)
@@ -58,7 +63,7 @@ export default function CustomCalendar(props: CustomCalendarProps) {
         minDetail="year"
         tileClassName={({ date }) => {
           const isToday = moment(date).isSame(today, 'day')
-          const isSelected = moment(date).isSame(selectedDate?.date, 'day')
+          const isSelected = moment(date).isSame(selectedDate?.created_at, 'day')
 
           if (isToday && isSelected) {
             return 'today-selected' // 오늘 날짜가 선택된 경우 주황색 배경 유지

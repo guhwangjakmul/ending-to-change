@@ -10,7 +10,7 @@ import {
 import { Chart } from 'react-chartjs-2'
 
 interface ChartProps {
-  filteredWeeklyData: { date: string; distance: number; carbon: number }[]
+  filteredWeeklyData: { created_at: string; distance: number; carbon: number }[]
 }
 
 // Chart.js에 필요한 요소 등록

@@ -1,15 +1,19 @@
 import Wrapper from './ReportWrapper'
 import ProgressBar from '../common/ProgressBar'
 
-import { DateRecord } from '@/types/Date'
+import { Database } from '@/types/supabase'
+
+type DateInfo = Database['public']['Tables']['date']['Row']
 
 interface TodayEcoStatsProps {
-  selectedDate: DateRecord | null
+  selectedDate: DateInfo | null
   goalKm: number
 }
 
 export default function TodayEcoStats(props: TodayEcoStatsProps) {
   const { selectedDate, goalKm } = props
+
+  console.log('selectedDate', selectedDate)
 
   return (
     <Wrapper>
