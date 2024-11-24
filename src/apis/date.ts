@@ -20,3 +20,23 @@ export const updateGoal = async (user_id: string, goal: number) => {
     console.log(error)
   }
 }
+
+// carbon 계산
+export const updateCarbon = async (user_id: string) => {
+  const dateInfo = await getDateInfo(user_id)
+
+  const distance = dateInfo?.data?.[0]?.distance
+
+  if (!distance) {
+    console.log('No Distance')
+    return
+  }
+
+  const carbon = (distance / 16.04) * 2.097
+
+  const { error } = await supabase.from('date').update({ carbon }).eq('user_id', user_id)
+
+  if (error) {
+    console.log('Error', error)
+  }
+}
