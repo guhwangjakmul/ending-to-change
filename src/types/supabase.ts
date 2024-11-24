@@ -11,34 +11,56 @@ export type Database = {
     Tables: {
       category: {
         Row: {
+          id: number
+          name: string | null
+        }
+        Insert: {
+          id?: number
+          name?: string | null
+        }
+        Update: {
+          id?: number
+          name?: string | null
+        }
+        Relationships: []
+      }
+      category_progress: {
+        Row: {
+          category_id: number
           created_at: string
           id: number
           is_completed: boolean
-          name: string
           progress: number
           user_id: string
         }
         Insert: {
+          category_id: number
           created_at?: string
           id?: number
           is_completed?: boolean
-          name: string
           progress?: number
           user_id?: string
         }
         Update: {
+          category_id?: number
           created_at?: string
           id?: number
           is_completed?: boolean
-          name?: string
           progress?: number
           user_id?: string
         }
         Relationships: [
           {
+            foreignKeyName: "category_progress_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "category"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "category_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "user"
             referencedColumns: ["user_id"]
           },
@@ -79,7 +101,6 @@ export type Database = {
       quiz: {
         Row: {
           category_id: number
-          created_at: string
           description: string
           id: number
           is_answer: boolean
@@ -87,7 +108,6 @@ export type Database = {
         }
         Insert: {
           category_id: number
-          created_at?: string
           description: string
           id?: number
           is_answer: boolean
@@ -95,7 +115,6 @@ export type Database = {
         }
         Update: {
           category_id?: number
-          created_at?: string
           description?: string
           id?: number
           is_answer?: boolean
@@ -105,7 +124,7 @@ export type Database = {
           {
             foreignKeyName: "quiz_category_id_fkey"
             columns: ["category_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "category"
             referencedColumns: ["id"]
           },
@@ -154,6 +173,7 @@ export type Database = {
           email: string
           goal: number
           id: number
+          is_all_clear: boolean
           nickname: string
           point: number
           user_id: string
@@ -164,6 +184,7 @@ export type Database = {
           email: string
           goal?: number
           id?: number
+          is_all_clear?: boolean
           nickname: string
           point?: number
           user_id?: string
@@ -174,6 +195,7 @@ export type Database = {
           email?: string
           goal?: number
           id?: number
+          is_all_clear?: boolean
           nickname?: string
           point?: number
           user_id?: string
