@@ -5,10 +5,8 @@ import moment from 'moment'
 
 import '@/styles/calendar.css'
 import CustomNavigation from './CustomNavigation'
-import { DateRecord } from '@/types/Date'
-import { Database } from '@/types/supabase'
 
-type DateInfo = Database['public']['Tables']['date']['Row']
+import { DateInfo } from '@/types/Date'
 
 interface CustomCalendarProps {
   dateInfo: DateInfo[]

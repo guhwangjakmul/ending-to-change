@@ -1,9 +1,7 @@
 import Wrapper from './ReportWrapper'
 import ProgressBar from '../common/ProgressBar'
 
-import { Database } from '@/types/supabase'
-
-type DateInfo = Database['public']['Tables']['date']['Row']
+import { DateInfo } from '@/types/Date'
 
 interface TodayEcoStatsProps {
   selectedDate: DateInfo | null

@@ -8,11 +8,9 @@ import DistanceSetting from '@/components/report/distanceSetting/DistanceSetting
 import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
 import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'
+
 import { getDateInfo } from '@/apis/date'
-
-import { Database } from '@/types/supabase'
-
-type DateInfo = Database['public']['Tables']['date']['Row']
+import { DateInfo } from '@/types/Date'
 
 export default function page() {
   const [dateInfo, setDateInfo] = useState<DateInfo[]>([])
