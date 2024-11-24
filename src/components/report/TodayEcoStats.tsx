@@ -11,11 +11,14 @@ interface TodayEcoStatsProps {
 export default function TodayEcoStats(props: TodayEcoStatsProps) {
   const { selectedDate, goalKm } = props
 
+  const isNoDistance = selectedDate?.distance === 0
+
   return (
-    <Wrapper>
+    <Wrapper isNoDistance={isNoDistance}>
       <ProgressBar labelType="Km" currentProgress={selectedDate?.distance} maxKm={goalKm} />
       <span className="inline-block text-center text-[15px] mt-[30px]">
-        탄소배출량을 <span className="text-sky-blue">{selectedDate?.carbon}kg CO₂e</span> 줄였어요!
+        탄소배출량을 <span className="text-sky-blue">{selectedDate?.carbon ?? 0}kg CO₂e</span>{' '}
+        줄였어요!
       </span>
     </Wrapper>
   )
