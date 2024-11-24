@@ -46,7 +46,7 @@ export default function MyPageEdit() {
   }
 
   return (
-    <main className="w-full h-screen flex items-center flex-col pt-[90px]">
+    <main className="w-full h-[calc(100% - 44px)] flex items-center flex-col pt-[90px]">
       <div className="w-[100px] h-[100px] relative">
         <UserProfile isEditable={true} size={100} imgSrc={user.avatar_url} />
       </div>
