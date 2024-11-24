@@ -30,20 +30,14 @@ export const updateGoal = async (user_id: string, goal: number) => {
 }
 
 // carbon 계산
-export const updateCarbon = async (user_id: string): Promise<void> => {
+export const updateCarbon = async (user_id: string, distance: number): Promise<void> => {
   try {
-    const dateInfo = await getDateInfo(user_id)
-
-    if (dateInfo.length === 0 || !dateInfo[0]?.distance) {
-      return // 거리 정보가 없는 경우 아무 동작 없이 종료
-    }
-
-    const distance = dateInfo[0].distance
     const carbon = parseFloat(((distance / 16.04) * 2.097).toFixed(1))
 
-    console.log(carbon)
-
-    const { error } = await supabase.from('date').update({ carbon }).eq('user_id', user_id)
+    const { error } = await supabase
+      .from('date')
+      .insert({ distance, carbon })
+      .eq('user_id', user_id)
 
     if (error) {
       throw new Error('탄소 배출량 업데이트 실패')
