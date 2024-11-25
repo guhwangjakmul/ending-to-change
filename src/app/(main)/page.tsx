@@ -7,13 +7,14 @@ import FooterButtons from '@/components/main/FooterButtons'
 import Levelup from '@/components/main/Levelup'
 import ProgressBar from '@/components/common/ProgressBar'
 import Button from '@/components/common/Button'
-import { getPotion, usePotion } from '@/apis/main'
+import { getPotion, getProgress, upgradeProgress, usePotion } from '@/apis/main'
 
 export default function page() {
   const userId = '47dd1195-11d0-4227-b42e-e7e6ad96045b'
+  const categoryId = 1
   //임의 물약 & 경험치 (데이터로 처리해야하는 것들)
   const [potion, setPotion] = useState<number | null>(null)
-  const [currentProgress, setCurrentProgress] = useState(0)
+  const [currentProgress, setCurrentProgress] = useState<number | null>(null)
   const [level, setLevel] = useState(1)
   const [isEnd, setIsEnd] = useState(false)
   const selectedCharacter = 'air'
@@ -26,14 +27,16 @@ export default function page() {
 
   // 페이지가 로드될 때 유저의 potion 값 불러오기
   useEffect(() => {
-    const fetchPotion = async () => {
+    const fetchPotionAndProgress = async () => {
       const initialPoint = await getPotion(userId)
-      if (initialPoint !== null) {
+      const initialProgress = await getProgress(userId, categoryId)
+      if (initialPoint !== null || initialProgress !== null) {
         setPotion(initialPoint)
+        setCurrentProgress(initialProgress)
       }
     }
-    fetchPotion()
-  }, [userId])
+    fetchPotionAndProgress()
+  }, [userId, categoryId])
 
   const handleCloseLevelup = () => {
     setIsShowLevelup(false)
@@ -54,17 +57,21 @@ export default function page() {
 
     setTimeout(() => setMessage(''), 500)
     usePotion(userId)
-    const newProgress = currentProgress + 10
-    setCurrentProgress(newProgress)
 
-    if (level === 1 && newProgress === 100) {
-      setIsShowLevelup(true)
-      setCurrentProgress(0)
-    } else if (level === 2 && newProgress === 150) {
-      setIsShowLevelup(true)
-      setCurrentProgress(0)
-    } else if (level === 3 && newProgress === 200) {
-      setIsShowLevelup(true)
+    if (currentProgress !== null) {
+      const newProgress = currentProgress + 10
+      upgradeProgress(userId, categoryId, newProgress)
+      setCurrentProgress(newProgress)
+
+      if (level === 1 && newProgress === 100) {
+        setIsShowLevelup(true)
+        newProgress - 100
+      } else if (level === 2 && newProgress === 150) {
+        setIsShowLevelup(true)
+        newProgress - 150
+      } else if (level === 3 && newProgress === 200) {
+        setIsShowLevelup(true)
+      }
     }
   }
 
@@ -88,7 +95,7 @@ export default function page() {
       {/* 기본 화면 */}
       {!isEnd && (
         <FooterButtons
-          currentProgress={currentProgress}
+          currentProgress={currentProgress ?? 0}
           level={level}
           handleUsePotion={() => {
             if (potion !== null && potion > 0) {
@@ -105,7 +112,7 @@ export default function page() {
       {/* 풀 레벨업 화면 */}
       {isEnd && (
         <div className="absolute bottom-8 space-y-5">
-          <ProgressBar currentProgress={currentProgress} level={level} />
+          <ProgressBar currentProgress={currentProgress ?? 0} level={level} />
           <div>
             <Button
               width={303}
