@@ -1,16 +1,4 @@
-import { createSupabaseBrowserClient } from '../client/supabase'
-import { getUserFromAuth } from './authUser'
-
-/**
- * 현재 로그인한 사용자의 id를 가져오는 함수
- * @returns {Promise<string | void>} - 로그인 상태인 경우 유저 id, 실패 시 콘솔에 오류 메시지 출력
- */
-export const getUserId = async () => {
-  const supabase = createSupabaseBrowserClient()
-  const { data, error } = await supabase.auth.getUser()
-  if (error) return console.error('Failed to find user:', error.message)
-  return data.user.id
-}
+import { createSupabaseBrowserClient } from '@/utils/client/supabase'
 
 /**
  * 소셜 로그인을 처리하는 함수

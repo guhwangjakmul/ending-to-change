@@ -8,6 +8,7 @@ export interface User extends AuthUserInfo {
   nickname: string
   goal: number
   point: number
+  is_all_clear: boolean
 }
 
 export type UpdateUserFn = (

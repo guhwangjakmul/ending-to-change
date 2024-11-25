@@ -6,10 +6,12 @@ interface BottomPanelProps {
   walkType: WalkType
   setWalkType: React.Dispatch<React.SetStateAction<WalkType>>
   setIsShowReward: React.Dispatch<React.SetStateAction<boolean>>
+  distance: string
 }
 
 export default function BottomPanel(props: BottomPanelProps) {
-  const { walkType, setWalkType, setIsShowReward } = props
+  const { walkType, setWalkType, setIsShowReward, distance } = props
+
   return (
     <>
       {/* 걷기 초기 상태 */}
@@ -36,7 +38,7 @@ export default function BottomPanel(props: BottomPanelProps) {
             <Image src={'/image/button/walk_stop.svg'} alt="멈추기" width="18" height="18" />
           </button>
           <span className="font-gothic-b text-[15px] text-beige ml-[62px]">
-            현재 2.3km 걷는 중&hellip;
+            현재 {distance} 걷는 중&hellip;
           </span>
         </div>
       )}
@@ -49,7 +51,9 @@ export default function BottomPanel(props: BottomPanelProps) {
           >
             <Image src={'/image/button/reward.svg'} alt="보상 받기" width="40" height="40" />
           </button>
-          <span className="font-gothic-b text-[15px] text-beige ml-[62px]">총 2.3km 걸었어요!</span>
+          <span className="font-gothic-b text-[15px] text-beige ml-[62px]">
+            총 {distance} 걸었어요!
+          </span>
         </div>
       )}
     </>

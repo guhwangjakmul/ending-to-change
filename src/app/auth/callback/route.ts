@@ -1,6 +1,6 @@
+import { createUser } from '@/apis/user'
 import { createServerSideClient } from '@/utils/supabase'
 import { NextResponse } from 'next/server'
-import { createUser } from '@/utils/user/user'
 
 export async function GET(request: Request) {
   const overrideOrigin = process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME
