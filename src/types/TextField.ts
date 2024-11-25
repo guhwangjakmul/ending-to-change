@@ -4,7 +4,7 @@ export interface Text {
 }
 
 export type RewardTextProps = Text & {
-  onScaleOutStart?: () => void
+  handleRewardTextClick?: () => void
 }
 
 export interface CharacterText {

@@ -1,6 +1,7 @@
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
-import { getUserInfo, updateUser } from '@/utils/user/user'
+// import { getUserInfo, updateUser } from '@/utils/user/user'
 import { Database } from '@/types/supabase'
+import { getUserInfo, updateUser } from './user'
 
 const supabase = createSupabaseBrowserClient()
 
@@ -26,7 +27,7 @@ export const upgradeProgress = async (
 ) => {
   try {
     const userInfo = await getUserInfo(user_id)
-    const categoryId = await getUserInfo(category_id)
+    // const categoryId = await getUserInfo(category_id)
     if (!userInfo || userInfo.length === 0) {
       console.error('User not found.')
       return

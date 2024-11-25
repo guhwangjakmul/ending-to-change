@@ -1,6 +1,6 @@
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
 
-import { updateUser } from '@/utils/user/user'
+import { updateUser } from './user'
 
 const supabase = createSupabaseBrowserClient()
 

@@ -11,6 +11,7 @@ import useModal from '@/app/hook/useModal'
 import { QuizDto } from '@/types/Quiz'
 import { updateUserPoint, insertQuizLog } from '@/apis/quiz'
 import { updateProgress } from '@/apis/category'
+import { getUserId } from '@/apis/user'
 
 interface AnswerProps {
   currentQuiz: QuizDto
@@ -23,7 +24,6 @@ export default function Answer(props: AnswerProps) {
   const [isShowReward, setIsShowReward] = useState(false)
   const [rewardContent, setRewardContent] = useState<React.ReactNode>(null)
   const [yaho, setYaho] = useState<string>()
-  const userId = '47dd1195-11d0-4227-b42e-e7e6ad96045b'
 
   const handleCloseReward = () => {
     setIsShowReward(false)
@@ -32,12 +32,14 @@ export default function Answer(props: AnswerProps) {
   const handleModalClick = () => {
     closeModal()
 
-    setTimeout(() => {
-      setIsShowReward(true)
-    }, 1500)
+    setIsShowReward(true)
   }
 
   const handleAnswerClick = async (value: boolean) => {
+    // 임시 테스트용 -> 변경 예정
+    const userId = await getUserId()
+    if (!userId) throw new Error('User ID not found')
+
     const isCorrect = value === currentQuiz.is_answer
     const points = isCorrect ? 2 : 1
 
