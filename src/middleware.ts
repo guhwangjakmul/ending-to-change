@@ -11,6 +11,10 @@ export async function middleware(request: NextRequest) {
 
   const url = request.nextUrl
   const isAuthPath = url.pathname.startsWith('/auth')
+  const isAllClearPath = url.pathname.startsWith('/category/')
+
+  // 로그인 여부와 상관없이 올클 페이지(/category/[uuid]) 접근 허용
+  if (isAllClearPath) return response
 
   // 비로그인 유저 처리
   if (!session && !isAuthPath) {
