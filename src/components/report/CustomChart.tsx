@@ -7,10 +7,11 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+import moment from 'moment'
 import { Chart } from 'react-chartjs-2'
 
 interface ChartProps {
-  filteredWeeklyData: { date: string; distance: number; carbon: number }[]
+  filteredWeeklyData: { created_at: string; distance: number; carbon: number }[]
 }
 
 // Chart.js에 필요한 요소 등록
@@ -19,13 +20,25 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 export default function CustomChart(props: ChartProps) {
   const { filteredWeeklyData } = props
 
+  // 요일 라벨
+  const labels = ['월', '화', '수', '목', '금', '토', '일']
+
+  // 요일별 거리 데이터를 초기화
+  const distancesByDay = labels.map(label => {
+    const dayIndex = labels.indexOf(label) + 1
+    const record = filteredWeeklyData.find(
+      item => moment(item.created_at).isoWeekday() === dayIndex,
+    )
+    return record ? record.distance : 0
+  })
+
   // 데이터 샘플
   const data = {
-    labels: ['월', '화', '수', '목', '금', '토', '일'],
+    labels,
     datasets: [
       {
         label: '',
-        data: filteredWeeklyData.map(record => record.distance),
+        data: distancesByDay,
         backgroundColor: 'rgba(255, 206, 0, 1)',
         borderColor: 'rgba(255, 206, 0, 1)',
         borderRadius: Number.MAX_VALUE,

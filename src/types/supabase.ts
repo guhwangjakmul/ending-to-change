@@ -1,31 +1,6 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       category: {
@@ -94,9 +69,9 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          carbon?: number
+          carbon: number
           created_at?: string
-          distance?: number
+          distance: number
           id?: number
           user_id?: string
         }
@@ -111,7 +86,7 @@ export type Database = {
           {
             foreignKeyName: 'date_user_id_fkey'
             columns: ['user_id']
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: 'user'
             referencedColumns: ['user_id']
           },

@@ -7,9 +7,7 @@ import Answer from '@/components/quiz/Answer'
 import { useEffect, useState } from 'react'
 import { getUnsolvedQuizzes } from '@/apis/quiz'
 
-import { Database } from '@/types/supabase'
-
-type QuizDto = Database['public']['Tables']['quiz']['Row']
+import { QuizDto } from '@/types/Quiz'
 
 export default function Page() {
   const [quizList, setQuizList] = useState<QuizDto[]>([])
@@ -35,25 +33,33 @@ export default function Page() {
 
   const currentQuiz = quizList[currentQuizIndex]
 
+  console.log(currentQuiz)
+
   return (
-    <div className="relative h-[calc(100vh-75px)]">
-      {currentQuiz && (
+    <div className="relative h-screen">
+      {currentQuiz ? (
         <>
           <div className="relative z-10">
             <Question question={currentQuiz.question} />
             <Answer currentQuiz={currentQuiz} />
           </div>
-          <div className="absolute bottom-0 left-0 w-full z-0">
-            <Image
-              src="/image/quiz-background.svg"
-              alt=""
-              width={390}
-              height={217}
-              layout="responsive"
-            />
-          </div>
         </>
+      ) : (
+        <div className="flex items-center justify-center h-full">
+          <span className="relative -translate-y-20 font-gothic-b text-brown">
+            퀴즈를 다 풀었습니다!
+          </span>
+        </div>
       )}
+      <div className="absolute bottom-0">
+        <Image
+          src="/image/quiz-background.svg"
+          alt=""
+          width={390}
+          height={217}
+          layout="responsive"
+        />
+      </div>
     </div>
   )
 }

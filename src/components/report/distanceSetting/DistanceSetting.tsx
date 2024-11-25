@@ -5,6 +5,7 @@ import RangeSlider from './RangeSlider'
 import Button from '@/components/common/Button'
 
 import useModal from '@/app/hook/useModal'
+import { updateGoal } from '@/apis/date'
 
 interface DistanceSettingProps {
   goalKm: number
@@ -15,6 +16,7 @@ export default function DistanceSetting(props: DistanceSettingProps) {
   const { goalKm, setGoalKm } = props
   const [isOpen, openModal, closeModal, portalElement] = useModal()
   const [temporaryGoal, setTemporaryGoal] = useState(goalKm)
+  const userId = '47dd1195-11d0-4227-b42e-e7e6ad96045b' // 테스트용 사용자 ID
 
   useEffect(() => {
     if (isOpen) {
@@ -22,9 +24,14 @@ export default function DistanceSetting(props: DistanceSettingProps) {
     }
   }, [isOpen, goalKm])
 
-  const handleGoalChange = () => {
-    setGoalKm(temporaryGoal)
-    closeModal()
+  const handleGoalChange = async () => {
+    try {
+      setGoalKm(temporaryGoal)
+      await updateGoal(userId, temporaryGoal)
+      closeModal()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
