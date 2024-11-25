@@ -1,25 +1,27 @@
 'use client'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
 import Question from '@/components/quiz/Question'
 import Answer from '@/components/quiz/Answer'
-
-import { useEffect, useState } from 'react'
-import { getUnsolvedQuizzes } from '@/apis/quiz'
+import Message from '@/components/quiz/Message'
 
 import { QuizDto } from '@/types/Quiz'
+
+import { getUnsolvedQuizzes } from '@/apis/quiz'
 import { getUserId } from '@/apis/user'
 
 export default function Page() {
   const [quizList, setQuizList] = useState<QuizDto[]>([])
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(true) // 로딩 상태 추가
 
   const categoryId = 1 // 테스트용 카테고리 ID
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 임시 테스트용 -> 변경 예정
+        setIsLoading(true)
         const userId = await getUserId()
         if (!userId) throw new Error('User ID not found')
 
@@ -29,7 +31,9 @@ export default function Page() {
           setCurrentQuizIndex(0)
         }
       } catch (error) {
-        console.error('Error fetching unsolved quizzes:', error)
+        console.error('풀지 않은 퀴즈 데이터를 가져오는 중 에러 발생', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -40,19 +44,17 @@ export default function Page() {
 
   return (
     <div className="relative h-screen">
-      {currentQuiz ? (
+      {isLoading ? (
+        <Message message="Loading..." />
+      ) : currentQuiz ? (
         <>
-          <div className="relative pt-[40px] z-10">
+          <div className="relative z-10">
             <Question question={currentQuiz.question} />
             <Answer currentQuiz={currentQuiz} />
           </div>
         </>
       ) : (
-        <div className="flex items-center justify-center h-full">
-          <span className="relative -translate-y-20 font-gothic-b text-brown">
-            퀴즈를 다 풀었습니다!
-          </span>
-        </div>
+        <Message message="퀴즈를 다 풀었습니다!" />
       )}
       <div className="absolute bottom-0">
         <Image
