@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import { RewardTextProps } from '@/types/TextField'
 
 export default function RewardText(props: RewardTextProps) {
