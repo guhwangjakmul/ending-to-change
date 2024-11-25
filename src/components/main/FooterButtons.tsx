@@ -10,12 +10,9 @@ interface FooterButtonsProps {
   count: number
 }
 
-const FooterButtons: React.FC<FooterButtonsProps> = ({
-  currentProgress,
-  level,
-  handleUsePotion,
-  count,
-}) => {
+function FooterButtons(props: FooterButtonsProps) {
+  const { currentProgress, level, handleUsePotion, count } = props
+
   return (
     <section className="absolute bottom-8 space-y-5">
       <div className="flex justify-end">
