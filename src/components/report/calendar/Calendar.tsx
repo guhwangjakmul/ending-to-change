@@ -42,7 +42,7 @@ export default function CustomCalendar(props: CustomCalendarProps) {
   }
 
   return (
-    <div className="mt-[32px] py-5 px-[45px]">
+    <div className="mt-[72px] py-5 px-[45px]">
       <CustomNavigation
         currentMonth={currentMonth}
         onPreviousMonth={handlePreviousMonth}
@@ -60,20 +60,21 @@ export default function CustomCalendar(props: CustomCalendarProps) {
         showNeighboringMonth={false}
         minDetail="year"
         tileClassName={({ date }) => {
-          const isToday = moment(date).isSame(today, 'day')
-          const isSelected = moment(date).isSame(selectedDate?.created_at, 'day')
+          const isToday = moment(date).isSame(today, 'day') // 오늘 날짜인지 확인
+          const isSelected = moment(date).isSame(selectedDate?.created_at, 'day') // 선택된 날짜인지 확인
+          const hasWalked = isWalkDate(date) // 걸은 날인지 확인
 
           if (isToday && isSelected) {
-            return 'today-selected' // 오늘 날짜가 선택된 경우 주황색 배경 유지
+            return hasWalked ? 'today-selected highlight-circle' : 'today-selected' // 오늘 날짜가 선택되고 걸은 날인지 확인
           }
           if (isToday && !isSelected) {
-            return 'today' // 오늘 날짜가 선택되지 않은 경우 주황색 폰트
+            return hasWalked ? 'today highlight-circle' : 'today' // 오늘 날짜가 걸은 날인지 확인
           }
           if (isSelected && !isToday) {
-            return isWalkDate(date) ? 'clicked-date highlight-circle' : 'clicked-date' // 선택된 날짜가 오늘이 아닌 경우 브라운 박스
+            return hasWalked ? 'clicked-date highlight-circle' : 'clicked-date' // 선택된 날짜가 오늘이 아닌 경우
           }
-          if (isWalkDate(date)) {
-            return 'highlight-circle' // 특정 날짜(걸은 날이 있을 때)에 민트색 동그라미 추가
+          if (hasWalked) {
+            return 'highlight-circle' // 걸은 날
           }
           return ''
         }}
