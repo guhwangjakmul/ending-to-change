@@ -22,4 +22,5 @@ export interface CategoryFieldProps {
   categoryList: Category[]
   isClickable?: isClickable
   onClick?: () => void
+  setSelectCategory?: React.Dispatch<React.SetStateAction<CategoryName>>
 }

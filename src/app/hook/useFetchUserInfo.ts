@@ -4,7 +4,7 @@ import { getCompletedCategoryList } from '@/apis/category'
 import { getUserId, getUserInfo } from '@/apis/user'
 import { Category, CategoryName } from '@/types/CategoryField'
 
-interface User {
+export interface User {
   user_id: string
   nickname: string
   avatar_url: string
