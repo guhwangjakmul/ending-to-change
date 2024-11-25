@@ -7,7 +7,7 @@ import FooterButtons from '@/components/main/FooterButtons'
 import Levelup from '@/components/main/Levelup'
 import ProgressBar from '@/components/common/ProgressBar'
 import Button from '@/components/common/Button'
-import { getPotion } from '@/apis/main'
+import { getPotion, usePotion } from '@/apis/main'
 
 export default function page() {
   const userId = '47dd1195-11d0-4227-b42e-e7e6ad96045b'
@@ -53,7 +53,7 @@ export default function page() {
     }
 
     setTimeout(() => setMessage(''), 500)
-
+    usePotion(userId)
     const newProgress = currentProgress + 10
     setCurrentProgress(newProgress)
 
