@@ -32,9 +32,7 @@ export default function Answer(props: AnswerProps) {
   const handleModalClick = () => {
     closeModal()
 
-    setTimeout(() => {
-      setIsShowReward(true)
-    }, 1500)
+    setIsShowReward(true)
   }
 
   const handleAnswerClick = async (value: boolean) => {

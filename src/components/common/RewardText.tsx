@@ -3,24 +3,12 @@ import { useEffect, useState } from 'react'
 import { RewardTextProps } from '@/types/TextField'
 
 export default function RewardText(props: RewardTextProps) {
-  const [isRewardTextScaleOut, setIsRewardTextScaleOut] = useState(false)
-
-  const { yaho = '야호~!', children, onScaleOutStart } = props
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsRewardTextScaleOut(true) // 스케일 아웃 애니메이션 시작
-      onScaleOutStart?.() // 부모 컴포넌트에 애니메이션 시작 알림
-    }, 2000)
-
-    return () => clearTimeout(timer)
-  }, [])
+  const { yaho = '야호~!', children, handleRewardTextClick } = props
 
   return (
     <div
-      className={`flex flex-col items-center  ${
-        isRewardTextScaleOut ? 'animate-scale-out-center' : 'animate-scale-in-center'
-      }
+      onClick={handleRewardTextClick}
+      className={`animate-scale-in-center flex flex-col items-center cursor-pointer
       `}
     >
       <div className="w-[330px] h-[100px] bg-beige flex items-center justify-center rounded-[40px]">
