@@ -8,16 +8,21 @@ import { useEffect, useState } from 'react'
 import { getUnsolvedQuizzes } from '@/apis/quiz'
 
 import { QuizDto } from '@/types/Quiz'
+import { getUserId } from '@/apis/user'
 
 export default function Page() {
   const [quizList, setQuizList] = useState<QuizDto[]>([])
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0)
-  const userId = '47dd1195-11d0-4227-b42e-e7e6ad96045b' // 테스트용 사용자 ID
+
   const categoryId = 1 // 테스트용 카테고리 ID
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // 임시 테스트용 -> 변경 예정
+        const userId = await getUserId()
+        if (!userId) throw new Error('User ID not found')
+
         const data = await getUnsolvedQuizzes(userId, categoryId)
         if (data.length > 0) {
           setQuizList(data)
@@ -33,13 +38,11 @@ export default function Page() {
 
   const currentQuiz = quizList[currentQuizIndex]
 
-  console.log(currentQuiz)
-
   return (
     <div className="relative h-screen">
       {currentQuiz ? (
         <>
-          <div className="relative z-10">
+          <div className="relative pt-[40px] z-10">
             <Question question={currentQuiz.question} />
             <Answer currentQuiz={currentQuiz} />
           </div>

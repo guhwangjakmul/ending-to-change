@@ -9,8 +9,10 @@ import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
 import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'
 
-import { getDateInfo, updateCarbon } from '@/apis/date'
+import { getDateInfo } from '@/apis/date'
 import { DateInfo } from '@/types/Date'
+
+import { getUserId } from '@/apis/user'
 
 export default function page() {
   const [dateInfo, setDateInfo] = useState<DateInfo[]>([])
@@ -18,12 +20,16 @@ export default function page() {
   const [goalKm, setGoalKm] = useState(3)
   const [weekRange, setWeekRange] = useState<{ start: string; end: string } | null>(null)
   const [filteredWeeklyData, setFilteredWeeklyData] = useState<DateInfo[]>([])
-
-  const userId = '47dd1195-11d0-4227-b42e-e7e6ad96045b' // 테스트용 사용자 ID
+  const [userId, setUserId] = useState<string>('')
 
   useEffect(() => {
     const fetchDateInfo = async () => {
       try {
+        // 임시 테스트용 -> 변경 예정
+        const id = await getUserId()
+        if (!id) throw new Error('User ID not found')
+        setUserId(id)
+
         const data = await getDateInfo(userId)
 
         if (data.length > 0) {
