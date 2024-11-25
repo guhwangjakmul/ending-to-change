@@ -11,12 +11,13 @@ interface CharacterData {
 
 interface LevelupProps {
   onClose: () => void
-  selectedCharacter: keyof typeof characterGroup // characters 객체의 키 타입을 사용
+  selectedCharacter: keyof typeof characterGroup
   index: number
   level: number
 }
 
-const Levelup: React.FC<LevelupProps> = ({ onClose, selectedCharacter, index, level }) => {
+function Levelup(props: LevelupProps) {
+  const { onClose, selectedCharacter, index, level } = props
   const character = characterGroup[selectedCharacter] as CharacterData
 
   return (

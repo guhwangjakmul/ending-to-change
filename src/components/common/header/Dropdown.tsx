@@ -33,7 +33,7 @@ export default function Dropdown() {
           {
             text: '공유하기',
             onClick: () => {
-              console.log('공유하기!')
+              router.push(`/category/${id}`)
             },
           },
           ...prevList,
