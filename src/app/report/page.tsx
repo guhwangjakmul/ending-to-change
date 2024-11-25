@@ -9,18 +9,18 @@ import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
 import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'
 
-import { getDateInfo } from '@/apis/date'
+import { getDateInfo, updateGoal } from '@/apis/date'
 import { DateInfo } from '@/types/Date'
 
-import { getUserId } from '@/apis/user'
+import { getUserId, getUserInfo } from '@/apis/user'
 
 export default function page() {
   const [dateInfo, setDateInfo] = useState<DateInfo[]>([])
   const [selectedDate, setSelectedDate] = useState<DateInfo | null>(null)
-  const [goalKm, setGoalKm] = useState(3)
   const [weekRange, setWeekRange] = useState<{ start: string; end: string } | null>(null)
   const [filteredWeeklyData, setFilteredWeeklyData] = useState<DateInfo[]>([])
   const [userId, setUserId] = useState<string>('')
+  const [goalKm, setGoalKm] = useState(3)
 
   useEffect(() => {
     const fetchDateInfo = async () => {
@@ -30,8 +30,12 @@ export default function page() {
         if (!id) throw new Error('User ID not found')
         setUserId(id)
 
-        const data = await getDateInfo(userId)
+        const userGoal = await getUserInfo(userId)
+        setGoalKm(userGoal?.[0].goal || 3)
 
+        // console.log('gg', userGoal?.[0].goal)
+
+        const data = await getDateInfo(userId)
         if (data.length > 0) {
           setDateInfo(data)
         }
@@ -58,6 +62,15 @@ export default function page() {
 
     fetchDateInfo()
   }, [userId])
+
+  const updateGoalKm = async (newGoal: number) => {
+    try {
+      setGoalKm(newGoal)
+      await updateGoal(userId, newGoal) // DB 업데이트
+    } catch (error) {
+      console.error('Failed to update goal:', error)
+    }
+  }
 
   const handleDateChange = (date: Date) => {
     const formattedDate = moment(date).format('YYYY-MM-DD')
@@ -128,7 +141,7 @@ export default function page() {
           />
         </div>
         <div className="flex flex-col justify-center px-5 bg-[#D3EDE8] xl:h-[70%]">
-          <DistanceSetting goalKm={goalKm} setGoalKm={setGoalKm} />
+          <DistanceSetting goalKm={goalKm} updateGoalKm={updateGoalKm} />
           <TodayEcoStats selectedDate={selectedDate} goalKm={goalKm} />
           <WeeklyEcoChart weekRange={weekRange} filteredWeeklyData={filteredWeeklyData} />
         </div>
