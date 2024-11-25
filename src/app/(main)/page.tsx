@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import characterGroup from '@/assets/characterData'
 import CharacterSection from '@/components/main/CharacterSection'
@@ -7,10 +7,12 @@ import FooterButtons from '@/components/main/FooterButtons'
 import Levelup from '@/components/main/Levelup'
 import ProgressBar from '@/components/common/ProgressBar'
 import Button from '@/components/common/Button'
+import { getPotion } from '@/apis/main'
 
 export default function page() {
+  const userId = '47dd1195-11d0-4227-b42e-e7e6ad96045b'
   //임의 물약 & 경험치 (데이터로 처리해야하는 것들)
-  const [potion, setPotion] = useState(90)
+  const [potion, setPotion] = useState<number | null>(null)
   const [currentProgress, setCurrentProgress] = useState(0)
   const [level, setLevel] = useState(1)
   const [isEnd, setIsEnd] = useState(false)
@@ -21,6 +23,17 @@ export default function page() {
 
   const [message, setMessage] = useState('')
   const [isShowLevelup, setIsShowLevelup] = useState(false)
+
+  // 페이지가 로드될 때 유저의 potion 값 불러오기
+  useEffect(() => {
+    const fetchPotion = async () => {
+      const initialPoint = await getPotion(userId)
+      if (initialPoint !== null) {
+        setPotion(initialPoint)
+      }
+    }
+    fetchPotion()
+  }, [userId])
 
   const handleCloseLevelup = () => {
     setIsShowLevelup(false)
@@ -34,7 +47,11 @@ export default function page() {
 
   const handleUsePotion = () => {
     setMessage('물약을 사용해서 10hp를 회복했어요!')
-    setPotion(potion - 1)
+    if (potion !== null && potion > 0) {
+      const newPotion = potion - 1
+      setPotion(newPotion)
+    }
+
     setTimeout(() => setMessage(''), 500)
 
     const newProgress = currentProgress + 10
@@ -74,14 +91,14 @@ export default function page() {
           currentProgress={currentProgress}
           level={level}
           handleUsePotion={() => {
-            if (potion > 0) {
+            if (potion !== null && potion > 0) {
               handleUsePotion()
             } else {
               setMessage('물약이 부족해요')
               setTimeout(() => setMessage(''), 500)
             }
           }}
-          count={potion}
+          count={potion ?? 0}
         />
       )}
 
