@@ -5,13 +5,11 @@ import Button from '@/components/common/Button'
 import { useFetchUserInfo } from '@/app/hook/useFetchUserInfo'
 import { useState } from 'react'
 import { updateUser } from '@/apis/user'
-import Loading from '@/app/loading'
 
 export default function MyPageEdit() {
-  const { user, isLoading } = useFetchUserInfo()
+  const { user } = useFetchUserInfo()
   const [isEditMode, setIsEditMode] = useState(false)
   const [editedNickname, setEditedNickname] = useState(user.nickname)
-  if (isLoading) return <Loading />
 
   const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) =>
     setEditedNickname(e.target.value)
