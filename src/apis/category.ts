@@ -19,6 +19,19 @@ export const getCategoryProgress = async (id: string) => {
   return data
 }
 
+export const changeComplete = async (id: string, categoryId: number) => {
+  const { data, error } = await supabase
+    .from('category_progress')
+    .update({ is_completed: true })
+    .eq('user_id', id)
+    .eq('category_id', categoryId)
+  if (error) {
+    console.error('데이터 패칭 실패', error)
+    return []
+  }
+  return data
+}
+
 /**
  * 전체 카테고리 데이터 리스트를 반환하는 함수
  * @returns 전체 카테고리 데이터 리스트
