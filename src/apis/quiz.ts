@@ -1,7 +1,7 @@
 'use client'
 
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
-import { getUserInfo, updateUser } from '@/utils/user/user'
+import { getUserInfo, updateUser } from './user'
 
 const supabase = createSupabaseBrowserClient()
 
@@ -13,7 +13,7 @@ export const getUnsolvedQuizzes = async (user_id: string, category_id: number) =
     .eq('category_id', category_id)
 
   if (quizError) {
-    console.error('Error fetching quiz data from Supabase:', quizError.message)
+    console.error('퀴즈 데이터 가져오는 에러 발생:', quizError.message)
     return []
   }
 
@@ -23,7 +23,7 @@ export const getUnsolvedQuizzes = async (user_id: string, category_id: number) =
     .eq('user_id', user_id)
 
   if (quizLogError) {
-    console.error('Error fetching quiz_log data from Supabase:', quizLogError.message)
+    console.error('퀴즈 로그 데이터 가져오는 에러 발생', quizLogError.message)
     return []
   }
 
@@ -39,7 +39,7 @@ export const updateUserPoint = async (user_id: string, point: number) => {
     const userInfo = await getUserInfo(user_id)
 
     if (!userInfo || userInfo.length === 0) {
-      console.error('User not found.')
+      console.error('사용자를 찾을 수 없음')
       return
     }
 
@@ -47,21 +47,25 @@ export const updateUserPoint = async (user_id: string, point: number) => {
     const newPoint = currentPoint + point
 
     if (isNaN(newPoint)) {
-      throw new Error('New points cannot be NaN. Check input values.')
+      throw new Error('포인트 값이 유효하지 않음')
     }
 
     const isUpdated = await updateUser(user_id, 'point', newPoint)
 
     if (!isUpdated) {
-      console.error('Failed to update user points.')
+      console.error('사용자 포인트를 업데이트 못함')
       return
     }
   } catch (error) {
-    console.error('Error in updateUserPoint:', error)
+    console.error('사용자 포인트 업데이트 중 오류가 발생', error)
   }
 }
 
 // 퀴즈 로그 저장
 export const insertQuizLog = async (quiz_id: number, user_id: string) => {
-  await supabase.from('quiz_log').insert({ quiz_id, user_id })
+  const { error } = await supabase.from('quiz_log').insert({ quiz_id, user_id })
+
+  if (error) {
+    throw new Error(`퀴즈 로그 저장에 실패: ${error.message}`)
+  }
 }

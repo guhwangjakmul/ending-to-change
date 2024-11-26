@@ -1,6 +1,3 @@
-export interface DateRecord {
-  id: number
-  distance: number
-  carbon: number
-  date: string
-}
+import { Database } from '@/types/supabase'
+
+export type DateInfo = Database['public']['Tables']['date']['Row']

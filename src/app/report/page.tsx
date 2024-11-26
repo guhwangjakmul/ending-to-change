@@ -9,39 +9,86 @@ import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
 import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'
 
-import { DateRecord } from '@/types/Date'
+import { getDateInfo, updateGoal } from '@/apis/date'
+import { DateInfo } from '@/types/Date'
+
+import { getUserId, getUserInfo } from '@/apis/user'
 
 export default function page() {
-  // 선택한 날짜와 일주일을 상태로 관리
-  const [selectedDate, setSelectedDate] = useState<DateRecord | null>(null)
+  const [dateInfo, setDateInfo] = useState<DateInfo[]>([])
+  const [selectedDate, setSelectedDate] = useState<DateInfo | null>(null)
   const [weekRange, setWeekRange] = useState<{ start: string; end: string } | null>(null)
-  const [filteredWeeklyData, setFilteredWeeklyData] = useState<DateRecord[]>([])
-  // 목표 거리 설정 default 3km
-  const [goalKm, setGoalKm] = useState<number>(3)
+  const [filteredWeeklyData, setFilteredWeeklyData] = useState<DateInfo[]>([])
+  const [userId, setUserId] = useState<string>('')
+  const [goalKm, setGoalKm] = useState(3)
 
-  // 일주일치 임시 데이터
-  const weeklyData: DateRecord[] = [
-    { id: 1, date: '2024-11-11', distance: 2.3, carbon: 0.5 },
-    { id: 2, date: '2024-11-12', distance: 3.1, carbon: 0.7 },
-    { id: 3, date: '2024-11-13', distance: 4.0, carbon: 0.9 },
-    { id: 4, date: '2024-11-14', distance: 2.8, carbon: 0.6 },
-    { id: 5, date: '2024-11-15', distance: 3.5, carbon: 0.8 },
-    { id: 6, date: '2024-11-16', distance: 2.0, carbon: 0.4 },
-    { id: 7, date: '2024-11-17', distance: 3.2, carbon: 0.7 },
-  ]
+  useEffect(() => {
+    const fetchDateInfo = async () => {
+      try {
+        // 임시 테스트용 -> 변경 예정
+        const id = await getUserId()
+        if (!id) throw new Error('User ID not found')
+        setUserId(id)
+
+        const userGoal = await getUserInfo(userId)
+        setGoalKm(userGoal?.[0].goal || 3)
+
+        // console.log('gg', userGoal?.[0].goal)
+
+        const data = await getDateInfo(userId)
+        if (data.length > 0) {
+          setDateInfo(data)
+        }
+
+        // 오늘 날짜의 데이터를 초기값으로 설정
+        const todayFormatted = moment(new Date()).format('YYYY-MM-DD')
+        const todayRecord = data?.find(
+          item => moment(item.created_at).format('YYYY-MM-DD') === todayFormatted,
+        )
+
+        setSelectedDate(
+          todayRecord || {
+            id: 0,
+            created_at: todayFormatted,
+            distance: 0,
+            carbon: 0,
+            user_id: userId,
+          },
+        )
+      } catch (error) {
+        console.error('fetchDateInfo 실행 중 에러 발생', error)
+      }
+    }
+
+    fetchDateInfo()
+  }, [userId])
+
+  const updateGoalKm = async (newGoal: number) => {
+    try {
+      setGoalKm(newGoal)
+      await updateGoal(userId, newGoal) // DB 업데이트
+    } catch (error) {
+      console.error('Failed to update goal:', error)
+    }
+  }
 
   const handleDateChange = (date: Date) => {
     const formattedDate = moment(date).format('YYYY-MM-DD')
-    const record = weeklyData.find(item => item.date === formattedDate)
+    const record = dateInfo.find(item => {
+      const recordDate = moment(item.created_at).format('YYYY-MM-DD')
+      return recordDate === formattedDate
+    })
 
+    // 선택된 날짜의 데이터를 설정
     if (record) {
       setSelectedDate(record)
     } else {
       setSelectedDate({
         id: 0,
-        date: formattedDate,
+        created_at: formattedDate,
         distance: 0,
         carbon: 0,
+        user_id: userId,
       })
     }
 
@@ -62,14 +109,13 @@ export default function page() {
 
   // 주간 범위에 맞는 데이터를 필터링하는 함수
   const filterWeeklyData = (range: { start: string; end: string }) => {
-    const filteredData = weeklyData.filter(
-      item => item.date >= range.start && item.date <= range.end,
+    const filteredData = dateInfo.filter(
+      item => item.created_at >= range.start && item.created_at <= range.end,
     )
     setFilteredWeeklyData(filteredData)
   }
 
   // 페이지 초기 로드 시 오늘 기준으로 일주일 설정
-  // 오늘 날짜만 보여주는 경우에는 useState로 초기값을 현재 날짜로 설정하기 때문에 별도의 초기화 코드 필요 x -> 상태 초기화 할 때 자동으로 오늘 날짜 설정
   // 일주일 범위를 보여주는 경우는 오늘 날짜를 기준으로 한 주간 범위를 계산해야 하므로, useEffect를 사용해 한 번만 실행되는 초기화 코드로 설정
   useEffect(() => {
     const initialWeekRange = getWeekRange(new Date())
@@ -86,16 +132,16 @@ export default function page() {
         priority
       />
       <div className="absolute w-full h-full flex flex-col justify-between">
-        <Header backOnClick={() => alert('onClick!')} title="탄소 기록함" />
+        <Header title="탄소 기록함" />
         <div>
           <Calendar
-            weeklyData={weeklyData}
+            dateInfo={dateInfo}
             selectedDate={selectedDate}
             onDateChange={handleDateChange}
           />
         </div>
         <div className="flex flex-col justify-center px-5 bg-[#D3EDE8] xl:h-[70%]">
-          <DistanceSetting goalKm={goalKm} setGoalKm={setGoalKm} />
+          <DistanceSetting goalKm={goalKm} updateGoalKm={updateGoalKm} />
           <TodayEcoStats selectedDate={selectedDate} goalKm={goalKm} />
           <WeeklyEcoChart weekRange={weekRange} filteredWeeklyData={filteredWeeklyData} />
         </div>

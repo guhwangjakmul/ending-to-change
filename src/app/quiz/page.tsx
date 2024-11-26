@@ -1,32 +1,39 @@
 'use client'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
 import Question from '@/components/quiz/Question'
 import Answer from '@/components/quiz/Answer'
+import Message from '@/components/quiz/Message'
 
-import { useEffect, useState } from 'react'
+import { QuizDto } from '@/types/Quiz'
+
 import { getUnsolvedQuizzes } from '@/apis/quiz'
-
-import { Database } from '@/types/supabase'
-
-type QuizDto = Database['public']['Tables']['quiz']['Row']
+import { getUserId } from '@/apis/user'
 
 export default function Page() {
   const [quizList, setQuizList] = useState<QuizDto[]>([])
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0)
-  const userId = '47dd1195-11d0-4227-b42e-e7e6ad96045b' // 테스트용 사용자 ID
+  const [isLoading, setIsLoading] = useState(true) // 로딩 상태 추가
+
   const categoryId = 1 // 테스트용 카테고리 ID
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true)
+        const userId = await getUserId()
+        if (!userId) throw new Error('User ID not found')
+
         const data = await getUnsolvedQuizzes(userId, categoryId)
         if (data.length > 0) {
           setQuizList(data)
           setCurrentQuizIndex(0)
         }
       } catch (error) {
-        console.error('Error fetching unsolved quizzes:', error)
+        console.error('풀지 않은 퀴즈 데이터를 가져오는 중 에러 발생', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -36,24 +43,28 @@ export default function Page() {
   const currentQuiz = quizList[currentQuizIndex]
 
   return (
-    <div className="relative h-[calc(100vh-75px)]">
-      {currentQuiz && (
+    <div className="relative h-screen">
+      {isLoading ? (
+        <Message message="Loading..." />
+      ) : currentQuiz ? (
         <>
           <div className="relative z-10">
             <Question question={currentQuiz.question} />
             <Answer currentQuiz={currentQuiz} />
           </div>
-          <div className="absolute bottom-0 left-0 w-full z-0">
-            <Image
-              src="/image/quiz-background.svg"
-              alt=""
-              width={390}
-              height={217}
-              layout="responsive"
-            />
-          </div>
         </>
+      ) : (
+        <Message message="퀴즈를 다 풀었습니다!" />
       )}
+      <div className="absolute bottom-0">
+        <Image
+          src="/image/quiz-background.svg"
+          alt=""
+          width={390}
+          height={217}
+          layout="responsive"
+        />
+      </div>
     </div>
   )
 }

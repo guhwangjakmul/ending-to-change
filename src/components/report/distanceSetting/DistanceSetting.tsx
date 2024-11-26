@@ -8,11 +8,11 @@ import useModal from '@/app/hook/useModal'
 
 interface DistanceSettingProps {
   goalKm: number
-  setGoalKm: (value: number) => void
+  updateGoalKm: (value: number) => void
 }
 
 export default function DistanceSetting(props: DistanceSettingProps) {
-  const { goalKm, setGoalKm } = props
+  const { goalKm, updateGoalKm } = props
   const [isOpen, openModal, closeModal, portalElement] = useModal()
   const [temporaryGoal, setTemporaryGoal] = useState(goalKm)
 
@@ -23,7 +23,7 @@ export default function DistanceSetting(props: DistanceSettingProps) {
   }, [isOpen, goalKm])
 
   const handleGoalChange = () => {
-    setGoalKm(temporaryGoal)
+    updateGoalKm(temporaryGoal)
     closeModal()
   }
 

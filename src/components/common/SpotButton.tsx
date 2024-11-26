@@ -1,6 +1,6 @@
 import { SpotButtonProps } from '@/types/CategoryField'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const buttonInfo = {
   대기오염: {
@@ -36,34 +36,36 @@ export default function SpotButton(props: SpotButtonProps) {
 
   const clickHandler = () => {
     if (!isClickable) return
-    if (onClick) return onClick
 
-    switch (buttonStatus) {
-      case 'default':
-        setButtonStatus('selected')
-        return
-      case 'selected':
-        setButtonStatus('default')
-        return
-      case 'completed':
-        return
-    }
+    setButtonStatus(prevStatus => {
+      switch (prevStatus) {
+        case 'default':
+          return 'selected'
+        case 'selected':
+          return 'default'
+        case 'completed':
+          return prevStatus
+        default:
+          return prevStatus
+      }
+    })
   }
+
+  const imageSrc = `/image/button/${buttonInfo[name].imgName}_${buttonStatus}.svg`
+
+  useEffect(() => {
+    setButtonStatus(status)
+  }, [status])
 
   return (
     <button
       type="button"
-      onClick={clickHandler}
+      onClick={onClick || clickHandler}
       className={`absolute ${buttonInfo[name].classList} ${
         status === 'completed' || !isClickable ? 'cursor-default' : 'cursor-pointer'
       }`}
     >
-      <Image
-        src={`/image/button/${buttonInfo[name].imgName}_${status}.svg`}
-        alt={name}
-        width="46"
-        height="65"
-      />
+      <Image src={imageSrc} alt={name} width="46" height="65" />
     </button>
   )
 }
