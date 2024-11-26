@@ -19,7 +19,9 @@ export default function page() {
   const [isEnd, setIsEnd] = useState(false)
 
   //카테고리
-  const getSelectedCharacter = (categoryId: number) => {
+  const getSelectedCharacter = (
+    categoryId: number,
+  ): 'water' | 'air' | 'soil' | 'warming' | 'recycle' | 'energy' => {
     switch (categoryId) {
       case 1:
         return 'water'
@@ -33,6 +35,8 @@ export default function page() {
         return 'recycle'
       case 6:
         return 'energy'
+      default:
+        throw new Error('Invalid categoryId') // 예상치 못한 경우 처리
     }
   }
   const selectedCharacter = getSelectedCharacter(categoryId)
