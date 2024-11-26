@@ -101,7 +101,7 @@ export default function page() {
 
     if (currentProgress !== null) {
       const newProgress = currentProgress + 10
-      upgradeProgress(userId, categoryId, newProgress)
+      upgradeProgress(userId, categoryId)
       setCurrentProgress(newProgress)
 
       if (level === 1 && newProgress === 100) {

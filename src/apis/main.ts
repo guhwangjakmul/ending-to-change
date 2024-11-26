@@ -1,6 +1,5 @@
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
 import { getUserInfo, updateUser } from '@/utils/user/user'
-import { Database } from '@/types/supabase'
 
 const supabase = createSupabaseBrowserClient()
 
@@ -19,25 +18,14 @@ export const getProgress = async (user_id: string, category_id: number) => {
   return data?.progress
 }
 
-export const upgradeProgress = async (
-  user_id: string,
-  category_id: number,
-  currentProgress: number,
-) => {
+export const upgradeProgress = async (user_id: string, category_id: number) => {
   try {
-    const userInfo = await getUserInfo(user_id)
-    const categoryId = await getUserInfo(category_id)
-    if (!userInfo || userInfo.length === 0) {
-      console.error('User not found.')
-      return
-    }
-
-    const { data } = await supabase
+    const currentProgress = await getProgress(user_id, category_id)
+    await supabase
       .from('category_progress')
-      .update({ progress: currentProgress })
+      .update({ progress: currentProgress! + 10 }) //오류가능성
       .eq('user_id', user_id)
       .eq('category_id', category_id)
-      .single()
   } catch (error) {
     console.error('Error in decreaseUserPoint:', error)
   }
@@ -56,21 +44,6 @@ export const getPotion = async (user_id: string) => {
   }
   return data?.point
 }
-
-// // point 감소 후 데이터베이스에 업데이트
-// export const usePotion = async (user_id: string, newPotion: number) => {
-//   const { data, error } = await supabase
-//     .from('user')
-//     .update({ point: newPotion }) // 감소한 potion 값을 업데이트
-//     .eq('user_id', user_id)
-
-//   if (error) {
-//     console.error('Potion 업데이트 실패:', error)
-//     return false
-//   }
-
-//   return true
-// }
 
 // 사용자 point 사용, 업데이트
 export const usePotion = async (user_id: string) => {
