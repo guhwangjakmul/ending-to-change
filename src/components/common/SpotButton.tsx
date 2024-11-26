@@ -1,6 +1,6 @@
 import { SpotButtonProps } from '@/types/CategoryField'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 const buttonInfo = {
   대기오염: {
@@ -31,41 +31,31 @@ const buttonInfo = {
 
 export default function SpotButton(props: SpotButtonProps) {
   const { name, status = 'default', onClick, isClickable = false } = props
-
   const [buttonStatus, setButtonStatus] = useState(status)
 
-  const clickHandler = () => {
+  // 클릭 가능 여부 확인 후 버튼 상태 변경
+  const handleButtonClick = useCallback(() => {
     if (!isClickable) return
 
     setButtonStatus(prevStatus => {
-      switch (prevStatus) {
-        case 'default':
-          return 'selected'
-        case 'selected':
-          return 'default'
-        case 'completed':
-          return prevStatus
-        default:
-          return prevStatus
-      }
+      if (prevStatus === 'default') return 'selected'
+      if (prevStatus === 'selected') return 'default'
+      return prevStatus
     })
-  }
-
-  const imageSrc = `/image/button/${buttonInfo[name].imgName}_${buttonStatus}.svg`
+  }, [isClickable])
 
   useEffect(() => {
     setButtonStatus(status)
   }, [status])
 
+  const imageSrc = `/image/button/${buttonInfo[name]?.imgName}_${buttonStatus}.svg`
+  const buttonClass = `absolute ${buttonInfo[name]?.classList} ${
+    isClickable ? 'cursor-pointer' : 'cursor-default'
+  }`
+
   return (
-    <button
-      type="button"
-      onClick={onClick || clickHandler}
-      className={`absolute ${buttonInfo[name].classList} ${
-        status === 'completed' || !isClickable ? 'cursor-default' : 'cursor-pointer'
-      }`}
-    >
-      <Image src={imageSrc} alt={name} width="46" height="65" />
+    <button type="button" onClick={onClick || handleButtonClick} className={buttonClass}>
+      <Image src={imageSrc} alt={name} width={46} height={65} />
     </button>
   )
 }
