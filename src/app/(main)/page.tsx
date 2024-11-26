@@ -17,7 +17,25 @@ export default function page() {
   const [currentProgress, setCurrentProgress] = useState<number | null>(null)
   const [level, setLevel] = useState(1)
   const [isEnd, setIsEnd] = useState(false)
-  const selectedCharacter = 'air'
+
+  //카테고리
+  const getSelectedCharacter = (categoryId: number) => {
+    switch (categoryId) {
+      case 1:
+        return 'water'
+      case 2:
+        return 'air'
+      case 3:
+        return 'soil'
+      case 4:
+        return 'warming'
+      case 5:
+        return 'recycle'
+      case 6:
+        return 'energy'
+    }
+  }
+  const selectedCharacter = getSelectedCharacter(categoryId)
 
   //캐릭터 인덱스
   const [index, setIndex] = useState(0)
@@ -30,11 +48,28 @@ export default function page() {
     const fetchPotionAndProgress = async () => {
       const initialPoint = await getPotion(userId)
       const initialProgress = await getProgress(userId, categoryId)
-      if (initialPoint !== null || initialProgress !== null) {
+
+      if (initialPoint !== null) {
         setPotion(initialPoint)
+      }
+
+      if (initialProgress !== null) {
         setCurrentProgress(initialProgress)
+
+        // currentProgress에 따라 초기 level 설정
+        if (initialProgress < 100) {
+          setLevel(1)
+          setIndex(0)
+        } else if (initialProgress >= 100 && initialProgress < 250) {
+          setLevel(2)
+          setIndex(1)
+        } else if (initialProgress >= 250 && initialProgress < 450) {
+          setLevel(3)
+          setIndex(2)
+        }
       }
     }
+
     fetchPotionAndProgress()
   }, [userId, categoryId])
 
@@ -65,10 +100,10 @@ export default function page() {
 
       if (level === 1 && newProgress === 100) {
         setIsShowLevelup(true)
-        newProgress - 100
+        setCurrentProgress(newProgress - 100)
       } else if (level === 2 && newProgress === 150) {
         setIsShowLevelup(true)
-        newProgress - 150
+        setCurrentProgress(0)
       } else if (level === 3 && newProgress === 200) {
         setIsShowLevelup(true)
       }
