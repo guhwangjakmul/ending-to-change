@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '구해줘요 동물의 숲',
     description: '환경을 살려 위험에 처한 주민들을 구해주세요!',
-    url: `${url}`,
+    url: `${process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME}`,
     siteName: '구해줘요 동물의 숲',
     images: [
       {
