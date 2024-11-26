@@ -11,22 +11,10 @@ export default function MyPageEdit() {
   const [isEditMode, setIsEditMode] = useState(false)
   const [editedNickname, setEditedNickname] = useState(user.nickname)
 
-  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setEditedNickname(e.target.value)
 
-  const onKeyDownInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      onClickSubmitButton()
-    }
-  }
-
-  const onClickPencil = () => {
-    setIsEditMode(true)
-    setEditedNickname(user.nickname)
-  }
-
-  const onClickSubmitButton = async () => {
+  const handleSubmit = async () => {
     if (editedNickname.trim() === '') return alert('닉네임을 입력해주세요.')
 
     try {
@@ -37,6 +25,18 @@ export default function MyPageEdit() {
       console.error('닉네임 업데이트 실패:', error)
       alert('닉네임 업데이트 중 문제가 발생했습니다.')
     }
+  }
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleSubmit()
+    }
+  }
+
+  const handleEditMode = () => {
+    setIsEditMode(true)
+    setEditedNickname(user.nickname)
   }
 
   return (
@@ -56,17 +56,17 @@ export default function MyPageEdit() {
           name="nickname"
           id="nickname"
           value={isEditMode ? editedNickname : user.nickname}
-          onChange={onChangeInput}
-          onKeyDown={onKeyDownInput}
+          onChange={handleInputChange}
+          onKeyDown={handleInputKeyDown}
           placeholder="이름을 입력해주세요"
           maxLength={10}
           disabled={!isEditMode}
           className="flex-1 placeholder:text-gray bg-inherit"
         />
-        {isEditMode || <UserEditButton type="pencil" onClick={onClickPencil} />}
+        {!isEditMode && <UserEditButton type="pencil" onClick={handleEditMode} />}
       </form>
       {isEditMode && (
-        <Button width={87} height={40} fontSize={16} onClick={onClickSubmitButton}>
+        <Button width={87} height={40} fontSize={16} onClick={handleSubmit}>
           저장하기
         </Button>
       )}
