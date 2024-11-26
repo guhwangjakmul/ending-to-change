@@ -63,9 +63,11 @@ export default function page() {
         } else if (initialProgress >= 100 && initialProgress < 250) {
           setLevel(2)
           setIndex(1)
+          setCurrentProgress(initialProgress - 100)
         } else if (initialProgress >= 250 && initialProgress < 450) {
           setLevel(3)
           setIndex(2)
+          setCurrentProgress(initialProgress - 250)
         }
       }
     }
@@ -100,7 +102,7 @@ export default function page() {
 
       if (level === 1 && newProgress === 100) {
         setIsShowLevelup(true)
-        setCurrentProgress(newProgress - 100)
+        setCurrentProgress(0)
       } else if (level === 2 && newProgress === 150) {
         setIsShowLevelup(true)
         setCurrentProgress(0)
