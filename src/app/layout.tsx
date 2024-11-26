@@ -4,9 +4,7 @@ import HeaderLayout from '@/components/layout/HeaderLayout'
 import BackgroundWrapper from '@/components/layout/BackgroundWrapper'
 import Script from 'next/script'
 import DynamicTitle from '@/components/common/DynamicTitle'
-const url =
-  process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME ||
-  process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME_LOCAL
+
 export const metadata: Metadata = {
   description: '환경을 살려 위험에 처한 주민들을 구해주세요!',
   keywords: ['구해줘요', '동물의 숲', '주민 구출'],
@@ -17,12 +15,12 @@ export const metadata: Metadata = {
     siteName: '구해줘요 동물의 숲',
     images: [
       {
-        url: `${url}/image/system/thumbnail.png`,
+        url: `${process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME}/image/system/thumbnail.png`,
         width: 800,
         height: 600,
       },
       {
-        url: `${url}/image/system/thumbnail.png`,
+        url: `${process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME}/image/system/thumbnail.png`,
         width: 1800,
         height: 1600,
       },
@@ -31,9 +29,9 @@ export const metadata: Metadata = {
     type: 'website',
   },
   icons: {
-    icon: `${url}/image/system/favicon.ico`,
-    shortcut: `${url}/image/system/favicon.ico`,
-    apple: `${url}/image/system/favicon.png`,
+    icon: `${process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME}/image/system/favicon.ico`,
+    shortcut: `${process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME}/image/system/favicon.ico`,
+    apple: `${process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME}/image/system/favicon.png`,
   },
 }
 
