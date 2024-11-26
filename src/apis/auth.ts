@@ -10,7 +10,8 @@ export const onClickSocialLogin = async (target: 'google' | 'kakao') => {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: `${target}`,
     options: {
-      redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO,
+      redirectTo:
+        process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO || process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_LOCAL,
     },
   })
 

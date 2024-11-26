@@ -1,14 +1,10 @@
-// src/app/mypage/page.tsx
 'use client'
 import CategoryField from '@/components/common/CategoryField'
 import UserProfile from '@/components/user/UserProfile'
 import { useFetchUserInfo } from '../hook/useFetchUserInfo'
-import Loading from '../loading'
 
 export default function MyPage() {
-  const { user, categoryList, isLoading } = useFetchUserInfo()
-
-  if (isLoading) return <Loading />
+  const { user, categoryList } = useFetchUserInfo()
 
   return (
     <main className="w-full h-[calc(100%-44px)] flex items-center flex-col p-[35px] overflow-hidden">
