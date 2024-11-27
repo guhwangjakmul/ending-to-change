@@ -1,13 +1,16 @@
 'use client'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import SpotButton from './SpotButton'
-import { CategoryFieldProps } from '@/types/CategoryField'
+import { Category, CategoryFieldProps } from '@/types/CategoryField'
 import { useEffect, useState, useCallback } from 'react'
+import { getCategoryIdByName } from '@/apis/category'
 
 export default function CategoryField(props: CategoryFieldProps) {
   const { categoryList, isClickable = false, onClick, setSelectCategory } = props
   const pathname = usePathname()
+  const router = useRouter()
+
   const [useCategoryList, setUseCategoryList] = useState(categoryList)
 
   // 주어진 카테고리의 상태가 클릭 가능한지 확인
@@ -34,13 +37,23 @@ export default function CategoryField(props: CategoryFieldProps) {
     )
   }, [])
 
+  // 버튼 클릭 시 호출되는 핸들러 함수
   const buttonClickHandler = useCallback(
-    (category: { name: string; status: string }) => {
+    async (category: Category) => {
       const { name, status } = category
 
       if (setSelectCategory && status !== 'completed') setSelectCategory(name)
-      if (!isCategoryClickable(status)) return
-      if (pathname === '/mypage' && status === 'completed') alert(`${name}으로 이동`)
+      if (!isCategoryClickable(status!)) return
+      if (pathname === '/mypage' && status === 'completed') {
+        localStorage.setItem(
+          'viewResultCategory',
+          JSON.stringify({
+            id: await getCategoryIdByName(name),
+            name,
+          }),
+        )
+        router.push('/')
+      }
       updateCategoryStatus(name)
     },
     [isCategoryClickable, pathname, setSelectCategory, updateCategoryStatus],
@@ -55,9 +68,10 @@ export default function CategoryField(props: CategoryFieldProps) {
       {useCategoryList.map(category => (
         <SpotButton
           key={category.name}
+          id={category.id}
           name={category.name}
           status={category.status}
-          isClickable={isCategoryClickable(category.status)}
+          isClickable={isCategoryClickable(category.status ?? 'default')}
           onClick={() => buttonClickHandler(category)}
         />
       ))}

@@ -7,7 +7,11 @@ import { useRouter } from 'next/navigation'
 import Loading from '../loading'
 import Button from '@/components/common/Button'
 import CategoryField from '@/components/common/CategoryField'
-import { createCategoryProgress, getCategoryProgressIsCompleted } from '@/apis/category'
+import {
+  createCategoryProgress,
+  getCategoryIdByName,
+  getCategoryProgressIsCompleted,
+} from '@/apis/category'
 import { getUserId } from '@/apis/user'
 import useUserStore from '@/store/useUserStore'
 
@@ -25,7 +29,7 @@ export default function ChooseCategory() {
   //   try {
   //     const userId = (await getUserId()) as string
   //     const data = await getCategoryProgressIsCompleted(userId)
-  //     const hasIncompleteProgress = data.some(item => !item.is_completed)
+  //     const hasIncompleteProgress = data?.some(item => !item.is_completed)
   //     if (hasIncompleteProgress) router.push('/')
   //   } catch (error) {
   //     console.error('Failed to check access:', error)
@@ -74,6 +78,13 @@ export default function ChooseCategory() {
       localStorage.setItem('category', selectCategory)
 
       // 유저 ID 가져오기 및 Zustand에 저장
+      localStorage.setItem(
+        'category',
+        JSON.stringify({
+          id: await getCategoryIdByName(selectCategory),
+          name: selectCategory,
+        }),
+      )
       const userId = (await getUserId()) as string
       setUserId(userId)
 
