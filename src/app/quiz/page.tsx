@@ -7,23 +7,22 @@ import Answer from '@/components/quiz/Answer'
 import Message from '@/components/quiz/Message'
 
 import { QuizDto } from '@/types/Quiz'
-
 import { getUnsolvedQuizzes } from '@/apis/quiz'
-import { getUserId } from '@/apis/user'
+import useUserStore from '@/store/useUserStore'
 
 export default function Page() {
   const [quizList, setQuizList] = useState<QuizDto[]>([])
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true) // 로딩 상태 추가
 
-  const categoryId = 1 // 테스트용 카테고리 ID
+  const { userId, categoryId } = useUserStore()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
-        const userId = await getUserId()
-        if (!userId) throw new Error('User ID not found')
+        if (!userId) throw new Error('User ID가 없습니다.')
+        if (!categoryId) throw new Error('Category ID가 없습니다.') // null 처리
 
         const data = await getUnsolvedQuizzes(userId, categoryId)
         if (data.length > 0) {
@@ -38,7 +37,7 @@ export default function Page() {
     }
 
     fetchData()
-  }, [])
+  }, [userId, categoryId])
 
   const currentQuiz = quizList[currentQuizIndex]
 

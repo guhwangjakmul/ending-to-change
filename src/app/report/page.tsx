@@ -9,31 +9,28 @@ import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
 import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'
 
-import { getDateInfo, updateGoal } from '@/apis/date'
 import { DateInfo } from '@/types/Date'
-
-import { getUserId, getUserInfo } from '@/apis/user'
+import { getDateInfo, updateGoal } from '@/apis/date'
+import { getUserInfo } from '@/apis/user'
+import useUserStore from '@/store/useUserStore'
 
 export default function page() {
   const [dateInfo, setDateInfo] = useState<DateInfo[]>([])
   const [selectedDate, setSelectedDate] = useState<DateInfo | null>(null)
   const [weekRange, setWeekRange] = useState<{ start: string; end: string } | null>(null)
   const [filteredWeeklyData, setFilteredWeeklyData] = useState<DateInfo[]>([])
-  const [userId, setUserId] = useState<string>('')
   const [goalKm, setGoalKm] = useState(3)
+  const { userId } = useUserStore()
+
+  console.log(userId)
 
   useEffect(() => {
     const fetchDateInfo = async () => {
       try {
-        // 임시 테스트용 -> 변경 예정
-        const id = await getUserId()
-        if (!id) throw new Error('User ID not found')
-        setUserId(id)
+        if (!userId) throw new Error('User ID가 없습니다.')
 
         const userGoal = await getUserInfo(userId)
         setGoalKm(userGoal?.[0].goal || 3)
-
-        // console.log('gg', userGoal?.[0].goal)
 
         const data = await getDateInfo(userId)
         if (data.length > 0) {
@@ -66,6 +63,8 @@ export default function page() {
   const updateGoalKm = async (newGoal: number) => {
     try {
       setGoalKm(newGoal)
+      if (!userId) throw new Error('User ID가 없습니다.')
+
       await updateGoal(userId, newGoal) // DB 업데이트
     } catch (error) {
       console.error('Failed to update goal:', error)
@@ -83,6 +82,8 @@ export default function page() {
     if (record) {
       setSelectedDate(record)
     } else {
+      if (!userId) throw new Error('User ID가 없습니다.')
+
       setSelectedDate({
         id: 0,
         created_at: formattedDate,
