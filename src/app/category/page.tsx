@@ -41,19 +41,6 @@ export default function ChooseCategory() {
   //   checkAccess()
   // }, [checkAccess])
 
-  // 선택된 카테고리로 진행을 생성하고 홈으로 리다이렉션
-  // const clickHandler = useCallback(async () => {
-  //   try {
-  //     localStorage.setItem('category', selectCategory)
-
-  //     const userId = (await getUserId()) as string
-  //     await createCategoryProgress(userId, selectCategory)
-  //     router.push('/')
-  //   } catch (error) {
-  //     console.error('Failed to create category progress:', error)
-  //   }
-  // }, [selectCategory, router])
-
   const clickHandler = useCallback(async () => {
     try {
       if (!selectCategory) {
@@ -75,9 +62,6 @@ export default function ChooseCategory() {
       setCategoryId(selectedCategory.id)
 
       // localStorage에 categoryName 저장
-      localStorage.setItem('category', selectCategory)
-
-      // 유저 ID 가져오기 및 Zustand에 저장
       localStorage.setItem(
         'category',
         JSON.stringify({
@@ -85,6 +69,9 @@ export default function ChooseCategory() {
           name: selectCategory,
         }),
       )
+
+
+      // 유저 ID 가져오기 및 Zustand에 저장
       const userId = (await getUserId()) as string
       setUserId(userId)
 
