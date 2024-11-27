@@ -5,16 +5,16 @@ import { createSupabaseBrowserClient } from '@/utils/client/supabase'
  * @param {'google' | 'kakao'} target  - 소셜 로그인 제공자('google' 또는 'kakao')
  * @returns {Promise<void>} - 소셜 로그인 성공 여부
  */
-export const onClickSocialLogin = async (target: 'google' | 'kakao') => {
+export const onClickSocialLogin = async (provider: 'google' | 'kakao') => {
   const supabase = createSupabaseBrowserClient()
   const { error } = await supabase.auth.signInWithOAuth({
-    provider: `${target}`,
+    provider,
     options: {
       redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO,
     },
   })
 
-  if (error) return console.error(`${target} login failed:`, error.message)
+  if (error) return console.error(`${provider} 로그인에 실패했습니다.`, error.message)
 }
 
 /**
@@ -36,6 +36,7 @@ export const onClickKakao = async () => await onClickSocialLogin('kakao')
  */
 export const onClickLogout = async () => {
   const supabase = createSupabaseBrowserClient()
-  await supabase.auth.signOut()
+  const { error } = await supabase.auth.signOut()
+  if (error) return console.error('로그아웃에 실패했습니다.', error.message)
   window.location.href = '/auth'
 }

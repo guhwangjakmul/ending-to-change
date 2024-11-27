@@ -9,7 +9,7 @@ import { getRandomNickname } from '@/utils/user/nicknameList'
 export const getUserId = async () => {
   const supabase = createSupabaseBrowserClient()
   const { data, error } = await supabase.auth.getUser()
-  if (error) return console.error('Failed to find user:', error.message)
+  if (error) return console.error('사용자 정보를 찾는데 실패했습니다.', error.message)
   return data.user.id
 }
 
@@ -19,11 +19,11 @@ export const getUserId = async () => {
  * @returns {Promise<User[] | void>} - 사용자 정보 배열 또는 오류 메시지 출력
  */
 export const getUserInfo = async (id: string) => {
-  if (!id) return console.error('user id is missing')
+  if (!id) return console.error('사용자 ID가 없습니다.')
   const supabase = await createSupabaseBrowserClient()
 
   const { data, error } = await supabase.from('user').select('*').eq('user_id', id)
-  if (error) return console.error('failed to fetch user info', error.message)
+  if (error) return console.error('사용자 정보를 가져오지 못했습니다.', error.message)
   return data
 }
 
@@ -34,7 +34,7 @@ export const getUserInfo = async (id: string) => {
  */
 export const getUserIsAllClear = async (id: string): Promise<boolean | undefined> => {
   if (!id) {
-    console.error('user id is missing')
+    console.error('사용자 ID가 없습니다.')
     return undefined
   }
 
@@ -42,7 +42,7 @@ export const getUserIsAllClear = async (id: string): Promise<boolean | undefined
   const { data, error } = await supabase.from('user').select('is_all_clear').eq('user_id', id)
 
   if (error) {
-    console.error('Failed to fetch user info:', error.message as string)
+    console.error('사용자 정보를 가져오지 못했습니다.', error.message)
     return undefined
   }
 
@@ -65,8 +65,9 @@ export const createUser = async (authUserInfo: AuthUserInfo) => {
     goal: 3,
     point: 0,
   })
-  if (error) return console.error('Failed to create user:', error.message)
-  console.log('Succeeded create user')
+  if (error) return console.error('사용자 생성에 실패했습니다.', error.message)
+  // TODO: 삭제 예정
+  console.log('사용자 생성에 성공했습니다.')
 }
 
 /**
@@ -85,10 +86,10 @@ export const updateUser: UpdateUserFn = async (user_id, target, changeContent) =
     .eq('user_id', user_id)
 
   if (error) {
-    console.error('Failed to update user', error.message)
+    console.error('사용자 정보를 수정하는데 실패했습니다.', error.message)
     return false
   }
-
-  console.log('Succeeded in updating user')
+  // TODO: 삭제 예정
+  console.log('사용자 정보 수정에 성공했습니다.')
   return true
 }
