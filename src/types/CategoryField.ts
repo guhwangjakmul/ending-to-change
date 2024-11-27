@@ -9,6 +9,7 @@ type CategoryStatus = 'default' | 'selected' | 'completed'
 type isClickable = boolean
 
 export interface Category {
+  id: number
   name: CategoryName
   status?: CategoryStatus
 }

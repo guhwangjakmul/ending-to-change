@@ -13,6 +13,7 @@ import {
   getCategoryProgressIsCompleted,
 } from '@/apis/category'
 import { getUserId } from '@/apis/user'
+import useUserStore from '@/store/useUserStore'
 
 export default function ChooseCategory() {
   const { categoryListWithStatus, isLoading } = useUpdatedCategoryList()
@@ -20,6 +21,7 @@ export default function ChooseCategory() {
     null as unknown as CategoryName,
   )
   const router = useRouter()
+  const { setUserId, setCategoryId } = useUserStore()
 
   // TODO: 주석 제거 예정
   // // 접근 권한을 확인하고, 조건에 따라 리다이렉션
@@ -40,8 +42,42 @@ export default function ChooseCategory() {
   // }, [checkAccess])
 
   // 선택된 카테고리로 진행을 생성하고 홈으로 리다이렉션
+  // const clickHandler = useCallback(async () => {
+  //   try {
+  //     localStorage.setItem('category', selectCategory)
+
+  //     const userId = (await getUserId()) as string
+  //     await createCategoryProgress(userId, selectCategory)
+  //     router.push('/')
+  //   } catch (error) {
+  //     console.error('Failed to create category progress:', error)
+  //   }
+  // }, [selectCategory, router])
+
   const clickHandler = useCallback(async () => {
     try {
+      if (!selectCategory) {
+        console.warn('카테고리가 선택되지 않았습니다.')
+        return
+      }
+
+      // categoryListWithStatus에서 선택된 카테고리 찾기
+      const selectedCategory = categoryListWithStatus.find(
+        category => category.name === selectCategory,
+      )
+
+      if (!selectedCategory) {
+        console.error('선택된 카테고리를 찾을 수 없습니다.')
+        return
+      }
+
+      // Zustand에 categoryId 저장
+      setCategoryId(selectedCategory.id)
+
+      // localStorage에 categoryName 저장
+      localStorage.setItem('category', selectCategory)
+
+      // 유저 ID 가져오기 및 Zustand에 저장
       localStorage.setItem(
         'category',
         JSON.stringify({
@@ -50,12 +86,17 @@ export default function ChooseCategory() {
         }),
       )
       const userId = (await getUserId()) as string
-      await createCategoryProgress(userId, selectCategory)
+      setUserId(userId)
+
+      // 카테고리 진행 생성
+      await createCategoryProgress(userId, selectedCategory.name)
+
+      // 홈으로 이동
       router.push('/')
     } catch (error) {
       console.error('Failed to create category progress:', error)
     }
-  }, [selectCategory, router])
+  }, [selectCategory, categoryListWithStatus, setCategoryId, setUserId, router])
 
   if (isLoading) return <Loading />
 

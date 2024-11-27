@@ -17,6 +17,7 @@ export const useUpdatedCategoryList = () => {
         const updatedCategoryList = allCategoryList.map(data => {
           const isCompleted = completedCategoryList.some(completed => completed.name === data.name)
           return {
+            id: data.id,
             name: data.name,
             status: isCompleted ? 'completed' : 'default',
           }
