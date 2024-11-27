@@ -1,36 +1,50 @@
 'use client'
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import SpotButton from './SpotButton'
-import { CategoryFieldProps, CategoryName } from '@/types/CategoryField'
-import { useEffect, useState } from 'react'
+import { CategoryFieldProps } from '@/types/CategoryField'
+import { useEffect, useState, useCallback } from 'react'
 
 export default function CategoryField(props: CategoryFieldProps) {
   const { categoryList, isClickable = false, onClick, setSelectCategory } = props
-
+  const pathname = usePathname()
   const [useCategoryList, setUseCategoryList] = useState(categoryList)
 
-  const buttonClickHandler = (name: CategoryName) => {
-    if (setSelectCategory) {
-      setSelectCategory(name)
-    }
+  // 주어진 카테고리의 상태가 클릭 가능한지 확인
+  const isCategoryClickable = useCallback(
+    (categoryStatus: string) => {
+      if (!isClickable) return false
+      if (pathname === '/category' && categoryStatus === 'completed') return false
+      return true
+    },
+    [pathname, isClickable],
+  )
 
-    if (!isClickable) return
-    setUseCategoryList(prevList => {
-      const clickedCategory = prevList.find(category => category.name === name)
-
-      if (clickedCategory?.status === 'completed') return prevList
-
-      return prevList.map(category => {
-        if (category.name === name)
-          return {
-            ...category,
-            status: category.status === 'default' ? 'selected' : 'selected',
-          }
-        else if (category.status !== 'completed') return { ...category, status: 'default' }
+  // 클릭된 카테고리의 상태 업데이트
+  const updateCategoryStatus = useCallback((clickedCategoryName: string) => {
+    setUseCategoryList(prevList =>
+      prevList.map(category => {
+        if (category.name === clickedCategoryName) {
+          if (category.status === 'completed') return category
+          return { ...category, status: 'selected' }
+        }
+        if (category.status !== 'completed') return { ...category, status: 'default' }
         return category
-      })
-    })
-  }
+      }),
+    )
+  }, [])
+
+  const buttonClickHandler = useCallback(
+    (category: { name: string; status: string }) => {
+      const { name, status } = category
+
+      if (setSelectCategory && status !== 'completed') setSelectCategory(name)
+      if (!isCategoryClickable(status)) return
+      if (pathname === '/mypage' && status === 'completed') alert(`${name}으로 이동`)
+      updateCategoryStatus(name)
+    },
+    [isCategoryClickable, pathname, setSelectCategory, updateCategoryStatus],
+  )
 
   useEffect(() => {
     setUseCategoryList(categoryList)
@@ -38,17 +52,16 @@ export default function CategoryField(props: CategoryFieldProps) {
 
   return (
     <div className="w-[232px] h-[232px] relative m-auto">
-      {useCategoryList &&
-        useCategoryList.map(category => (
-          <SpotButton
-            key={category.name}
-            name={category.name}
-            status={category.status}
-            isClickable={isClickable}
-            onClick={() => buttonClickHandler(category.name)}
-          />
-        ))}
-      <Image src="/image/earth.svg" alt="" width="233" height="233" />
+      {useCategoryList.map(category => (
+        <SpotButton
+          key={category.name}
+          name={category.name}
+          status={category.status}
+          isClickable={isCategoryClickable(category.status)}
+          onClick={() => buttonClickHandler(category)}
+        />
+      ))}
+      <Image src="/image/earth.svg" alt="Earth Image" width="233" height="233" />
     </div>
   )
 }

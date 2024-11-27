@@ -16,7 +16,7 @@ export default function MyPage() {
         </span>
       </div>
       <div className="w-full h-screen flex justify-center">
-        <CategoryField categoryList={categoryList} />
+        <CategoryField categoryList={categoryList} isClickable />
       </div>
     </main>
   )

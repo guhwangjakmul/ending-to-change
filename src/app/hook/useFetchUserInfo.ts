@@ -17,6 +17,7 @@ interface UseFetchUserInfoResult {
   error: string | null
 }
 
+// 사용자 정보 및 완료된 카테고리 목록 가져오는 커스텀 훅
 export function useFetchUserInfo(): UseFetchUserInfoResult {
   const [user, setUser] = useState<User>({ user_id: '', nickname: '', avatar_url: '' })
   const [categoryList, setCategoryList] = useState<Category[]>([])
@@ -27,10 +28,10 @@ export function useFetchUserInfo(): UseFetchUserInfoResult {
     const fetchUserInfo = async () => {
       try {
         const userId = await getUserId()
-        if (!userId) throw new Error('User ID not found')
+        if (!userId) throw new Error('사용자 ID를 찾을 수 없습니다.')
 
         const userInfo = await getUserInfo(userId)
-        if (!userInfo) throw new Error('User information not found')
+        if (!userInfo) throw new Error('사용자 정보를 찾을 수 없습니다.')
 
         setUser({
           user_id: userId,
@@ -47,6 +48,7 @@ export function useFetchUserInfo(): UseFetchUserInfoResult {
         )
       } catch (err) {
         setError((err as Error).message)
+        console.error('오류 발생:', (err as Error).message)
       } finally {
         setIsLoading(false)
       }

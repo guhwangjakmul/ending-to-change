@@ -1,66 +1,95 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useUpdatedCategoryList } from '../hook/useUpdatedCategoryList'
+import { useEffect, useState, useCallback } from 'react'
+import { CategoryName } from '@/types/CategoryField'
+import { useRouter } from 'next/navigation'
+import Loading from '../loading'
 import Button from '@/components/common/Button'
 import CategoryField from '@/components/common/CategoryField'
-import { getAllCategoryList } from '@/apis/category'
-import { Category, CategoryName } from '@/types/CategoryField'
-import Loading from '../loading'
-import { useRouter } from 'next/navigation'
+import { createCategoryProgress, getCategoryProgressIsCompleted } from '@/apis/category'
+import { getUserId } from '@/apis/user'
 import useUserStore from '@/store/useUserStore'
 
 export default function ChooseCategory() {
-  const [categoryList, setCategoryList] = useState<Category[]>([])
+  const { categoryListWithStatus, isLoading } = useUpdatedCategoryList()
   const [selectCategory, setSelectCategory] = useState<CategoryName>(
     null as unknown as CategoryName,
   )
   const router = useRouter()
-  // Zustand 상태 업데이트 함수 가져오기
   const { setUserId, setCategoryId } = useUserStore()
 
-  const clickHandler = () => {
-    // categoryList에서 선택된 카테고리를 찾습니다.
-    const selectedCategory = categoryList.find(category => category.name === selectCategory)
+  // TODO: 주석 제거 예정
+  // // 접근 권한을 확인하고, 조건에 따라 리다이렉션
+  // const checkAccess = useCallback(async () => {
+  //   try {
+  //     const userId = (await getUserId()) as string
+  //     const data = await getCategoryProgressIsCompleted(userId)
+  //     const hasIncompleteProgress = data.some(item => !item.is_completed)
+  //     if (hasIncompleteProgress) router.push('/')
+  //   } catch (error) {
+  //     console.error('Failed to check access:', error)
+  //   }
+  // }, [router])
 
-    if (selectedCategory) {
-      // 선택된 카테고리의 id를 Zustand에 저장
-      setCategoryId(selectedCategory.id) // categoryId 저장
-      console.log('Stored categoryId in Zustand:', selectedCategory.id)
-    } else {
-      console.warn('No category found for the selected name:', selectCategory)
+  // // 컴포넌트 마운트 시 접근 권한 확인
+  // useEffect(() => {
+  //   checkAccess()
+  // }, [checkAccess])
+
+  // 선택된 카테고리로 진행을 생성하고 홈으로 리다이렉션
+  // const clickHandler = useCallback(async () => {
+  //   try {
+  //     localStorage.setItem('category', selectCategory)
+
+  //     const userId = (await getUserId()) as string
+  //     await createCategoryProgress(userId, selectCategory)
+  //     router.push('/')
+  //   } catch (error) {
+  //     console.error('Failed to create category progress:', error)
+  //   }
+  // }, [selectCategory, router])
+
+  const clickHandler = useCallback(async () => {
+    try {
+      if (!selectCategory) {
+        console.warn('카테고리가 선택되지 않았습니다.')
+        return
+      }
+
+      // categoryListWithStatus에서 선택된 카테고리 찾기
+      const selectedCategory = categoryListWithStatus.find(
+        category => category.name === selectCategory,
+      )
+
+      if (!selectedCategory) {
+        console.error('선택된 카테고리를 찾을 수 없습니다.')
+        return
+      }
+
+      // Zustand에 categoryId 저장
+      setCategoryId(selectedCategory.id)
+
+      // localStorage에 categoryName 저장
+      localStorage.setItem('category', selectCategory)
+
+      // 유저 ID 가져오기 및 Zustand에 저장
+      const userId = (await getUserId()) as string
+      setUserId(userId)
+
+      // 카테고리 진행 생성
+      await createCategoryProgress(userId, selectedCategory.name)
+
+      // 홈으로 이동
+      router.push('/')
+    } catch (error) {
+      console.error('Failed to create category progress:', error)
     }
+  }, [selectCategory, categoryListWithStatus, setCategoryId, setUserId, router])
 
-    // category name을 localStorage에 저장
-    localStorage.setItem('category', selectCategory) // 선택한 카테고리 이름 저장
+  if (isLoading) return <Loading />
 
-    // 페이지 이동
-    router.push('/')
-  }
-
-  // user_id 저장 및 카테고리 리스트 가져오기
-  useEffect(() => {
-    // URL에서 user_id를 가져와 상태에 저장
-    const query = new URLSearchParams(window.location.search)
-    const userId = query.get('user_id')
-    if (userId) {
-      setUserId(userId) // Zustand에 user_id 저장
-      console.log('Zustand store에 userId 저장:', userId)
-    } else {
-      console.log('No user_id found in URL.')
-    }
-
-    ;(async () => {
-      const allCategoryList = await getAllCategoryList()
-      const formattedCategoryList: Category[] = allCategoryList.map((data, index) => ({
-        id: data.id || index, // categoryId가 없으면 index 사용
-        name: data.name as CategoryName,
-        status: 'default',
-      }))
-      setCategoryList(formattedCategoryList)
-    })()
-  }, [setUserId])
-
-  return categoryList.length ? (
+  return (
     <main className="w-full h-screen text-center py-[57px] flex flex-col justify-center items-center">
       <div className="font-sindinaru-m">
         <h1 className="text-[15px] text-brown mb-[20px]">회복하고 싶은 캐릭터를 골라주세요</h1>
@@ -69,22 +98,24 @@ export default function ChooseCategory() {
         </span>
       </div>
       <CategoryField
-        categoryList={categoryList}
+        categoryList={categoryListWithStatus}
         isClickable
         setSelectCategory={setSelectCategory}
       />
-      <Button
-        width={303}
-        height={40}
-        fontSize={20}
-        color="text-medium-brown"
-        backgroundColor="bg-yellow"
-        onClick={clickHandler}
-      >
-        다음
-      </Button>
+      <div className="h-[40px] flex items-center justify-center">
+        {selectCategory && (
+          <Button
+            width={303}
+            height={40}
+            fontSize={20}
+            color="text-medium-brown"
+            backgroundColor="bg-yellow"
+            onClick={clickHandler}
+          >
+            다음
+          </Button>
+        )}
+      </div>
     </main>
-  ) : (
-    <Loading />
   )
 }
