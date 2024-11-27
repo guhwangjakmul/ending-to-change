@@ -7,7 +7,11 @@ import { useRouter } from 'next/navigation'
 import Loading from '../loading'
 import Button from '@/components/common/Button'
 import CategoryField from '@/components/common/CategoryField'
-import { createCategoryProgress, getCategoryProgressIsCompleted } from '@/apis/category'
+import {
+  createCategoryProgress,
+  getCategoryIdByName,
+  getCategoryProgressIsCompleted,
+} from '@/apis/category'
 import { getUserId } from '@/apis/user'
 
 export default function ChooseCategory() {
@@ -23,7 +27,7 @@ export default function ChooseCategory() {
   //   try {
   //     const userId = (await getUserId()) as string
   //     const data = await getCategoryProgressIsCompleted(userId)
-  //     const hasIncompleteProgress = data.some(item => !item.is_completed)
+  //     const hasIncompleteProgress = data?.some(item => !item.is_completed)
   //     if (hasIncompleteProgress) router.push('/')
   //   } catch (error) {
   //     console.error('Failed to check access:', error)
@@ -38,7 +42,13 @@ export default function ChooseCategory() {
   // 선택된 카테고리로 진행을 생성하고 홈으로 리다이렉션
   const clickHandler = useCallback(async () => {
     try {
-      localStorage.setItem('category', selectCategory)
+      localStorage.setItem(
+        'category',
+        JSON.stringify({
+          id: await getCategoryIdByName(selectCategory),
+          name: selectCategory,
+        }),
+      )
       const userId = (await getUserId()) as string
       await createCategoryProgress(userId, selectCategory)
       router.push('/')
