@@ -43,7 +43,7 @@ export async function GET(request: Request) {
         email: user.email!,
         avatar_url: user.user_metadata?.avatar_url,
       })
-      return NextResponse.redirect(`${overrideOrigin}/category`)
+      return NextResponse.redirect(`${overrideOrigin}/category?user_id=${user.id}`)
     }
   } catch (err) {
     console.error('Failed to handle user data:', err)
