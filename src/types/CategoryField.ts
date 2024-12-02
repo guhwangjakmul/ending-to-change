@@ -5,7 +5,7 @@ export type CategoryName =
   | '토양오염'
   | '지구온난화'
   | '수질오염'
-type CategoryStatus = 'default' | 'selected' | 'completed'
+export type CategoryStatus = 'default' | 'selected' | 'completed'
 type isClickable = boolean
 
 export interface Category {

@@ -42,6 +42,7 @@ export function useFetchUserInfo(): UseFetchUserInfoResult {
         const completedCategoryList = await getCompletedCategoryList(userId)
         setCategoryList(
           completedCategoryList.map(data => ({
+            id: data.id,
             name: data.name as CategoryName,
             status: 'completed',
           })),
