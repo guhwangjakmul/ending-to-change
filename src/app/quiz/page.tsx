@@ -9,6 +9,7 @@ import Message from '@/components/quiz/Message'
 import { QuizDto } from '@/types/Quiz'
 import { getUnsolvedQuizzes } from '@/apis/quiz'
 import useUserStore from '@/store/useUserStore'
+import Loading from '../loading'
 
 export default function Page() {
   const [quizList, setQuizList] = useState<QuizDto[]>([])
@@ -41,11 +42,11 @@ export default function Page() {
 
   const currentQuiz = quizList[currentQuizIndex]
 
+  if (isLoading) return <Loading />
+
   return (
     <div className="relative h-screen">
-      {isLoading ? (
-        <Message message="Loading..." />
-      ) : currentQuiz ? (
+      {currentQuiz ? (
         <>
           <div className="relative z-10">
             <Question question={currentQuiz.question} />
