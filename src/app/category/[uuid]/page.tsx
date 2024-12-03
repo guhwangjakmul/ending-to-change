@@ -43,6 +43,7 @@ export default function AllClear() {
       }
       const allCategoryList = await getAllCategoryList()
       const formattedCategoryList: Category[] = allCategoryList.map(data => ({
+        id: data.id,
         name: data.name as CategoryName,
         status: 'completed',
       }))
