@@ -33,17 +33,27 @@ export async function GET(request: Request) {
       .select('*')
       .eq('user_id', user.id)
       .maybeSingle()
-
     if (checkError) throw checkError
 
-    // 유저 정보가 없는 경우 새로 생성하고 카테고리 페이지로 이동
+    const { data: completeUser, error } = await supabase
+      .from('user')
+      .select('is_all_clear')
+      .eq('user_id', user.id)
+      .eq('is_all_clear', true)
+      .single()
+    if (error) throw new Error()
+
     if (!existingUser) {
+      // 유저 정보가 없는 경우 새로 생성하고 카테고리 페이지로 이동
       await createUser({
         id: user.id,
         email: user.email!,
         avatar_url: user.user_metadata?.avatar_url,
       })
       return NextResponse.redirect(`${overrideOrigin}/category?user_id=${user.id}`)
+    }
+    if (completeUser) {
+      return NextResponse.redirect(`${overrideOrigin}/category/${user.id}`)
     }
   } catch (err) {
     console.error('Failed to handle user data:', err)
