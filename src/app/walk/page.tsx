@@ -10,6 +10,8 @@ import Image from 'next/image'
 import Reward from '@/components/common/Reward'
 import BottomPanel from '@/components/walk/BottomPanel'
 import { useRouter } from 'next/navigation'
+import useUserStore from '@/store/useUserStore'
+import { updateWalkDistance } from '@/apis/date'
 
 export type WalkType = 'initial' | 'walking' | 'stop'
 
@@ -29,6 +31,16 @@ export default function Page() {
   const [isShowReward, setIsShowReward] = useState(false)
 
   const [distance, setDistance] = useState<number>(0)
+
+  const { userId } = useUserStore()
+
+  useEffect(() => {
+    if (walkType === 'stop') {
+      if (!userId) throw new Error('User ID가 없습니다.')
+
+      updateWalkDistance(userId, distance)
+    }
+  }, [walkType])
 
   const formatDistance = (distanceInMeters: number): string => {
     if (distanceInMeters >= 1000) {
