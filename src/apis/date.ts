@@ -1,3 +1,4 @@
+import { convertDistance } from './../utils/common/convertDistance'
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
 
 import { updateUser } from './user'
@@ -35,12 +36,14 @@ export const updateWalkDistance = async (user_id: string, distance: number): Pro
   try {
     const today = getTodayDate()
 
+    const convertedDistance = parseFloat((distance / 1000).toFixed(3))
+
     // 탄소 배출량 계산
-    const carbon = parseFloat(((distance / 16.04) * 2.097).toFixed(1))
+    const carbon = parseFloat(((convertedDistance / 16.04) * 2.097).toFixed(1))
 
     const { error } = await supabase
       .from('date')
-      .insert({ user_id, distance, carbon, created_at: today })
+      .insert({ user_id, distance: convertedDistance, carbon, created_at: today })
 
     if (error) {
       throw new Error(`거리 및 탄소 데이터 저장 실패:${error.message} `)
@@ -48,7 +51,7 @@ export const updateWalkDistance = async (user_id: string, distance: number): Pro
 
     // 오늘 날짜와 거리 로그 출력
     console.log(`오늘 날짜: ${today}`)
-    console.log(`오늘 걸은 거리: ${distance}m`)
+    console.log(`오늘 걸은 거리: ${convertedDistance}km`)
   } catch (error) {
     console.log('updateWalkDistance 실행 중 오류:', error)
   }
