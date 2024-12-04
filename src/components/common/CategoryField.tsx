@@ -52,7 +52,7 @@ export default function CategoryField(props: CategoryFieldProps) {
             name,
           }),
         )
-        router.push('/')
+        router.push('/badge')
       }
       updateCategoryStatus(name)
     },
