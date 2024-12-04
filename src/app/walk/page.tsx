@@ -12,6 +12,8 @@ import BottomPanel from '@/components/walk/BottomPanel'
 import { useRouter } from 'next/navigation'
 import useUserStore from '@/store/useUserStore'
 import { updateWalkDistance } from '@/apis/date'
+import { calculatePoints } from '@/utils/common/calculatePoints'
+import { updateUserPoint } from '@/apis/quiz'
 
 export type WalkType = 'initial' | 'walking' | 'stop'
 
@@ -31,10 +33,24 @@ export default function Page() {
   const [location, setLocation] = useState<Coordinates | null>(null)
   const [walkType, setWalkType] = useState<WalkType>('initial')
   const [isShowReward, setIsShowReward] = useState(false)
-
   const [distance, setDistance] = useState<number>(0)
+  const [rewardPoints, setRewardPoints] = useState(0)
 
   const { userId } = useUserStore()
+
+  const handleReward = async (distance: number) => {
+    try {
+      if (!userId) throw new Error('User ID가 없습니다.')
+
+      const points = calculatePoints(distance)
+      setRewardPoints(points)
+      setIsShowReward(true)
+
+      await updateUserPoint(userId, points)
+    } catch (error) {
+      console.log('보상 지급 중 오류:', error)
+    }
+  }
 
   useEffect(() => {
     if (walkType === 'stop' && !hasUpdated.current) {
@@ -78,7 +94,7 @@ export default function Page() {
         <BottomPanel
           walkType={walkType}
           setWalkType={setWalkType}
-          setIsShowReward={setIsShowReward}
+          handleReward={() => handleReward(distance)}
           distance={formatDistance(distance)}
         />
       )}
@@ -130,14 +146,17 @@ export default function Page() {
               <Image src={'/image/system/warning.svg'} alt="" width="40" height="40" />
             </div>
             <span className="text-[16px]">보상받기를 눌러주세요</span>
-            <Button width={100} height={40} fontSize={12} onClick={() => setIsShowReward(true)}>
+            <Button width={100} height={40} fontSize={12} onClick={() => handleReward(distance)}>
               보상받기
             </Button>
           </div>
         </Modal>
       )}
       {isShowReward && (
-        <Reward rewardContent="탄소를 줄여서 치료약 10개를 획득했다!" onClose={getReward} />
+        <Reward
+          rewardContent={`탄소를 줄여서 치료약 ${rewardPoints}개를 획득했다!`}
+          onClose={getReward}
+        />
       )}
     </div>
   )
