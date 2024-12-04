@@ -2,7 +2,7 @@
 
 import Header from '@/components/common/header/Header'
 import WalkMap from '@/components/walk/Map'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Button from '@/components/common/Button'
 import Modal from '@/components/common/Modal'
 import useModal from '../hook/useModal'
@@ -22,6 +22,8 @@ export interface Coordinates {
 
 export default function Page() {
   const router = useRouter()
+  // 초기에는 업데이트되지 않은 상태
+  const hasUpdated = useRef(false)
 
   const [isOpen, openModal, closeModal, portalElement] = useModal()
 
@@ -35,12 +37,13 @@ export default function Page() {
   const { userId } = useUserStore()
 
   useEffect(() => {
-    if (walkType === 'stop') {
+    if (walkType === 'stop' && !hasUpdated.current) {
+      hasUpdated.current = true // 업데이트 상태로 변경
       if (!userId) throw new Error('User ID가 없습니다.')
 
       updateWalkDistance(userId, distance)
     }
-  }, [walkType])
+  }, [walkType, userId, distance])
 
   const formatDistance = (distanceInMeters: number): string => {
     if (distanceInMeters >= 1000) {

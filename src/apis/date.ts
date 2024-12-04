@@ -1,4 +1,3 @@
-import { convertDistance } from './../utils/common/convertDistance'
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
 
 import { updateUser } from './user'
