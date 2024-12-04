@@ -30,18 +30,10 @@ export async function GET(request: Request) {
     // user 테이블에서 유저 정보 확인
     const { data: existingUser, error: checkError } = await supabase
       .from('user')
-      .select('*')
+      .select('is_all_clear, user_id, email')
       .eq('user_id', user.id)
       .maybeSingle()
     if (checkError) throw checkError
-
-    const { data: completeUser, error } = await supabase
-      .from('user')
-      .select('is_all_clear')
-      .eq('user_id', user.id)
-      .eq('is_all_clear', true)
-      .single()
-    if (error) throw new Error()
 
     if (!existingUser) {
       // 유저 정보가 없는 경우 새로 생성하고 카테고리 페이지로 이동
@@ -52,7 +44,8 @@ export async function GET(request: Request) {
       })
       return NextResponse.redirect(`${overrideOrigin}/category?user_id=${user.id}`)
     }
-    if (completeUser) {
+
+    if (existingUser.is_all_clear) {
       return NextResponse.redirect(`${overrideOrigin}/category/${user.id}`)
     }
   } catch (err) {
