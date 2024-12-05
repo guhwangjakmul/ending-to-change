@@ -18,25 +18,6 @@ export default function WalkMap(props: WalkMapProps) {
 
   const [map, setMap] = useState<any>(null) // Kakao Map 객체
   const [positionArr, setPositionArr] = useState<any[]>([]) // 폴리라인 그릴 좌표 배열
-  // const [distance, setDistance] = useState<number>(0)
-
-  const [testCoordinates, setTestCoordinates] = useState([
-    { latitude: 37.5665, longitude: 126.978 }, // 시작점
-    { latitude: 37.56655, longitude: 126.97805 }, // 북동쪽 약 50m
-    { latitude: 37.5666, longitude: 126.9781 }, // 북동쪽 약 50m
-    { latitude: 37.56665, longitude: 126.97815 }, // 북동쪽 약 50m
-    { latitude: 37.5667, longitude: 126.9782 }, // 북동쪽 약 50m
-    { latitude: 37.56672, longitude: 126.9783 }, // 약간 동쪽 약 50m
-    { latitude: 37.56674, longitude: 126.9784 }, // 약간 북동쪽 약 50m
-    { latitude: 37.56676, longitude: 126.9785 }, // 약간 북쪽 약 50m
-    { latitude: 37.56678, longitude: 126.9786 }, // 약간 북쪽 약 50m
-    { latitude: 37.5668, longitude: 126.9787 }, // 북쪽 약 50m
-    { latitude: 37.56685, longitude: 126.97875 }, // 북쪽 약 50m
-    { latitude: 37.5669, longitude: 126.9788 }, // 약간 북동쪽 약 50m
-    { latitude: 37.56695, longitude: 126.97885 }, // 약간 동쪽 약 50m
-    { latitude: 37.567, longitude: 126.9789 }, // 북동쪽 약 50m
-    { latitude: 37.56705, longitude: 126.979 }, // 북동쪽 약 50m
-  ]) // 테스트용 좌표 상태로 관리
 
   const [center, setCenter] = useState<Coordinates | null>(null) // 지도 중심 좌표
 
@@ -67,32 +48,6 @@ export default function WalkMap(props: WalkMapProps) {
     [map, walkType],
   )
 
-  // 테스트용 좌표를 업데이트하는 함수
-  const addTestCoordinates = useCallback(() => {
-    if (walkType === 'walking') {
-      setTestCoordinates(prev => {
-        if (prev.length > 0) {
-          const [nextCoordinate, ...remainingCoordinates] = prev
-          const moveLatLon = new kakao.maps.LatLng(
-            nextCoordinate.latitude,
-            nextCoordinate.longitude,
-          )
-          const newPosition = positionArr.concat(moveLatLon)
-          setPositionArr(newPosition)
-
-          // 폴리라인 그리는 함수 호출
-          makeLine(newPosition)
-
-          // 지도 중심 업데이트
-          setCenter({ latitude: nextCoordinate.latitude, longitude: nextCoordinate.longitude })
-
-          return remainingCoordinates // 다음 상태를 갱신
-        }
-        return prev
-      })
-    }
-  }, [positionArr, makeLine, walkType])
-
   const successHandler = (response: GeolocationPosition) => {
     const { latitude, longitude } = response.coords
     const currentLocation = { latitude, longitude }
@@ -116,18 +71,15 @@ export default function WalkMap(props: WalkMapProps) {
     }
   }, [location])
 
-  // 지도 객체 변경 시 테스트용 폴리라인 생성
   useEffect(() => {
-    if (map && walkType === 'walking') {
-      const interval = setInterval(() => {
-        addTestCoordinates() // 테스트용 좌표 추가
-      }, 2000) // 2초마다 업데이트
-
-      return () => {
-        clearInterval(interval)
-      }
+    if (walkType === 'walking' && location) {
+      setPositionArr(prev => {
+        const newPotion = [...prev, new kakao.maps.LatLng(location.latitude, location.longitude)]
+        makeLine(newPotion)
+        return newPotion
+      })
     }
-  }, [map, addTestCoordinates, walkType])
+  }, [walkType, location, makeLine])
 
   return (
     <>
@@ -149,13 +101,13 @@ export default function WalkMap(props: WalkMapProps) {
             image={{
               src: '/image/map_pin.svg', // SVG 파일 경로
               size: {
-                width: 50, // 마커 이미지의 너비
-                height: 50, // 마커 이미지의 높이
+                width: 50,
+                height: 50,
               },
               options: {
                 offset: {
-                  x: 25, // 이미지 중심의 x축 위치
-                  y: 50, // 이미지 중심의 y축 위치
+                  x: 25,
+                  y: 50,
                 },
               },
             }}
