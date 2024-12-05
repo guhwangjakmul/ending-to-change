@@ -2,7 +2,7 @@
 
 import Loading from '@/app/loading'
 import { useEffect, useState, useCallback } from 'react'
-import { Map } from 'react-kakao-maps-sdk'
+import { Map, MapMarker } from 'react-kakao-maps-sdk'
 import { Coordinates, WalkType } from '@/app/walk/page'
 
 interface WalkMapProps {
@@ -38,7 +38,7 @@ export default function WalkMap(props: WalkMapProps) {
     { latitude: 37.56705, longitude: 126.979 }, // 북동쪽 약 50m
   ]) // 테스트용 좌표 상태로 관리
 
-  const [center, setCenter] = useState({ lat: 37.5665, lng: 126.978 }) // 지도 중심 좌표
+  const [center, setCenter] = useState<Coordinates | null>(null) // 지도 중심 좌표
 
   // 폴리라인 그리는 함수
   const makeLine = useCallback(
@@ -84,7 +84,7 @@ export default function WalkMap(props: WalkMapProps) {
           makeLine(newPosition)
 
           // 지도 중심 업데이트
-          setCenter({ lat: nextCoordinate.latitude, lng: nextCoordinate.longitude })
+          setCenter({ latitude: nextCoordinate.latitude, longitude: nextCoordinate.longitude })
 
           return remainingCoordinates // 다음 상태를 갱신
         }
@@ -95,7 +95,10 @@ export default function WalkMap(props: WalkMapProps) {
 
   const successHandler = (response: GeolocationPosition) => {
     const { latitude, longitude } = response.coords
-    setLocation({ latitude, longitude })
+    const currentLocation = { latitude, longitude }
+
+    setLocation(currentLocation)
+    setCenter(currentLocation) // 지도 중심을 현재 위치로 설정
     setIsLoading(false)
     console.log('Location fetch success')
   }
@@ -104,9 +107,14 @@ export default function WalkMap(props: WalkMapProps) {
     console.error('Error fetching location:', error)
   }
 
+  // 현재 위치를 한 번만 가져옴
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(successHandler, errorHandler)
-  }, [])
+    if (!location) {
+      navigator.geolocation.getCurrentPosition(successHandler, errorHandler, {
+        enableHighAccuracy: true,
+      })
+    }
+  }, [location])
 
   // 지도 객체 변경 시 테스트용 폴리라인 생성
   useEffect(() => {
@@ -123,13 +131,34 @@ export default function WalkMap(props: WalkMapProps) {
 
   return (
     <>
-      {location ? (
+      {center ? (
         <Map
-          center={center} // 지도 중심을 동적으로 설정
+          center={{
+            lat: center.latitude,
+            lng: center.longitude,
+          }}
           style={{ width: '100%', height: '100vh' }}
           level={2}
           onCreate={setMap} // Kakao Map 객체 생성 시 호출
-        ></Map>
+        >
+          {/* 현재 위치에 마커 표시 */}
+          <MapMarker
+            position={{ lat: center.latitude, lng: center.longitude }}
+            image={{
+              src: '/image/map_pin.svg', // SVG 파일 경로
+              size: {
+                width: 50, // 마커 이미지의 너비
+                height: 50, // 마커 이미지의 높이
+              },
+              options: {
+                offset: {
+                  x: 25, // 이미지 중심의 x축 위치
+                  y: 50, // 이미지 중심의 y축 위치
+                },
+              },
+            }}
+          />
+        </Map>
       ) : (
         <Loading />
       )}
