@@ -140,6 +140,8 @@ export default function WalkMap(props: WalkMapProps) {
           style={{ width: '100%', height: '100vh' }}
           level={2}
           onCreate={setMap} // Kakao Map 객체 생성 시 호출
+          draggable={walkType !== 'walking'} // walkType이 walking일 때 지도 드래그 막기
+          zoomable={walkType !== 'walking'} // walkType이 walking일 때 확대/축소 막기
         >
           {/* 현재 위치에 마커 표시 */}
           <MapMarker
