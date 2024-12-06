@@ -55,7 +55,7 @@ export default function WalkMap(props: WalkMapProps) {
     setLocation(currentLocation)
     setCenter(currentLocation) // 지도 중심을 현재 위치로 설정
     setIsLoading(false)
-    console.log('Location fetch success')
+    console.log('Location fetch success', currentLocation)
   }
 
   const errorHandler = (error: GeolocationPositionError) => {
@@ -74,9 +74,19 @@ export default function WalkMap(props: WalkMapProps) {
   useEffect(() => {
     if (walkType === 'walking' && location) {
       setPositionArr(prev => {
-        const newPotion = [...prev, new kakao.maps.LatLng(location.latitude, location.longitude)]
-        makeLine(newPotion)
-        return newPotion
+        const newPosition = [...prev, new kakao.maps.LatLng(location.latitude, location.longitude)]
+        makeLine(newPosition)
+
+        // 새로운 좌표를 콘솔에 출력
+        console.log(
+          'Updated Positions:',
+          newPosition.map(pos => ({
+            latitude: pos.getLat(),
+            longitude: pos.getLng(),
+          })),
+        )
+
+        return newPosition
       })
     }
   }, [walkType, location, makeLine])
