@@ -79,7 +79,10 @@ export default function Page() {
         // 카테고리 완료하면 다음 생성 DB로
         const getCategory = await getCategoryProgress(userId)
         const incompleteCategory = getCategory.find(category => !category.is_completed)
-        if (!incompleteCategory) throw new Error('No incomplete category found')
+        if (!incompleteCategory) {
+          setIsAllCompleted(true)
+          return
+        }
 
         // 조건에 맞는 카테고리 ID로 설정
         const categoryId = incompleteCategory.category_id
@@ -230,6 +233,23 @@ export default function Page() {
           level={level}
           isAllCompleted={isAllCompleted}
         />
+      )}
+
+      {isAllCompleted && (
+        <div className="absolute bg-cream w-full h-full justify-center items-center flex flex-col space-y-6">
+          <p className="font-gothic-b text-brown">주민을 모두 구했습니다!</p>
+          <Button
+            width={104}
+            height={40}
+            fontSize={16}
+            backgroundColor="bg-mint"
+            color="text-light-mint"
+            isLink
+            href="/mypage"
+            children="마이홈으로"
+            isMediumFont
+          />
+        </div>
       )}
     </div>
   )

@@ -30,7 +30,7 @@ export async function GET(request: Request) {
     // user 테이블에서 유저 정보 확인
     const { data: existingUser, error: checkError } = await supabase
       .from('user')
-      .select('is_all_clear, user_id, email')
+      .select('*')
       .eq('user_id', user.id)
       .maybeSingle()
     if (checkError) throw checkError

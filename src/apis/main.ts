@@ -78,26 +78,6 @@ export const usePotion = async (user_id: string) => {
   }
 }
 
-// export const getCompletedCategoryCount = async (user_id: string) => {
-//   try {
-//     const { count, error } = await supabase
-//       .from('category_progress')
-//       .select('*', { count: 'exact', head: true })
-//       .eq('user_id', user_id)
-//       .eq('is_completed', true)
-
-//     if (error) {
-//       console.error('is_completed 데이터 개수 가져오기 실패:', error)
-//       return null
-//     }
-
-//     return count || 0 // count가 null이면 0 반환
-//   } catch (error) {
-//     console.error('getCompletedCategoryCount 오류:', error)
-//     return null
-//   }
-// }
-
 export const updateIsAllCompleted = async (user_id: string) => {
   try {
     // category_progress 테이블에서 user_id에 해당하는 레코드 확인
