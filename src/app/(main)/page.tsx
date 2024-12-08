@@ -7,7 +7,13 @@ import FooterButtons from '@/components/main/FooterButtons'
 import Levelup from '@/components/main/Levelup'
 import ProgressBar from '@/components/common/ProgressBar'
 import Button from '@/components/common/Button'
-import { getPotion, getProgress, upgradeProgress, usePotion } from '@/apis/main'
+import {
+  getPotion,
+  getProgress,
+  updateIsAllCompleted,
+  upgradeProgress,
+  usePotion,
+} from '@/apis/main'
 import { getUserId } from '@/apis/user'
 import { changeComplete, getCategoryProgress } from '@/apis/category'
 import dynamic from 'next/dynamic'
@@ -20,11 +26,12 @@ export default function Page() {
   const [categoryId, setCategoryId] = useState<number>(1)
   const [loading, setLoading] = useState(true) // 로딩 상태 추가
 
-  // 임의 물약 & 경험치
+  // 물약 & 경험치
   const [potion, setPotion] = useState<number | null>(null)
   const [currentProgress, setCurrentProgress] = useState<number | null>(null)
   const [level, setLevel] = useState(1)
   const [isEnd, setIsEnd] = useState(false)
+  const [isAllCompleted, setIsAllCompleted] = useState(false)
 
   const getSelectedCharacter = (
     categoryId: number,
@@ -54,29 +61,38 @@ export default function Page() {
   const [message, setMessage] = useState('')
   const [isShowLevelup, setIsShowLevelup] = useState(false)
 
+  useEffect(() => {
+    if (isAllCompleted) {
+      console.log('All categories completed!')
+    }
+  }, [isAllCompleted])
+
   // 페이지가 로드될 때 유저의 potion 값 불러오기
   useEffect(() => {
     const fetchPotionAndProgress = async () => {
       try {
+        // 유저 ID
         const userId = await getUserId()
         if (!userId) throw new Error('User ID not found')
         setUserId(userId)
 
+        // 카테고리 완료하면 다음 생성 DB로
         const getCategory = await getCategoryProgress(userId)
         const incompleteCategory = getCategory.find(category => !category.is_completed)
-
-        // 만약 불완전한 카테고리를 찾지 못했다면 에러 처리
-        if (!incompleteCategory) throw new Error('No incomplete category found')
+        if (!incompleteCategory) {
+          setIsAllCompleted(true)
+          return
+        }
 
         // 조건에 맞는 카테고리 ID로 설정
         const categoryId = incompleteCategory.category_id
         setCategoryId(categoryId)
 
+        // 포션, 진행도 불러오기
         const initialPoint = await getPotion(userId)
         const initialProgress = await getProgress(userId, categoryId)
 
         if (initialPoint !== null) setPotion(initialPoint)
-
         if (initialProgress !== null) {
           setCurrentProgress(initialProgress)
 
@@ -140,7 +156,15 @@ export default function Page() {
         setCurrentProgress(0)
       } else if (level === 3 && newProgress === 200) {
         setIsShowLevelup(true)
-        changeComplete(userId, categoryId!)
+        changeComplete(userId, categoryId)
+        const getCategory = await getCategoryProgress(userId) // 업데이트된 카테고리 진행 상태 확인
+        const allCompleted = getCategory.every(category => category.is_completed)
+
+        if (allCompleted && getCategory.length === 6) {
+          // 모든 카테고리가 완료되었고 데이터베이스 개수가 6개일 때
+          await updateIsAllCompleted(userId)
+          setIsAllCompleted(true) // 상태 업데이트
+        }
       }
     }
   }
@@ -207,7 +231,25 @@ export default function Page() {
           index={index}
           onClose={handleCloseLevelup}
           level={level}
+          isAllCompleted={isAllCompleted}
         />
+      )}
+
+      {isAllCompleted && (
+        <div className="absolute bg-cream w-full h-full justify-center items-center flex flex-col space-y-6">
+          <p className="font-gothic-b text-brown">주민을 모두 구했습니다!</p>
+          <Button
+            width={104}
+            height={40}
+            fontSize={16}
+            backgroundColor="bg-mint"
+            color="text-light-mint"
+            isLink
+            href="/mypage"
+            children="마이홈으로"
+            isMediumFont
+          />
+        </div>
       )}
     </div>
   )
