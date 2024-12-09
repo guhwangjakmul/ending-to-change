@@ -1,26 +1,37 @@
 'use client'
+
 import characterGroup from '@/assets/characterData'
 import Button from '@/components/common/Button'
 import ProgressBar from '@/components/common/ProgressBar'
 import CharacterSection from '@/components/main/CharacterSection'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-function getStoredCategoryId() {
-  // localStorage에서 데이터 가져오기
-  const storedData = localStorage.getItem('viewResultCategory')
+function badge() {
+  const [categoryId, setCategoryId] = useState<number | null>(null)
+  const [selectedCharacter, setSelectedCharacter] = useState<
+    'water' | 'air' | 'soil' | 'warming' | 'recycle' | 'energy'
+  >('water')
 
-  if (storedData) {
-    const parsedData = JSON.parse(storedData)
-    return parsedData.id
-  } else {
-    console.log('데이터가 localStorage에 없습니다.')
-    return null
-  }
-}
+  useEffect(() => {
+    const getStoredCategoryId = (): number | null => {
+      const storedData = localStorage.getItem('viewResultCategory')
+      if (storedData) {
+        const parsedData = JSON.parse(storedData)
+        return parseInt(parsedData.id)
+      } else {
+        console.log('데이터가 localStorage에 없습니다.')
+        return null
+      }
+    }
 
-export default function badge() {
-  const categoryId = getStoredCategoryId()
+    const id = getStoredCategoryId()
+    if (id !== null) {
+      setCategoryId(id)
+      setSelectedCharacter(getSelectedCharacter(id))
+    }
+  }, [])
+
   const getSelectedCharacter = (
     categoryId: number,
   ): 'water' | 'air' | 'soil' | 'warming' | 'recycle' | 'energy' => {
@@ -42,7 +53,9 @@ export default function badge() {
     }
   }
 
-  const selectedCharacter = getSelectedCharacter(categoryId)
+  if (!categoryId) {
+    return <div>로딩 중...</div>
+  }
 
   return (
     <div className="relative w-full h-full flex justify-center">
@@ -52,7 +65,6 @@ export default function badge() {
         fill
         style={{ objectFit: 'cover' }}
       />
-
       <CharacterSection selectedCharacter={selectedCharacter} index={3} />
       <div className="absolute bottom-8 space-y-5">
         <ProgressBar currentProgress={200} level={3} />
@@ -72,3 +84,5 @@ export default function badge() {
     </div>
   )
 }
+
+export default badge
