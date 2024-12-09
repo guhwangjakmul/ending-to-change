@@ -14,7 +14,7 @@ import { getDateInfo, updateGoal } from '@/apis/date'
 import { getUserInfo } from '@/apis/user'
 import useUserStore from '@/store/useUserStore'
 
-export default function page() {
+export default function Page() {
   const [dateInfo, setDateInfo] = useState<DateInfo[]>([])
   const [selectedDate, setSelectedDate] = useState<DateInfo | null>(null)
   const [weekRange, setWeekRange] = useState<{ start: string; end: string } | null>(null)
@@ -22,16 +22,16 @@ export default function page() {
   const [goalKm, setGoalKm] = useState(3)
   const { userId } = useUserStore()
 
-  console.log(userId)
-
   useEffect(() => {
     const fetchDateInfo = async () => {
       try {
         if (!userId) throw new Error('User ID가 없습니다.')
 
+        // 사용자 목표 거리 가져오기
         const userGoal = await getUserInfo(userId)
         setGoalKm(userGoal?.[0].goal || 3)
 
+        // 날짜 정보 가져오기
         const data = await getDateInfo(userId)
         if (data.length > 0) {
           setDateInfo(data)
@@ -52,6 +52,11 @@ export default function page() {
             user_id: userId,
           },
         )
+
+        // 오늘 날짜 기준으로 주간 범위 설정 및 필터링
+        const initialWeekRange = getWeekRange(new Date())
+        setWeekRange(initialWeekRange)
+        filterWeeklyData(data, initialWeekRange) // 데이터를 필터링
       } catch (error) {
         console.error('fetchDateInfo 실행 중 에러 발생', error)
       }
@@ -95,7 +100,7 @@ export default function page() {
 
     const range = getWeekRange(date)
     setWeekRange(range)
-    filterWeeklyData(range)
+    filterWeeklyData(dateInfo, range) // 데이터 필터링
   }
 
   // 주간 범위를 계산하는 함수
@@ -109,19 +114,12 @@ export default function page() {
   }
 
   // 주간 범위에 맞는 데이터를 필터링하는 함수
-  const filterWeeklyData = (range: { start: string; end: string }) => {
-    const filteredData = dateInfo.filter(
-      item => item.created_at >= range.start && item.created_at <= range.end,
+  const filterWeeklyData = (data: DateInfo[], range: { start: string; end: string }) => {
+    const filteredData = data.filter(item =>
+      moment(item.created_at).isBetween(range.start, range.end, null, '[]'),
     )
     setFilteredWeeklyData(filteredData)
   }
-
-  // 페이지 초기 로드 시 오늘 기준으로 일주일 설정
-  // 일주일 범위를 보여주는 경우는 오늘 날짜를 기준으로 한 주간 범위를 계산해야 하므로, useEffect를 사용해 한 번만 실행되는 초기화 코드로 설정
-  useEffect(() => {
-    const initialWeekRange = getWeekRange(new Date())
-    setWeekRange(initialWeekRange)
-  }, [])
 
   return (
     <div className="relative h-screen font-gothic-b text-brown ">
