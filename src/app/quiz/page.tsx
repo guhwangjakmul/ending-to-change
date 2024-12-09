@@ -27,7 +27,7 @@ export default function Page() {
         const parsedCategory = JSON.parse(storedCategory)
         setCategoryName(parsedCategory.name || '카테고리') // name 속성이 없으면 기본값 설정
       } catch (error) {
-        console.error('Error parsing category from localStorage', error)
+        console.error('localStorage에서 카테고리 이름 가져오는 중 에러 발생', error)
         setCategoryName('카테고리')
       }
     }
