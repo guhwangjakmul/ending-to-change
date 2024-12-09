@@ -5,12 +5,12 @@ import React from 'react'
 interface BottomPanelProps {
   walkType: WalkType
   setWalkType: React.Dispatch<React.SetStateAction<WalkType>>
-  setIsShowReward: React.Dispatch<React.SetStateAction<boolean>>
   distance: string
+  handleReward: () => void
 }
 
 export default function BottomPanel(props: BottomPanelProps) {
-  const { walkType, setWalkType, setIsShowReward, distance } = props
+  const { walkType, setWalkType, distance, handleReward } = props
 
   return (
     <>
@@ -47,7 +47,7 @@ export default function BottomPanel(props: BottomPanelProps) {
         <div className="absolute bottom-[50px] z-10 w-[360px] h-[90px] bg-walk-bottom left-[50%] translate-x-[-50%] flex items-center px-[20px] rounded-[30px]">
           <button
             className="rounded-full w-[60px] h-[60px] bg-light-yellow flex justify-center items-center"
-            onClick={() => setIsShowReward(true)}
+            onClick={handleReward}
           >
             <Image src={'/image/button/reward.svg'} alt="보상 받기" width="40" height="40" />
           </button>

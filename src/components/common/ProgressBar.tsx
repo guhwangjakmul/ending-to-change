@@ -11,16 +11,22 @@ export default function ProgressBar(props: ProgressBarProps) {
   // 진행 퍼센티지를 계산
   const progressPercentage = (currentProgress / max) * 100
 
-  const [category, setCategory] = useState<string | null>(null)
+  const [category, setCategory] = useState<{ id: number; name: string } | null>(null)
 
   useEffect(() => {
     const storedCategory = localStorage.getItem('category')
-    setCategory(storedCategory)
+    if (storedCategory) {
+      try {
+        setCategory(JSON.parse(storedCategory)) // JSON 데이터를 객체로 변환
+      } catch (error) {
+        console.error('카테고리 데이터를 파싱하는 중 오류 발생:', error)
+      }
+    }
   }, [])
 
   return (
     <div className="flex flex-col w-full space-y-2">
-      {showLabel && renderLabel(labelType, currentProgress, max, level, category)}
+      {showLabel && renderLabel(labelType, currentProgress, max, level, category?.name)}
       <div className="relative w-full h-3 flex items-center space-x-2">
         <div className={`w-full h-3 ${getBackgroundColor(labelType)} rounded-full overflow-hidden`}>
           <div
@@ -61,14 +67,14 @@ const renderLabel = (
   currentProgress?: number,
   max?: number,
   level?: number,
-  category?: string | null,
+  categoryName?: string,
 ) => {
   const fontSize = labelType === 'Lv' ? 'text-[12px]' : 'text-[14px]'
   const fontStyle = labelType === 'Lv' ? 'font-sindinaru-b' : 'font-gothic-b'
 
   // 카테고리에 따라 텍스트 색상을 변경
   const textColor =
-    category === '수질오염' || category === '에너지 절약' || category === '토양오염'
+    categoryName === '수질오염' || categoryName === '에너지 절약' || categoryName === '토양오염'
       ? 'text-cream'
       : 'text-brown'
 
