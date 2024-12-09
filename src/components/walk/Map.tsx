@@ -17,7 +17,8 @@ export default function WalkMap(props: WalkMapProps) {
   const { setIsLoading, location, setLocation, walkType, setDistance } = props
 
   const [map, setMap] = useState<any>(null) // Kakao Map 객체
-  const [positionArr, setPositionArr] = useState<any[]>([]) // Polyline 좌표 배열
+  const [positionArr, setPositionArr] = useState<any[]>([]) // 폴리라인 그릴 좌표 배열
+
   const [center, setCenter] = useState<Coordinates | null>(null) // 지도 중심 좌표
 
   // 폴리라인 그리는 함수
@@ -25,27 +26,28 @@ export default function WalkMap(props: WalkMapProps) {
     (position: any[]) => {
       if (walkType === 'walking') {
         const polyline = new kakao.maps.Polyline({
-          path: position, // Polyline 경로
-          strokeWeight: 3, // 선의 두께
-          strokeColor: '#3478F5', // 선의 색깔
-          strokeOpacity: 1, // 선의 투명도
-          strokeStyle: 'solid', // 선의 스타일
+          path: position,
+          strokeWeight: 3,
+          strokeColor: '#3478F5',
+          strokeOpacity: 1,
+          strokeStyle: 'solid',
         })
 
-        // 지도에 Polyline 추가
+        // 지도에 폴리라인 표시
         polyline.setMap(map)
 
-        // 거리 계산 후 업데이트
+        // 새로운 거리 계산
         const newDistance = polyline.getLength()
+
+        // 비동기로 상태 업데이트
         setTimeout(() => {
           setDistance(newDistance)
         }, 0)
       }
     },
-    [map, walkType, setDistance],
+    [map, walkType],
   )
 
-  // 현재 위치 업데이트 성공 핸들러
   const successHandler = (response: GeolocationPosition) => {
     const { latitude, longitude } = response.coords
     const currentLocation = { latitude, longitude }
@@ -53,16 +55,14 @@ export default function WalkMap(props: WalkMapProps) {
     setLocation(currentLocation)
     setCenter(currentLocation) // 지도 중심을 현재 위치로 설정
     setIsLoading(false)
-
-    console.log('Location fetch success:', currentLocation)
+    console.log('Location fetch success', currentLocation)
   }
 
-  // 현재 위치 업데이트 실패 핸들러
   const errorHandler = (error: GeolocationPositionError) => {
     console.error('Error fetching location:', error)
   }
 
-  // Geolocation API로 현재 위치 가져오기
+  // 현재 위치를 한 번만 가져옴
   useEffect(() => {
     if (!location) {
       navigator.geolocation.getCurrentPosition(successHandler, errorHandler, {
@@ -71,14 +71,13 @@ export default function WalkMap(props: WalkMapProps) {
     }
   }, [location])
 
-  // 위치 정보가 변경될 때마다 Polyline 업데이트
   useEffect(() => {
     if (walkType === 'walking' && location) {
       setPositionArr(prev => {
         const newPosition = [...prev, new kakao.maps.LatLng(location.latitude, location.longitude)]
         makeLine(newPosition)
 
-        // 경로 업데이트 로그 출력
+        // 새로운 좌표를 콘솔에 출력
         console.log(
           'Updated Positions:',
           newPosition.map(pos => ({
@@ -92,19 +91,6 @@ export default function WalkMap(props: WalkMapProps) {
     }
   }, [walkType, location, makeLine])
 
-  // 주기적으로 위치 업데이트 (5초마다)
-  useEffect(() => {
-    if (walkType === 'walking') {
-      const interval = setInterval(() => {
-        navigator.geolocation.getCurrentPosition(successHandler, errorHandler, {
-          enableHighAccuracy: true,
-        })
-      }, 5000) // 5초마다 위치 갱신
-
-      return () => clearInterval(interval) // cleanup
-    }
-  }, [walkType])
-
   return (
     <>
       {center ? (
@@ -116,8 +102,8 @@ export default function WalkMap(props: WalkMapProps) {
           style={{ width: '100%', height: '100vh' }}
           level={2}
           onCreate={setMap} // Kakao Map 객체 생성 시 호출
-          draggable={walkType !== 'walking'} // walkType이 'walking'이면 지도 드래그 막기
-          zoomable={walkType !== 'walking'} // walkType이 'walking'이면 확대/축소 막기
+          draggable={walkType !== 'walking'} // walkType이 walking일 때 지도 드래그 막기
+          zoomable={walkType !== 'walking'} // walkType이 walking일 때 확대/축소 막기
         >
           {/* 현재 위치에 마커 표시 */}
           <MapMarker
