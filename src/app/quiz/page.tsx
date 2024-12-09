@@ -15,8 +15,23 @@ export default function Page() {
   const [quizList, setQuizList] = useState<QuizDto[]>([])
   const [currentQuizIndex, setCurrentQuizIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true) // 로딩 상태 추가
+  const [categoryName, setCategoryName] = useState<string | null>(null) // categoryName 상태 추가
 
   const { userId, categoryId } = useUserStore()
+
+  useEffect(() => {
+    // localStorage에서 categoryName 가져오기
+    const storedCategory = localStorage.getItem('category')
+    if (storedCategory) {
+      try {
+        const parsedCategory = JSON.parse(storedCategory)
+        setCategoryName(parsedCategory.name || '카테고리') // name 속성이 없으면 기본값 설정
+      } catch (error) {
+        console.error('localStorage에서 카테고리 이름 가져오는 중 에러 발생', error)
+        setCategoryName('카테고리')
+      }
+    }
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +69,7 @@ export default function Page() {
           </div>
         </>
       ) : (
-        <Message message="퀴즈를 다 풀었습니다!" />
+        <Message message={`${categoryName}에 있는 모든 퀴즈를 풀었습니다!`} />
       )}
       <div className="absolute bottom-0">
         <Image
