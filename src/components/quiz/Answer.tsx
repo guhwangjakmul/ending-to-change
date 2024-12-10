@@ -10,7 +10,6 @@ import useModal from '@/app/hook/useModal'
 
 import { QuizDto } from '@/types/Quiz'
 import { updateUserPoint, insertQuizLog } from '@/apis/quiz'
-import { updateProgress } from '@/apis/category'
 import useUserStore from '@/store/useUserStore'
 
 interface AnswerProps {
@@ -45,7 +44,6 @@ export default function Answer(props: AnswerProps) {
 
     await updateUserPoint(userId, points)
     await insertQuizLog(currentQuiz.id, userId)
-    await updateProgress(userId, points)
 
     if (isCorrect) {
       setModalMessage('정답이에요!')

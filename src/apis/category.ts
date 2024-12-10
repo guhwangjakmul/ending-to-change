@@ -85,19 +85,6 @@ export const getCategoryProgressUjin = async (user_id: string): Promise<Category
   return data
 }
 
-// category_progress의 progress 업데이트
-export const updateProgress = async (user_id: string, points: number) => {
-  const supabase = createSupabaseBrowserClient()
-
-  const currentProgress = await getCategoryProgressUjin(user_id)
-  const currentPoints = currentProgress?.progress ?? 0
-
-  await supabase
-    .from('category_progress')
-    .update({ progress: currentPoints + points })
-    .eq('user_id', user_id)
-}
-
 /**
  * 카테고리 이름으로 ID 반환
  * @param name 카테고리 이름
