@@ -66,8 +66,6 @@ export const createUser = async (authUserInfo: AuthUserInfo) => {
     point: 0,
   })
   if (error) return console.error('사용자 생성에 실패했습니다.', error.message)
-  // TODO: 삭제 예정
-  console.log('사용자 생성에 성공했습니다.')
 }
 
 /**
@@ -89,7 +87,5 @@ export const updateUser: UpdateUserFn = async (user_id, target, changeContent) =
     console.error('사용자 정보를 수정하는데 실패했습니다.', error.message)
     return false
   }
-  // TODO: 삭제 예정
-  console.log('사용자 정보 수정에 성공했습니다.')
   return true
 }
