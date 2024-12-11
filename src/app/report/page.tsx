@@ -120,7 +120,6 @@ export default function Page() {
       moment(item.created_at).isBetween(range.start, range.end, null, '[]'),
     )
     setFilteredWeeklyData(filteredData)
-    console.log('Filtered Weekly Data:', filteredData)
   }
 
   // 페이지 초기 렌더링 시 데이터 필터링 보장
