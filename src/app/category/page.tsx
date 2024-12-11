@@ -7,13 +7,10 @@ import { useRouter } from 'next/navigation'
 import Loading from '../loading'
 import Button from '@/components/common/Button'
 import CategoryField from '@/components/common/CategoryField'
-import {
-  createCategoryProgress,
-  getCategoryIdByName,
-  getCategoryProgressIsCompleted,
-} from '@/apis/category'
+import { createCategoryProgress, getCategoryProgressIsCompleted } from '@/apis/category'
 import { getUserId } from '@/apis/user'
 import useUserStore from '@/store/useUserStore'
+import { setLocalStorageCategory } from '@/utils/common/localStorage'
 
 export default function ChooseCategory() {
   const { categoryListWithStatus, isLoading } = useUpdatedCategoryList()
@@ -61,13 +58,7 @@ export default function ChooseCategory() {
       setCategoryId(selectedCategory.id)
 
       // localStorage에 categoryName 저장
-      localStorage.setItem(
-        'category',
-        JSON.stringify({
-          id: await getCategoryIdByName(selectCategory),
-          name: selectCategory,
-        }),
-      )
+      setLocalStorageCategory('category', 'name', selectCategory)
 
       // 유저 ID 가져오기 및 Zustand에 저장
       const userId = (await getUserId()) as string
