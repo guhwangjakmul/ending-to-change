@@ -24,9 +24,12 @@ export default function Page() {
 
   useEffect(() => {
     const fetchDateInfo = async () => {
-      try {
-        if (!userId) throw new Error('User ID가 없습니다.')
+      if (!userId) {
+        console.error('User ID가 없습니다.')
+        return
+      }
 
+      try {
         // 사용자 목표 거리 가져오기
         const userGoal = await getUserInfo(userId)
         console.log(userGoal)
@@ -34,9 +37,13 @@ export default function Page() {
 
         // 날짜 정보 가져오기
         const data = await getDateInfo(userId)
-        if (data.length > 0) {
-          setDateInfo(data)
+        if (!data || data.length === 0) {
+          console.warn('날짜 정보가 비어있습니다.')
+          setDateInfo([])
+          return
         }
+
+        setDateInfo(data)
 
         // 오늘 날짜의 데이터를 초기값으로 설정
         const todayFormatted = moment(new Date()).format('YYYY-MM-DD')
