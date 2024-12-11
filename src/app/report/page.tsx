@@ -29,6 +29,7 @@ export default function Page() {
 
         // 사용자 목표 거리 가져오기
         const userGoal = await getUserInfo(userId)
+        console.log(userGoal)
         setGoalKm(userGoal?.[0].goal || 3)
 
         // 날짜 정보 가져오기
@@ -72,7 +73,7 @@ export default function Page() {
 
       await updateGoal(userId, newGoal) // DB 업데이트
     } catch (error) {
-      console.error('Failed to update goal:', error)
+      console.error('goal 업데이트하는데 실패했습니다.:', error)
     }
   }
 
@@ -120,6 +121,13 @@ export default function Page() {
     )
     setFilteredWeeklyData(filteredData)
   }
+
+  // 페이지 초기 렌더링 시 데이터 필터링 보장
+  useEffect(() => {
+    if (dateInfo.length > 0 && weekRange) {
+      filterWeeklyData(dateInfo, weekRange)
+    }
+  }, [dateInfo, weekRange])
 
   return (
     <div className="relative h-screen font-gothic-b text-brown ">
