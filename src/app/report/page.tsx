@@ -19,6 +19,7 @@ import { DateInfo } from '@/types/Date'
 import { getDateInfo, updateGoal } from '@/apis/date'
 import { getUserInfo } from '@/apis/user'
 import useUserStore from '@/store/useUserStore'
+import Loading from '../loading'
 
 export default function Page() {
   const [dateInfo, setDateInfo] = useState<DateInfo[]>([])
@@ -26,31 +27,27 @@ export default function Page() {
   const [weekRange, setWeekRange] = useState<{ start: string; end: string } | null>(null)
   const [filteredWeeklyData, setFilteredWeeklyData] = useState<DateInfo[]>([])
   const [goalKm, setGoalKm] = useState(3)
+  const [isLoading, setIsLoading] = useState(true)
   const { userId } = useUserStore()
 
   useEffect(() => {
     const fetchDateInfo = async () => {
       if (!userId) {
         console.error('User ID가 없습니다.')
+        setIsLoading(false)
         return
       }
 
       try {
+        setIsLoading(true)
+
         // 사용자 목표 거리 가져오기
         const userGoal = await getUserInfo(userId)
-
-        console.log(userGoal)
         setGoalKm(userGoal?.[0].goal || 3)
 
         // 날짜 정보 가져오기
         const data = await getDateInfo(userId)
-        if (!data || data.length === 0) {
-          console.warn('날짜 정보가 비어있습니다.')
-          setDateInfo([])
-          return
-        }
-
-        setDateInfo(data)
+        setDateInfo(data || [])
 
         // 오늘 날짜의 데이터를 초기값으로 설정
         const todayFormatted = moment(new Date()).format('YYYY-MM-DD')
@@ -74,6 +71,8 @@ export default function Page() {
         filterWeeklyData(data, initialWeekRange) // 데이터를 필터링
       } catch (error) {
         console.error('fetchDateInfo 실행 중 에러 발생', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -138,10 +137,13 @@ export default function Page() {
 
   // 페이지 초기 렌더링 시 데이터 필터링 보장
   useEffect(() => {
-    if (dateInfo.length > 0 && weekRange) {
+    if (!isLoading && dateInfo.length > 0 && weekRange) {
+      console.log('필터링 실행')
       filterWeeklyData(dateInfo, weekRange)
     }
-  }, [dateInfo, weekRange])
+  }, [dateInfo, weekRange, isLoading])
+
+  if (isLoading) return <Loading />
 
   return (
     <div className="relative h-screen font-gothic-b text-brown ">
@@ -167,7 +169,6 @@ export default function Page() {
           <Suspense fallback={<div>차트를 로드 중입니다...</div>}>
             <WeeklyEcoChart weekRange={weekRange} filteredWeeklyData={filteredWeeklyData} />
           </Suspense>
-          ;
         </div>
       </div>
     </div>
