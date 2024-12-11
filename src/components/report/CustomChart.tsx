@@ -6,6 +6,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  BarController,
 } from 'chart.js'
 import moment from 'moment'
 import { Chart } from 'react-chartjs-2'
@@ -15,7 +16,7 @@ interface ChartProps {
 }
 
 // Chart.js에 필요한 요소 등록
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+ChartJS.register(CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip, Legend)
 
 export default function CustomChart(props: ChartProps) {
   const { filteredWeeklyData } = props
