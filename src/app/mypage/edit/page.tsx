@@ -61,7 +61,7 @@ export default function MyPageEdit() {
           placeholder="이름을 입력해주세요"
           maxLength={10}
           disabled={!isEditMode}
-          className="flex-1 placeholder:text-gray bg-inherit"
+          className="w-[calc(100% - 25px)] placeholder:text-gray bg-inherit"
         />
         {!isEditMode && <UserEditButton type="pencil" onClick={handleEditMode} />}
       </form>
