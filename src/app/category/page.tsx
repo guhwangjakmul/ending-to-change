@@ -23,23 +23,22 @@ export default function ChooseCategory() {
   const router = useRouter()
   const { setUserId, setCategoryId } = useUserStore()
 
-  // TODO: 주석 제거 예정
-  // // 접근 권한을 확인하고, 조건에 따라 리다이렉션
-  // const checkAccess = useCallback(async () => {
-  //   try {
-  //     const userId = (await getUserId()) as string
-  //     const data = await getCategoryProgressIsCompleted(userId)
-  //     const hasIncompleteProgress = data?.some(item => !item.is_completed)
-  //     if (hasIncompleteProgress) router.push('/')
-  //   } catch (error) {
-  //     console.error('Failed to check access:', error)
-  //   }
-  // }, [router])
+  // 접근 권한을 확인하고, 조건에 따라 리다이렉션
+  const checkAccess = useCallback(async () => {
+    try {
+      const userId = (await getUserId()) as string
+      const data = await getCategoryProgressIsCompleted(userId)
+      const hasIncompleteProgress = data?.some(item => !item.is_completed)
+      if (hasIncompleteProgress) router.push('/')
+    } catch (error) {
+      console.error('Failed to check access:', error)
+    }
+  }, [router])
 
-  // // 컴포넌트 마운트 시 접근 권한 확인
-  // useEffect(() => {
-  //   checkAccess()
-  // }, [checkAccess])
+  // 컴포넌트 마운트 시 접근 권한 확인
+  useEffect(() => {
+    checkAccess()
+  }, [checkAccess])
 
   const clickHandler = useCallback(async () => {
     try {
@@ -69,7 +68,6 @@ export default function ChooseCategory() {
           name: selectCategory,
         }),
       )
-
 
       // 유저 ID 가져오기 및 Zustand에 저장
       const userId = (await getUserId()) as string

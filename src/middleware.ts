@@ -16,18 +16,17 @@ export async function middleware(request: NextRequest) {
   // 로그인 여부와 상관없이 올클 페이지(/category/[uuid]) 접근 허용
   if (isAllClearPath) return response
 
-  // TODO: 주석 제거 예정
-  // // 비로그인 유저 처리
-  // if (!session && !isAuthPath) {
-  //   url.pathname = '/auth'
-  //   return NextResponse.redirect(url)
-  // }
+  // 비로그인 유저 처리
+  if (!session && !isAuthPath) {
+    url.pathname = '/auth'
+    return NextResponse.redirect(url)
+  }
 
-  // // 로그인 유저 처리
-  // if (session && isAuthPath) {
-  //   url.pathname = '/'
-  //   return NextResponse.redirect(url)
-  // }
+  // 로그인 유저 처리
+  if (session && isAuthPath) {
+    url.pathname = '/'
+    return NextResponse.redirect(url)
+  }
 
   // 다른 요청은 그대로 통과
   return response
