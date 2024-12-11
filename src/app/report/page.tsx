@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Image from 'next/image'
 import moment from 'moment'
 import dynamic from 'next/dynamic'
@@ -164,7 +164,10 @@ export default function Page() {
         <div className="flex flex-col justify-center px-5 bg-[#D3EDE8] xl:h-[70%]">
           <DistanceSetting goalKm={goalKm} updateGoalKm={updateGoalKm} />
           <TodayEcoStats selectedDate={selectedDate} goalKm={goalKm} />
-          <WeeklyEcoChart weekRange={weekRange} filteredWeeklyData={filteredWeeklyData} />
+          <Suspense fallback={<div>차트를 로드 중입니다...</div>}>
+            <WeeklyEcoChart weekRange={weekRange} filteredWeeklyData={filteredWeeklyData} />
+          </Suspense>
+          ;
         </div>
       </div>
     </div>
