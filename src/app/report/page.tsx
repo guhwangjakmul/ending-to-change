@@ -2,12 +2,18 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import moment from 'moment'
+import dynamic from 'next/dynamic'
 
 import Header from '@/components/common/header/Header'
 import DistanceSetting from '@/components/report/distanceSetting/DistanceSetting'
 import Calendar from '@/components/report/calendar/Calendar'
 import TodayEcoStats from '@/components/report/TodayEcoStats'
-import WeeklyEcoChart from '@/components/report/WeeklyEcoChart'
+
+// WeeklyEcoChart를 동적으로 로드
+const WeeklyEcoChart = dynamic(() => import('@/components/report/WeeklyEcoChart'), {
+  ssr: false, // 서버사이드 렌더링 비활성화
+  loading: () => <div>Loading Chart...</div>, // 로딩 중 표시할 컴포넌트
+})
 
 import { DateInfo } from '@/types/Date'
 import { getDateInfo, updateGoal } from '@/apis/date'
@@ -32,6 +38,7 @@ export default function Page() {
       try {
         // 사용자 목표 거리 가져오기
         const userGoal = await getUserInfo(userId)
+
         console.log(userGoal)
         setGoalKm(userGoal?.[0].goal || 3)
 
