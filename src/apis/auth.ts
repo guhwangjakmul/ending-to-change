@@ -1,5 +1,6 @@
 import useUserStore from '@/store/useUserStore'
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
+import { removeLocalStorage } from '@/utils/common/localStorage'
 
 /**
  * 소셜 로그인을 처리하는 함수
@@ -46,5 +47,6 @@ export const onClickLogout = async () => {
   clearUserStore()
   localStorage.removeItem('user-store')
 
+  removeLocalStorage('category')
   window.location.href = '/auth'
 }

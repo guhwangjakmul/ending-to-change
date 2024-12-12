@@ -84,7 +84,6 @@ export const getCategoryProgressUjin = async (user_id: string): Promise<Category
 
   return data
 }
-
 /**
  * 카테고리 이름으로 ID 반환
  * @param name 카테고리 이름
@@ -96,6 +95,19 @@ export const getCategoryIdByName = async (name: string) => {
   if (error) return console.error('카테고리 ID 조회 실패:', error.message)
   return data[0].id
 }
+
+/**
+ * 카테고리 ID로 카테고리 이름 반환
+ * @param id 카테고리 아이디
+ * @returns 해당 카테고리 이름
+ */
+export const getCategoryNameById = async (id: string | number) => {
+  const { data, error } = await supabase.from('category').select('name').eq('id', id)
+
+  if (error) return console.error('카테고리 이름 조회 실패:', error.message)
+  return data[0].name
+}
+
 /**
  * 새로운 카테고리 진행 데이터 생성
  * @param userId 유저 UUID
@@ -113,7 +125,6 @@ export const createCategoryProgress = async (user_id: string, name: string) => {
   })
 
   if (error) return console.error('카테고리 진행 생성 실패:', error.message)
-  console.log('카테고리 진행 생성 성공')
 }
 
 /**
@@ -128,7 +139,6 @@ export const getCategoryProgressIsCompleted = async (user_id: string) => {
     .from('category_progress')
     .select('is_completed')
     .eq('user_id', user_id)
-  console.log('data', data)
   if (error) console.error('error: ', error.message)
   return data
 }

@@ -17,6 +17,7 @@ import {
 import { getUserId } from '@/apis/user'
 import { changeComplete, getCategoryProgress } from '@/apis/category'
 import dynamic from 'next/dynamic'
+import { setLocalStorageCategory } from '@/utils/common/localStorage'
 
 // 로딩 컴포넌트를 동적으로 불러오기
 const Loading = dynamic(() => import('@/app/loading'), { ssr: false })
@@ -65,6 +66,7 @@ export default function Page() {
     if (isAllCompleted) {
       console.log('All categories completed!')
     }
+    setLocalStorageCategory('category', 'id', categoryId)
   }, [isAllCompleted])
 
   // 페이지가 로드될 때 유저의 potion 값 불러오기
