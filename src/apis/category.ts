@@ -105,7 +105,13 @@ export const getCategoryNameById = async (id: string | number) => {
   const { data, error } = await supabase.from('category').select('name').eq('id', id)
 
   if (error) return console.error('카테고리 이름 조회 실패:', error.message)
-  return data[0].name
+
+  if (!data || data.length === 0) {
+    console.error(`ID ${id}에 해당하는 카테고리가 없습니다.`)
+    return null // 또는 기본값 반환
+  }
+
+  return data[0].name || null // 데이터가 있더라도 name이 없을 경우 null 반환
 }
 
 /**

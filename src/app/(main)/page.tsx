@@ -18,13 +18,14 @@ import { getUserId } from '@/apis/user'
 import { changeComplete, getCategoryProgress } from '@/apis/category'
 import dynamic from 'next/dynamic'
 import { setLocalStorageCategory } from '@/utils/common/localStorage'
+import useUserStore from '@/store/useUserStore'
 
 // 로딩 컴포넌트를 동적으로 불러오기
 const Loading = dynamic(() => import('@/app/loading'), { ssr: false })
 
 export default function Page() {
-  const [userId, setUserId] = useState<string>('')
-  const [categoryId, setCategoryId] = useState<number>(1)
+  // const [userId, setUserId] = useState<string>('')
+  // const [categoryId, setCategoryId] = useState<number>(1)
   const [loading, setLoading] = useState(true) // 로딩 상태 추가
 
   // 물약 & 경험치
@@ -33,6 +34,13 @@ export default function Page() {
   const [level, setLevel] = useState(1)
   const [isEnd, setIsEnd] = useState(false)
   const [isAllCompleted, setIsAllCompleted] = useState(false)
+
+  const {
+    userId: zustandUserId,
+    categoryId: zustandCategoryId,
+    setUserId,
+    setCategoryId,
+  } = useUserStore()
 
   const getSelectedCharacter = (
     categoryId: number,
@@ -56,7 +64,7 @@ export default function Page() {
   }
 
   // `categoryId`가 로드된 후 선택된 캐릭터 설정
-  const selectedCharacter = getSelectedCharacter(categoryId)
+  const selectedCharacter = zustandCategoryId ? getSelectedCharacter(zustandCategoryId) : null
 
   const [index, setIndex] = useState(0)
   const [message, setMessage] = useState('')
@@ -66,31 +74,43 @@ export default function Page() {
     if (isAllCompleted) {
       console.log('All categories completed!')
     }
-    setLocalStorageCategory('category', 'id', categoryId)
+    // setLocalStorageCategory('category', 'id', categoryId)
+    setLocalStorageCategory('category', 'id', zustandCategoryId || 0)
+  }, [isAllCompleted, zustandCategoryId])
+
+  useEffect(() => {
+    if (isAllCompleted) {
+      console.log('All categories completed!')
+    }
   }, [isAllCompleted])
 
   // 페이지가 로드될 때 유저의 potion 값 불러오기
   useEffect(() => {
     const fetchPotionAndProgress = async () => {
       try {
-        // 유저 ID
-        const userId = await getUserId()
-        if (!userId) throw new Error('User ID not found')
-        setUserId(userId)
-
-        // 카테고리 완료하면 다음 생성 DB로
-        const getCategory = await getCategoryProgress(userId)
-        const incompleteCategory = getCategory.find(category => !category.is_completed)
-        if (!incompleteCategory) {
-          setIsAllCompleted(true)
-          return
+        let userId: string | null = zustandUserId
+        if (!userId) {
+          // Zustand에 userId가 없는 경우 API 호출로 로드
+          userId = (await getUserId()) || null
+          if (!userId) throw new Error('User ID not found')
+          setUserId(userId)
         }
 
-        // 조건에 맞는 카테고리 ID로 설정
-        const categoryId = incompleteCategory.category_id
-        setCategoryId(categoryId)
+        let categoryId: number | null = zustandCategoryId
+        if (!categoryId) {
+          // Zustand에 categoryId가 없는 경우 API 호출로 로드
+          const getCategory = await getCategoryProgress(userId)
+          const incompleteCategory = getCategory.find(category => !category.is_completed)
+          if (!incompleteCategory) {
+            setIsAllCompleted(true)
+            return
+          }
 
-        // 포션, 진행도 불러오기
+          categoryId = incompleteCategory.category_id
+          setCategoryId(categoryId)
+        }
+
+        // 포션 및 진행 상태 로드
         const initialPoint = await getPotion(userId)
         const initialProgress = await getProgress(userId, categoryId)
 
@@ -123,7 +143,7 @@ export default function Page() {
     }
 
     fetchPotionAndProgress()
-  }, [])
+  }, [zustandUserId, zustandCategoryId, setUserId, setCategoryId])
 
   const handleCloseLevelup = () => {
     setIsShowLevelup(false)
@@ -143,11 +163,11 @@ export default function Page() {
     }
 
     setTimeout(() => setMessage(''), 500)
-    usePotion(userId)
+    usePotion(zustandUserId!)
 
     if (currentProgress !== null) {
       const newProgress = currentProgress + 10
-      upgradeProgress(userId, categoryId!)
+      upgradeProgress(zustandUserId!, zustandCategoryId!)
       setCurrentProgress(newProgress)
 
       if (level === 1 && newProgress === 100) {
@@ -158,13 +178,13 @@ export default function Page() {
         setCurrentProgress(0)
       } else if (level === 3 && newProgress === 200) {
         setIsShowLevelup(true)
-        changeComplete(userId, categoryId)
-        const getCategory = await getCategoryProgress(userId) // 업데이트된 카테고리 진행 상태 확인
+        changeComplete(zustandUserId!, zustandCategoryId!)
+        const getCategory = await getCategoryProgress(zustandUserId!) // 업데이트된 카테고리 진행 상태 확인
         const allCompleted = getCategory.every(category => category.is_completed)
 
         if (allCompleted && getCategory.length === 6) {
           // 모든 카테고리가 완료되었고 데이터베이스 개수가 6개일 때
-          await updateIsAllCompleted(userId)
+          await updateIsAllCompleted(zustandUserId!)
           setIsAllCompleted(true) // 상태 업데이트
         }
       }
@@ -185,8 +205,9 @@ export default function Page() {
           style={{ objectFit: 'cover' }}
         />
       )}
-      <CharacterSection selectedCharacter={selectedCharacter} index={index} />
-
+      {selectedCharacter && (
+        <CharacterSection selectedCharacter={selectedCharacter} index={index} />
+      )}
       {message && (
         <div className="font-gothic-m absolute text-light-beige top-2/3 text-lg animate-fadeout">
           {message}
@@ -227,7 +248,7 @@ export default function Page() {
         </div>
       )}
 
-      {isShowLevelup && (
+      {isShowLevelup && selectedCharacter && (
         <Levelup
           selectedCharacter={selectedCharacter}
           index={index}
