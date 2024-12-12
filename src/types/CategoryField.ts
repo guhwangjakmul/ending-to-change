@@ -5,6 +5,8 @@ export type CategoryName =
   | '토양오염'
   | '지구온난화'
   | '수질오염'
+
+export type CategoryNameEnglish = 'water' | 'air' | 'soil' | 'warming' | 'recycle' | 'energy'
 export type CategoryStatus = 'default' | 'selected' | 'completed'
 type isClickable = boolean
 

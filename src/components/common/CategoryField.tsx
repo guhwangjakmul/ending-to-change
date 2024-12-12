@@ -46,7 +46,7 @@ export default function CategoryField(props: CategoryFieldProps) {
       if (!isCategoryClickable(status!)) return
       if (pathname === '/mypage' && status === 'completed') {
         setLocalStorageCategory('viewResultCategory', 'name', name)
-        router.push('/badge')
+        router.push('/')
       }
       updateCategoryStatus(name)
     },
