@@ -1,4 +1,5 @@
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
+import { removeLocalStorage } from '@/utils/common/localStorage'
 
 /**
  * 소셜 로그인을 처리하는 함수
@@ -38,5 +39,6 @@ export const onClickLogout = async () => {
   const supabase = createSupabaseBrowserClient()
   const { error } = await supabase.auth.signOut()
   if (error) return console.error('로그아웃에 실패했습니다.', error.message)
+  removeLocalStorage('category')
   window.location.href = '/auth'
 }

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import SpotButton from './SpotButton'
 import { Category, CategoryFieldProps } from '@/types/CategoryField'
 import { useEffect, useState, useCallback } from 'react'
-import { getCategoryIdByName } from '@/apis/category'
+import { setLocalStorageCategory } from '@/utils/common/localStorage'
 
 export default function CategoryField(props: CategoryFieldProps) {
   const { categoryList, isClickable = false, onClick, setSelectCategory } = props
@@ -45,13 +45,7 @@ export default function CategoryField(props: CategoryFieldProps) {
       if (setSelectCategory && status !== 'completed') setSelectCategory(name)
       if (!isCategoryClickable(status!)) return
       if (pathname === '/mypage' && status === 'completed') {
-        localStorage.setItem(
-          'viewResultCategory',
-          JSON.stringify({
-            id: await getCategoryIdByName(name),
-            name,
-          }),
-        )
+        setLocalStorageCategory('viewResultCategory', 'name', name)
         router.push('/badge')
       }
       updateCategoryStatus(name)
