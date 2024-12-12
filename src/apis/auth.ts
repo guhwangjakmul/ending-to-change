@@ -1,3 +1,4 @@
+import useUserStore from '@/store/useUserStore'
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
 
 /**
@@ -36,7 +37,14 @@ export const onClickKakao = async () => await onClickSocialLogin('kakao')
  */
 export const onClickLogout = async () => {
   const supabase = createSupabaseBrowserClient()
+
   const { error } = await supabase.auth.signOut()
   if (error) return console.error('로그아웃에 실패했습니다.', error.message)
+
+  // zustand user-store 제거
+  const clearUserStore = useUserStore.getState().clearUser
+  clearUserStore()
+  localStorage.removeItem('user-store')
+
   window.location.href = '/auth'
 }
