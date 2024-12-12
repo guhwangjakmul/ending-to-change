@@ -1,6 +1,8 @@
 import useUserStore from '@/store/useUserStore'
 import { createSupabaseBrowserClient } from '@/utils/client/supabase'
 import { removeLocalStorage } from '@/utils/common/localStorage'
+import { getUserId } from './user'
+import { getCategoryProgress } from './category'
 
 /**
  * 소셜 로그인을 처리하는 함수
@@ -17,6 +19,25 @@ export const onClickSocialLogin = async (provider: 'google' | 'kakao') => {
   })
 
   if (error) return console.error(`${provider} 로그인에 실패했습니다.`, error.message)
+
+  try {
+    // 로그인 성공 후 데이터 초기화
+    const userId = (await getUserId()) || ''
+    const categoryProgress = await getCategoryProgress(userId)
+    const incompleteCategory = categoryProgress.find(category => !category.is_completed)
+
+    const categoryId = incompleteCategory?.category_id || 0
+
+    // Zustand 초기화
+    const { setUserId, setCategoryId } = useUserStore.getState()
+    setUserId(userId)
+    setCategoryId(categoryId)
+
+    // 로컬스토리지 업데이트
+    localStorage.setItem('user-store', JSON.stringify({ userId, categoryId }))
+  } catch (error) {
+    console.error('Zustand 초기화 중 오류 발생:', error)
+  }
 }
 
 /**
