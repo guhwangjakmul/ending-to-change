@@ -5,7 +5,6 @@ import Button from '../common/Button'
 import characterGroup from '@/assets/characterData'
 
 interface CharacterData {
-  background: string[]
   levelupText: string[]
 }
 
@@ -24,7 +23,12 @@ export default function Levelup(props: LevelupProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="relative w-full max-w-[390px] h-full">
-        <Image src={character.background[index]} alt="" fill className="object-cover" />
+        <Image
+          src={`/image/background/${selectedCharacter}_${index}.svg`}
+          alt=""
+          fill
+          className="object-cover"
+        />
         <div className="cursor-default absolute inset-0 flex flex-col items-center justify-center">
           <RewardText
             handleRewardTextClick={() => {
