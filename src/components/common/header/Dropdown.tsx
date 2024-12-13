@@ -13,6 +13,10 @@ export default function Dropdown() {
       onClick: () => router.push('/mypage/edit'),
     },
     {
+      text: '메인으로 가기',
+      onClick: () => router.push('/'),
+    },
+    {
       text: '로그아웃',
       onClick: () => {
         console.log('로그아웃!')
