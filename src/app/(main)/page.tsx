@@ -156,38 +156,44 @@ export default function Page() {
   }
 
   const handleUsePotion = async () => {
-    setMessage('물약을 사용해서 10hp를 회복했어요!')
     if (potion !== null && potion > 0) {
-      const newPotion = potion - 1
-      setPotion(newPotion)
-    }
+      setPotion(prev => (prev !== null ? prev - 1 : 0))
+      setMessage('물약을 사용해서 10hp를 회복했어요!')
 
-    setTimeout(() => setMessage(''), 500)
-    usePotion(zustandUserId!)
+      usePotion(zustandUserId!) // API 호출
 
-    if (currentProgress !== null) {
-      const newProgress = currentProgress + 10
-      upgradeProgress(zustandUserId!, zustandCategoryId!)
-      setCurrentProgress(newProgress)
+      // 경험치 업데이트
+      if (currentProgress !== null) {
+        const newProgress = currentProgress + 10
+        await upgradeProgress(zustandUserId!, zustandCategoryId!) // API 호출
+        setCurrentProgress(newProgress)
 
-      if (level === 1 && newProgress === 100) {
-        setIsShowLevelup(true)
-        setCurrentProgress(0)
-      } else if (level === 2 && newProgress === 150) {
-        setIsShowLevelup(true)
-        setCurrentProgress(0)
-      } else if (level === 3 && newProgress === 200) {
-        setIsShowLevelup(true)
-        changeComplete(zustandUserId!, zustandCategoryId!)
-        const getCategory = await getCategoryProgress(zustandUserId!) // 업데이트된 카테고리 진행 상태 확인
-        const allCompleted = getCategory.every(category => category.is_completed)
+        // 레벨 업 로직
+        if (level === 1 && newProgress >= 100) {
+          setIsShowLevelup(true)
+          setCurrentProgress(newProgress - 100)
+        } else if (level === 2 && newProgress >= 150) {
+          setIsShowLevelup(true)
+          setCurrentProgress(newProgress - 150)
+        } else if (level === 3 && newProgress >= 200) {
+          setIsShowLevelup(true)
+          setCurrentProgress(newProgress - 200)
+          await changeComplete(zustandUserId!, zustandCategoryId!)
 
-        if (allCompleted && getCategory.length === 6) {
-          // 모든 카테고리가 완료되었고 데이터베이스 개수가 6개일 때
-          await updateIsAllCompleted(zustandUserId!)
-          setIsAllCompleted(true) // 상태 업데이트
+          // 모든 카테고리 완료 확인
+          const getCategory = await getCategoryProgress(zustandUserId!)
+          const allCompleted = getCategory.every(category => category.is_completed)
+
+          if (allCompleted && getCategory.length === 6) {
+            await updateIsAllCompleted(zustandUserId!)
+            setIsAllCompleted(true)
+          }
         }
       }
+      setTimeout(() => setMessage(''), 500)
+    } else {
+      setMessage('물약이 부족해요')
+      setTimeout(() => setMessage(''), 500)
     }
   }
 
@@ -209,7 +215,7 @@ export default function Page() {
         <CharacterSection selectedCharacter={selectedCharacter} index={index} />
       )}
       {message && (
-        <div className="font-gothic-m absolute text-light-beige top-2/3 text-lg animate-fadeout">
+        <div className="font-gothic-m absolute top-2/3 text-xl animate-fadeout text-stroke-thin text-stroke-dark-brown text-light-beige">
           {message}
         </div>
       )}
@@ -218,14 +224,7 @@ export default function Page() {
         <FooterButtons
           currentProgress={currentProgress ?? 0}
           level={level}
-          handleUsePotion={() => {
-            if (potion !== null && potion > 0) {
-              handleUsePotion()
-            } else {
-              setMessage('물약이 부족해요')
-              setTimeout(() => setMessage(''), 500)
-            }
-          }}
+          handleUsePotion={handleUsePotion}
           count={potion ?? 0}
         />
       )}
