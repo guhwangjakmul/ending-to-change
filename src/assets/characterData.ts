@@ -1,20 +1,10 @@
 const characterGroup = {
   water: {
-    figure: [
-      '/image/character/water_1.svg',
-      '/image/character/water_2.svg',
-      '/image/character/water_3.svg',
-    ],
-    background: [
-      '/image/background/water_1.svg',
-      '/image/background/water_2.svg',
-      '/image/background/water_3.svg',
-    ],
     dialogues: [
       '이 바닷속이 탁해져서 숨이 턱턱 막히는구먼… 이러다가는 물고기 친구들도 다 떠나버리겠소…',
       '오호, 바닷물이 조금씩 맑아지기 시작하는구먼… 뭔가 큰 변화가 있는 듯하오.',
       '이제 바닷물이 푸르르고 맑구먼, 숨이 이렇게나 편안할 줄이야… 덕분에 바다에 생기가 돌아오게 되었소.',
-      `허허, 자네의 정성이 이렇게 큰 변화를 만들었구려. 참말로 고맙소, 마음 깊이 감사하오.`,
+      '허허, 자네의 정성이 이렇게 큰 변화를 만들었구려. 참말로 고맙소, 마음 깊이 감사하오.',
     ],
     levelupText: [
       '바닷속 쓰레기가 점점 줄고있어~!',
@@ -26,16 +16,6 @@ const characterGroup = {
     nameColor: '#FFFF91',
   },
   air: {
-    figure: [
-      '/image/character/air_1.svg',
-      '/image/character/air_2.svg',
-      '/image/character/air_3.svg',
-    ],
-    background: [
-      '/image/background/air_1.svg',
-      '/image/background/air_2.svg',
-      '/image/background/air_3.svg',
-    ],
     dialogues: [
       '요새 공기가 너무 탁해져서 숨 쉬기 힘들어구리… 나갈 때는 마스크가 필요해',
       '오늘은 공기가 조금 더 맑아진 느낌이야구리! 숨 쉬는 게 살짝 편해진 것 같아서 다행이야구리.',
@@ -52,16 +32,6 @@ const characterGroup = {
     nameColor: '#4A2615',
   },
   soil: {
-    figure: [
-      '/image/character/soil_1.svg',
-      '/image/character/soil_2.svg',
-      '/image/character/soil_3.svg',
-    ],
-    background: [
-      '/image/background/soil_1.svg',
-      '/image/background/soil_2.svg',
-      '/image/background/soil_3.svg',
-    ],
     dialogues: [
       '아이고… 땅이 엉망이 됐네. 흙이 이렇게 나빠져서는 무가 자랄 틈이 없구만…',
       '에구, 이번엔 무가 썩었네... 흙이 아직 완전히 회복되지 않은가 보네. 제대로 된 무를 언제쯤 볼 수 있으려나…',
@@ -78,16 +48,6 @@ const characterGroup = {
     nameColor: '#A83310',
   },
   warming: {
-    figure: [
-      '/image/character/warming_1.svg',
-      '/image/character/warming_2.svg',
-      '/image/character/warming_3.svg',
-    ],
-    background: [
-      '/image/background/warming_1.svg',
-      '/image/background/warming_2.svg',
-      '/image/background/warming_3.svg',
-    ],
     dialogues: [
       '아이고야… 날이 너무 따뜻해져서 내 몸이 줄줄 녹아내리는구먼. 이러다간 눈사람 구실도 못 하겠어…',
       '어라? 요 며칠 좀 서늘해진 것 같구먼! 덕분에 내 몸도 조금 단단해진 기분이라, 이거 희망이 보이는디!',
@@ -105,16 +65,6 @@ const characterGroup = {
   },
 
   recycle: {
-    figure: [
-      '/image/character/recycle_1.svg',
-      '/image/character/recycle_2.svg',
-      '/image/character/recycle_3.svg',
-    ],
-    background: [
-      '/image/background/recycle_1.svg',
-      '/image/background/recycle_2.svg',
-      '/image/background/recycle_3.svg',
-    ],
     dialogues: [
       '쓰레기들이 아무렇게나 널브러져 있으이, 여가 시장통인지 쓰레기장인지 헷갈린다니까예…',
       '좀 깨끗해진 거 같지예? 길도 한결 말끔해진 기분이다 아이가. 누가 고생을 하고 있는 기라예~',
@@ -131,16 +81,6 @@ const characterGroup = {
     nameColor: '#FAFECF',
   },
   energy: {
-    figure: [
-      '/image/character/energy_1.svg',
-      '/image/character/energy_2.svg',
-      '/image/character/energy_3.svg',
-    ],
-    background: [
-      '/image/background/energy_1.svg',
-      '/image/background/energy_2.svg',
-      '/image/background/energy_3.svg',
-    ],
     dialogues: [
       '흐음… 저 반짝이는 별들을 관찰하려 했건만, 도시 불빛이 너무도 강렬하군요…',
       '어라? 오늘은 저 먼 별들이 희미하게 모습을 드러내기 시작했군요. 아주 흥미로운 변화입니다!',
