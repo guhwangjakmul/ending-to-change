@@ -215,7 +215,11 @@ export default function Page() {
         <CharacterSection selectedCharacter={selectedCharacter} index={index} />
       )}
       {message && (
-        <div className="font-gothic-m absolute top-2/3 text-xl animate-fadeout text-stroke-thin text-stroke-dark-brown text-light-beige">
+        <div
+          className={`font-gothic-m absolute top-2/3 text-xl animate-fadeout ${
+            zustandCategoryId === 4 ? 'text-dark-brown' : 'text-light-beige'
+          }`}
+        >
           {message}
         </div>
       )}

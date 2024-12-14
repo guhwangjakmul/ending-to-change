@@ -97,6 +97,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('@designbycode/tailwindcss-text-stroke')],
+  plugins: [],
 }
 export default config
