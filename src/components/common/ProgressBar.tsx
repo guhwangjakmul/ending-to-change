@@ -74,7 +74,9 @@ const renderLabel = (
 
   // 카테고리에 따라 텍스트 색상을 변경
   const textColor =
-    categoryName === '수질오염' || categoryName === '에너지 절약' || categoryName === '토양오염'
+    labelType === 'Km'
+      ? 'text-brown' // Km일 경우 항상 text-brown
+      : categoryName === '수질오염' || categoryName === '에너지 절약' || categoryName === '토양오염'
       ? 'text-cream'
       : 'text-brown'
 
