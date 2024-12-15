@@ -20,25 +20,17 @@ export default function WalkMap(props: WalkMapProps) {
   const [positionArr, setPositionArr] = useState<any[]>([]) // Polyline 좌표 배열
   // const [center, setCenter] = useState<Coordinates | null>(null) // 지도 중심 좌표
 
-  const [center, setCenter] = useState({ lat: 37.5665, lng: 126.978 }) // 지도 중심 좌표
+  const [center, setCenter] = useState({ lat: 37.631582, lng: 127.054814 }) // 지도 중심 좌표
 
   const [testCoordinates, setTestCoordinates] = useState([
-    { latitude: 37.5665, longitude: 126.978 }, // 시작점
-    { latitude: 37.56655, longitude: 126.97805 }, // 북동쪽 약 50m
-    { latitude: 37.5666, longitude: 126.9781 }, // 북동쪽 약 50m
-    { latitude: 37.56665, longitude: 126.97815 }, // 북동쪽 약 50m
-    { latitude: 37.5667, longitude: 126.9782 }, // 북동쪽 약 50m
-    { latitude: 37.56672, longitude: 126.9783 }, // 약간 동쪽 약 50m
-    { latitude: 37.56674, longitude: 126.9784 }, // 약간 북동쪽 약 50m
-    { latitude: 37.56676, longitude: 126.9785 }, // 약간 북쪽 약 50m
-    { latitude: 37.56678, longitude: 126.9786 }, // 약간 북쪽 약 50m
-    { latitude: 37.5668, longitude: 126.9787 }, // 북쪽 약 50m
-    { latitude: 37.56685, longitude: 126.97875 }, // 북쪽 약 50m
-    { latitude: 37.5669, longitude: 126.9788 }, // 약간 북동쪽 약 50m
-    { latitude: 37.56695, longitude: 126.97885 }, // 약간 동쪽 약 50m
-    { latitude: 37.567, longitude: 126.9789 }, // 북동쪽 약 50m
-    { latitude: 37.56705, longitude: 126.979 }, // 북동쪽 약 50m
-  ]) // 테스트용 좌표 상태로 관리
+    { latitude: 37.631582, longitude: 127.054814 }, // 인덕대 인관
+    { latitude: 37.6317, longitude: 127.0549 }, // 경로 중간 1
+    { latitude: 37.6318, longitude: 127.055 }, // 경로 중간 2
+    { latitude: 37.6319, longitude: 127.0551 }, // 경로 중간 3
+    { latitude: 37.632, longitude: 127.0552 }, // 경로 중간 4
+    { latitude: 37.6321, longitude: 127.0553 }, // 경로 중간 5
+    { latitude: 37.632222, longitude: 127.055022 }, // 인덕대 도서관
+  ])
 
   // 폴리라인 그리는 함수
   const makeLine = useCallback(
@@ -90,27 +82,6 @@ export default function WalkMap(props: WalkMapProps) {
     }
   }, [walkType, positionArr, makeLine])
 
-  // // 현재 위치 업데이트 성공 핸들러
-  const successHandler = (response: GeolocationPosition) => {
-    const { latitude, longitude } = response.coords
-    const currentLocation = { latitude, longitude }
-
-    setLocation(currentLocation)
-    // setCenter(currentLocation) // 지도 중심을 현재 위치로 설정
-    setIsLoading(false)
-
-    console.log('Location fetch success:', currentLocation)
-  }
-
-  // 현재 위치 업데이트 실패 핸들러
-  const errorHandler = (error: GeolocationPositionError) => {
-    console.error('Error fetching location:', error)
-  }
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(successHandler, errorHandler)
-  }, [])
-
   // // Geolocation API로 현재 위치 가져오기
   // useEffect(() => {
   //   if (!location) {
@@ -154,6 +125,27 @@ export default function WalkMap(props: WalkMapProps) {
   //   }
   // }, [walkType])
 
+  // // 현재 위치 업데이트 성공 핸들러
+  const successHandler = (response: GeolocationPosition) => {
+    const { latitude, longitude } = response.coords
+    const currentLocation = { latitude, longitude }
+
+    setLocation(currentLocation)
+    // setCenter(currentLocation) // 지도 중심을 현재 위치로 설정
+    setIsLoading(false)
+
+    console.log('Location fetch success:', currentLocation)
+  }
+
+  // 현재 위치 업데이트 실패 핸들러
+  const errorHandler = (error: GeolocationPositionError) => {
+    console.error('Error fetching location:', error)
+  }
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(successHandler, errorHandler)
+  }, [])
+
   return (
     <>
       {location ? (
@@ -188,8 +180,7 @@ export default function WalkMap(props: WalkMapProps) {
           />
         </Map>
       ) : (
-        <>ㅇㅇ</>
-        // <Loading />
+        <Loading />
       )}
     </>
   )
