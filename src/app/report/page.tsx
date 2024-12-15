@@ -47,6 +47,7 @@ export default function Page() {
 
         // 날짜 정보 가져오기
         const data = await getDateInfo(userId)
+
         setDateInfo(data || [])
 
         // 오늘 날짜의 데이터를 초기값으로 설정
@@ -129,9 +130,11 @@ export default function Page() {
 
   // 주간 범위에 맞는 데이터를 필터링하는 함수
   const filterWeeklyData = (data: DateInfo[], range: { start: string; end: string }) => {
-    const filteredData = data.filter(item =>
-      moment(item.created_at).isBetween(range.start, range.end, null, '[]'),
-    )
+    const filteredData = data.filter(item => {
+      const createdAtDate = moment(item.created_at).format('YYYY-MM-DD') // 날짜만 추출
+      return createdAtDate >= range.start && createdAtDate <= range.end // 범위 비교
+    })
+
     setFilteredWeeklyData(filteredData)
   }
 
