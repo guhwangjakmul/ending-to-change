@@ -45,7 +45,18 @@ export default function CategoryField(props: CategoryFieldProps) {
       if (setSelectCategory && status !== 'completed') setSelectCategory(name)
       if (!isCategoryClickable(status!)) return
       if (pathname === '/mypage' && status === 'completed') {
-        setLocalStorageCategory('viewResultCategory', 'name', name)
+        console.log('name', name)
+        const nameList = [
+          '수질오염',
+          '대기오염',
+          '토양오염',
+          '지구온난화',
+          '분리수거',
+          '에너지 절약',
+        ]
+        const categoryId = nameList.indexOf(name) + 1
+        localStorage.setItem('viewResultCategory', JSON.stringify({ id: categoryId, name: name }))
+
         router.push('/badge')
       }
       updateCategoryStatus(name)
