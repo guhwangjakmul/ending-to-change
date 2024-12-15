@@ -154,7 +154,12 @@ export default function Page() {
       )}
       {isShowReward && (
         <Reward
-          rewardContent={`탄소를 줄여서 치료약 ${rewardPoints}개를 획득했다!`}
+          rewardContent={
+            <>
+              탄소를 줄여서 <span className="text-mint-green">치료약 {rewardPoints}개</span>를
+              획득했다!
+            </>
+          }
           onClose={getReward}
         />
       )}
