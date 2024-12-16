@@ -75,7 +75,7 @@ export default function Page() {
       console.log('All categories completed!')
     }
     const name = ['수질오염', '대기오염', '토양오염', '지구온난화', '분리수거', '에너지 절약'][
-      zustandCategoryId as number
+        (zustandCategoryId as number) - 1
     ]
     localStorage.setItem('category', JSON.stringify({ id: zustandCategoryId, name: name }))
   }, [isAllCompleted, zustandCategoryId])
