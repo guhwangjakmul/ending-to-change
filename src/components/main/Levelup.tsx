@@ -24,7 +24,7 @@ export default function Levelup(props: LevelupProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="relative w-full max-w-[390px] h-full">
         <Image
-          src={`/image/background/${selectedCharacter}_${index}.svg`}
+          src={`/image/background/${selectedCharacter}_${index + 1}.svg`}
           alt=""
           fill
           className="object-cover"
