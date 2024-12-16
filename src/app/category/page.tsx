@@ -58,7 +58,7 @@ export default function ChooseCategory() {
       setCategoryId(selectedCategory.id)
 
       // localStorage에 categoryName 저장
-      setLocalStorageCategory('category', 'name', selectCategory)
+      localStorage.setItem('category', JSON.stringify({ id: selectedCategory.id, name: name }))
 
       // 유저 ID 가져오기 및 Zustand에 저장
       const userId = (await getUserId()) as string

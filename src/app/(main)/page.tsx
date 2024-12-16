@@ -74,8 +74,10 @@ export default function Page() {
     if (isAllCompleted) {
       console.log('All categories completed!')
     }
-    // setLocalStorageCategory('category', 'id', categoryId)
-    setLocalStorageCategory('category', 'id', zustandCategoryId || 0)
+    const name = ['수질오염', '대기오염', '토양오염', '지구온난화', '분리수거', '에너지 절약'][
+      zustandCategoryId as number
+    ]
+    localStorage.setItem('category', JSON.stringify({ id: zustandCategoryId, name: name }))
   }, [isAllCompleted, zustandCategoryId])
 
   useEffect(() => {
@@ -200,7 +202,6 @@ export default function Page() {
   if (loading) {
     return <Loading /> // 로딩 중에 로딩 컴포넌트를 표시
   }
-
   return (
     <div className="relative w-full h-full flex justify-center">
       {selectedCharacter && (
