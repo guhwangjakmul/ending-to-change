@@ -2,6 +2,9 @@
 ![Group 289381](https://github.com/user-attachments/assets/229957c6-4789-4f71-91ab-29b1100bfe35)
 - 배포 URL: https://ending-to-change.vercel.app
 
+
+</br>
+
 ## 1. 프로젝트 소개
 - "구해줘요, 동물의 숲"은 `탄소 중립`과 `환경 보호`를 주제로 한 프로젝트입니다.
 - `퀴즈`와 `걷기 활동`을 통해 사용자에게 `능동적인 참여`를 유도하며, 단순한 정보 전달을 넘어 `실질적인 행동 변화`를 이끌어내는 것을 목표로 합니다.
@@ -9,22 +12,27 @@
 - 또한, 걷기 데이터를 기반으로 `탄소 절감량을 확인`하며 개인의 노력이 환경에 미치는 긍정적인 영향을 체감할 수 있습니다.
 - 해당 프로젝트는 사람들이 일상 속에서 실천 가능한 방법을 제시해 지속 가능한 미래를 만들어가는 데 기여합니다.
 
+</br>
+
 ## 2. 팀원 구성
 | 류경혜 | 이나래 | 이지희 | 이하람 | 홍유진 |
 | ---- | ---- | ---- | ---- |---- |
 | <img src="https://github.com/user-attachments/assets/82cd9f1e-2726-47df-ba35-85541c951420" width="90" /> | <img src="https://github.com/user-attachments/assets/7cce2996-b2b3-4791-bddf-6c92e836eba3" width="90" /> | <img src="https://github.com/user-attachments/assets/596b2109-a101-4ea0-bc47-cd9b4894dc4f" width="90" /> | <img src="https://github.com/user-attachments/assets/6336870d-10de-4e93-a0a3-45dda58764c1" width="90" /> | <img src="https://github.com/user-attachments/assets/4e22724d-d2c4-4bc5-af07-0f474aa653c9" width="90" /> |
+| [ryukyung](https://github.com/https://github.com/ryukyung) | [dlskfdo](https://github.com/dlskfdo)| [ji1210h](https://github.com/ji1210h)| [HalamLee](https://github.com/HalamLee) | [ujeans](https://github.com/ujeans)|
+
+</br>
 
 ## 3. 역할 분담
-### 류경혜
+### 🐧 류경혜
 - UI
   - 페이지: 로그인, 마이홈, 회원정보 수정
   - 공통 컴포넌트: 카테고리 선택(지구), 404, error
 - 기능
   - 소셜 로그인 및 회원 정보 수정
-### 이나래
+### 🐥 이나래
 - 디자인
   - 페이지 UI, 캐릭터 일러스트
-### 이지희
+### 🐨 이지희
 - 디자인
   - 페이지 UI, 캐릭터 일러스트, 카테고리별 배경
 - UI
@@ -32,13 +40,13 @@
   - 공통 컴포넌트: 메세지
 - 기능 
   - 물약을 사용하여 카테고리별 캐릭터 레벨 변화
-### 이하람
+### 🐤 이하람
 - UI
   - 페이지: 걷기 지도, 걷기 설정, 올클리어
   - 공통 컴포넌트: 헤더, 모달, 링크 버튼, 클릭 버튼, 카테고리 뱃지
 - 기능
   - 카테고리 선택 기능
-### 홍유진
+### 🐵 홍유진
 - UI
   - 페이지: 퀴즈, 통계
   - 공통 컴포넌트: 프로그래스바(Lv, Km), 보상 모달
@@ -48,8 +56,9 @@
   - 사용자 목표 거리 설정
   - 오늘 날짜 기준으로 걸은 거리 기록
  
-    
-## 개발 환경
+</br>
+ 
+## 4. 개발 환경
 - Front: `Next.JS`, `Tailwind CSS`, `Zustand`
 - Back: `Next.JS`
 - Database: `Supabase`
@@ -59,11 +68,15 @@
 - 서비스 배포 환경: `Vercel`
 - [컨벤션](https://github.com/guhwangjakmul/ending-to-change/wiki/Convention)
 
-## 개발 기간
+</br>
+
+## 5. 개발 기간
 - 디자인: 2024.09
 - 개발: 2024.10 ~ 2024.12
+  
+</br>
 
-## 페이지별 기능
+## 6. 페이지별 기능
 ### [로그인]
 - 서비스 접속 초기화면으로 `소셜 로그인` 페이지가 나옵니다.
   - 구글 계정으로 로그인이 가능합니다.
@@ -213,7 +226,9 @@
 
 
 
-## 시연 영상
+</br>
+
+## 7. 시연 영상
 https://github.com/user-attachments/assets/bc6823cb-abb1-407d-81a7-fc35532f98c5
 
 https://github.com/user-attachments/assets/482b4d13-24fc-4995-92cf-180aac579220
