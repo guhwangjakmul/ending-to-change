@@ -57,7 +57,7 @@
 - 협업 툴: `Discord`, `Notion`
 - 디자인 툴: `Figma`, `Photoshop`, `Illustrator`
 - 서비스 배포 환경: `Vercel`
-- 컨벤션
+- [컨벤션](https://github.com/guhwangjakmul/ending-to-change/wiki/Convention)
 
 ## 개발 기간
 - 디자인: 2024.09
