@@ -186,12 +186,32 @@
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | <img width="300" alt="스크린샷 2024-12-29 오후 9 09 29" src="https://github.com/user-attachments/assets/af58e102-4d3f-4d67-b539-d159090b01ac" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 09 58" src="https://github.com/user-attachments/assets/c0f6b0c3-4ae8-47ee-adaa-308ff721863e" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 10 06" src="https://github.com/user-attachments/assets/0ae6122c-256a-46cc-89db-30798191ce5f" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 10 25" src="https://github.com/user-attachments/assets/c678740b-a045-4a07-984f-b90d67ecbb6d" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 10 40" src="https://github.com/user-attachments/assets/5c343137-9025-493c-8e56-153d2c8acca4" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 11 00" src="https://github.com/user-attachments/assets/65eeb0da-5f59-44cf-9801-9ed9992040bb" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 15 25" src="https://github.com/user-attachments/assets/76f330a6-0479-4ae4-80f0-9b2929a0069a" /> |
 
-
 - 분리수거 (고순이)
   
 | Lv.1 | Lv.1 말풍선 | Lv.2 | Lv.2 말풍선 | Lv.3 | Lv.3 말풍선 | 최종 |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 | <img width="300" alt="스크린샷 2024-12-29 오후 9 11 13" src="https://github.com/user-attachments/assets/65fbf189-1155-4b4e-8f39-28f67938126c" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 11 29" src="https://github.com/user-attachments/assets/047a0fe9-4a66-41bd-bee6-16527af3f621" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 11 38" src="https://github.com/user-attachments/assets/680cf3fb-e5b9-4065-b93d-5415f8129dec" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 11 58" src="https://github.com/user-attachments/assets/fa284e02-cfc9-4178-8dc4-1ef58b2fb78d" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 12 06" src="https://github.com/user-attachments/assets/fb665b84-e557-40e5-a95d-fa5f7b773602" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 12 29" src="https://github.com/user-attachments/assets/929c9464-c950-4394-a6c9-3d95f949f8aa" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 15 34" src="https://github.com/user-attachments/assets/9ce83944-d49b-425c-b1e6-b93692b33ce3" /> |
+
+
+- 토양오염 (무파니)
+  
+| Lv.1 | Lv.1 말풍선 | Lv.2 | Lv.2 말풍선 | Lv.3 | Lv.3 말풍선 | 최종 |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| <img width="300" alt="스크린샷 2024-12-29 오후 9 42 35" src="https://github.com/user-attachments/assets/eae0e69c-b402-4730-9d55-313348373023" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 43 16" src="https://github.com/user-attachments/assets/fe86f131-5f7a-48b6-98af-bef3d32b62a4" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 43 26" src="https://github.com/user-attachments/assets/651dd981-7ccd-4695-b1f1-9f2064fcbc30" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 43 42" src="https://github.com/user-attachments/assets/5043fd91-fdd1-4011-bfb5-56f1860b5e72" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 08 46" src="https://github.com/user-attachments/assets/c9712765-45f2-4b51-963d-a99dba28180c" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 09 02" src="https://github.com/user-attachments/assets/471783c0-1abb-45f7-a1da-fdf0c4792c10" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 15 42" src="https://github.com/user-attachments/assets/0c0c7d2c-e4db-423c-8e47-45f1441f49e7" /> |
+
+- 수질오염 (해탈한)
+
+| Lv.1 | Lv.1 말풍선 | Lv.2 | Lv.2 말풍선 | Lv.3 | Lv.3 말풍선 | 최종 |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| <img width="300" alt="스크린샷 2024-12-29 오후 9 12 40" src="https://github.com/user-attachments/assets/5c336000-5e43-4e8f-9595-6d166a040c35" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 13 05" src="https://github.com/user-attachments/assets/768a12a8-4870-43ee-b5f9-289851b81ee9" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 13 13" src="https://github.com/user-attachments/assets/189659a5-6f13-4b2b-9e1c-df9ec3bc4eff" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 13 30" src="https://github.com/user-attachments/assets/cb5a69d8-2711-4dd7-b5a0-4f3805f9a916" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 13 36" src="https://github.com/user-attachments/assets/e0fc61e4-05f0-4275-b44c-b720a9ca280e" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 51 38" src="https://github.com/user-attachments/assets/04c84071-3509-4276-a3b9-f7e9d68208b9" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 15 49" src="https://github.com/user-attachments/assets/ede03e92-cfed-4b42-ab95-a041a4b18ed3" /> | 
+
+- 대기오염 (너굴이)
+  
+| Lv.1 | Lv.1 말풍선 | Lv.2 | Lv.2 말풍선 | Lv.3 | Lv.3 말풍선 | 최종 |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| <img width="300" alt="스크린샷 2024-12-29 오후 8 51 20" src="https://github.com/user-attachments/assets/edb6b94d-7ac5-4248-a934-4d6230a6c6dc" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 47 14" src="https://github.com/user-attachments/assets/a1646d66-116c-43da-a89a-19c414058821" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 47 23" src="https://github.com/user-attachments/assets/53e11a5e-6fdc-4624-8fec-300b74c840ec" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 47 42" src="https://github.com/user-attachments/assets/c6b96f5f-4f92-430e-87cb-f6af5841d812" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 47 49" src="https://github.com/user-attachments/assets/bb113836-b677-4268-a1a1-57e08e7db3be" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 49 43" src="https://github.com/user-attachments/assets/3b375658-6caa-4ba2-b278-c6e50f7ceafe" /> | <img width="300" alt="스크린샷 2024-12-29 오후 9 15 58" src="https://github.com/user-attachments/assets/69ee6557-ee6c-4a5d-b0a8-37323a1f7af9" /> |
+
+
 
 
 
